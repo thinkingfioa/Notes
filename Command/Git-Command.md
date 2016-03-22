@@ -27,6 +27,13 @@
 |git init|将当前目录初始化为本地仓库|
 
 #####git命令的举例
+#######对修改文件进行提交
+```
+1. git add fileName
+```
+```
+2. git commit -m "desription"
+```
 #######git对commit撤销
 ```
 1. 查看commit的id
@@ -82,5 +89,5 @@ $	git commit -m "description information"
 ```
 #######将本地的commit信息,推送到github代码仓库
 ```
-$	git push
+$	git push -u origin master
 ```

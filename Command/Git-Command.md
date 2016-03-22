@@ -27,6 +27,19 @@
 |git init|将当前目录初始化为本地仓库|
 
 #####git命令的举例
+#######查看本机库与远程库之间区别
+```
+1. 取回本地
+$	git fetch origin
+```
+```
+2. 比较不同
+$	git diff master(local) origin/master
+```
+```
+3. merge
+$ git merge origin/master
+```
 #######对修改文件进行提交
 ```
 1. git add fileName

@@ -27,6 +27,15 @@
 |git init|将当前目录初始化为本地仓库|
 
 #####git命令的举例
+#######git对commit撤销
+```
+1. 查看commit的id
+$	git log
+```
+```
+2. 撤销commit
+$	git reset --hard commid_id
+```
 #######将本地目录文件上传远程仓库
 ```
 Note:将本地目录文件上传全新远程仓库

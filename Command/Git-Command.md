@@ -25,8 +25,13 @@
 |git reset HEAD filename|恢复原来的内容|
 |git reset log|恢复到历史版本|
 |git init|将当前目录初始化为本地仓库|
+|git checkout|丢弃本地修改|
 
 #####git命令的举例
+#######丢弃本地修改
+```
+git checkout -- <file>
+```
 #######查看本机库与远程库之间区别
 ```
 1. 取回本地

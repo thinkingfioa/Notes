@@ -745,3 +745,83 @@ class Square extends Rectangle{
 ```
 
 ###第21条:用函数对象表示策略
+#####函数对象
+```
+Java没有指针,想达到C语言中的函数指针的作用,也就是常说的策略(Strategy)模式,需要传递对象引用.这样的实例被称为:函数对象.
+```
+- 举例
+```java
+class StringLengthComparator{
+	public int compare(String s1,String s2){
+    	return s1.length()-s2.length();
+    }
+}
+```
+
+#######函数对象的设计
+```
+1. 如果具体的策略类,没有域,则所有的实例在功能上是相互等价的.则考虑使用单例模式,节省对象创建开销.
+```
+```
+2. 设计具体的策略类时,需要定义一个策略接口.eg:Comparator类.这样客户端容易使用和维护.
+```
+- 举例
+```java
+//Strategy interface
+public interface Comparator<T> {
+	public int compare(T t1,T t2);
+}
+public StringLengthComparator implements Comparator<String>{
+	public int compare(String s1,String s2){
+    	return s1.length() - s2.length();
+    }
+}
+```
+Note:Comparator接口是泛型(26);
+
+```
+3. 如果策略类只使用一次,可以考虑使用匿名类(22).但提醒的是:匿名类每次使用都会创建一个新的实例
+```
+- 举例:
+```java
+Arrays.sort(StringArray,new Comparator<String>(){
+	public int compare(String s1,String s2){
+    	return s1.length() - s2.length();
+    }
+});
+```
+
+```
+4. 如果策略类被反复执行,可以将函数对象存储到一个私有静态final域中重用.
+```
+```
+5. 宿主类+私有嵌套策略类(eg:String中的CASE_INSENSITIVE_ORDER)
+```
+- 举例:
+```java
+Class Host{
+	//嵌套类
+	private static calss StrLenCmp implements Comparator<String>, Serializable{
+    	public int compare(String s1,String s2){
+        	return s1.length() - s2.length();
+        }
+    }
+    //共用对象类
+    public satic final Comparator<String> STRING_LENGTH_COMPARATOR= new StrLenCmp();
+}
+```
+
+#####总结
+```
+1. 在Java中实现策略模式,要声明一个接口来表示该策略,每一个具体策略类需要实现这个接口的类.
+```
+```
+2. 当具体策略类只被使用一次时,可以采用匿名类来声明和实例化这个具体策略类
+```
+```
+3. 当具体策略类被重复使用时,可以采用**宿主类+私有嵌套策略类**实现.或则提供单例模式共享,注意导出的应该是静态final域
+```
+
+###第22条:优先考虑静态成员类
+
+

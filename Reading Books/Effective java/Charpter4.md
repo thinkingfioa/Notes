@@ -624,3 +624,124 @@ public class PhysicalConstants {
 ```
 
 ###第20条: 类层次优先于标签类
+#####标签类
+```
+用标签域(tag)来表示多种风格的实例的类
+```
+- 举例
+
+```java
+package vlis;
+
+public class Figure {
+    //Tagged class
+    enum Shape {RECTANGLE,CIRCLE };
+    private final Shape shape;
+    //RECTANGLE
+    private double length;
+    private double width;
+    //CIRCLE
+    private double radius;
+
+    Figure(double radius){
+        this.radius = radius;
+        this.shape = Shape.CIRCLE;
+    }
+    Figure(double length, double width){
+        this.shape =Shape.RECTANGLE;
+        this.length = length;
+        this.width = width;
+    }
+    public double area(){
+        switch(shape){
+            case RECTANGLE: return length*width;
+            case CIRCLE: return Math.PI * (radius)*(radius);
+            default: throw new AssertionError();
+        }
+    }
+}
+```
+#######标签类的缺点:冗长,容易出错,效率低下
+```
+1. 类中充斥着样本代码,包括枚举声明,标签域以及条件语句.破坏了可读性.
+```
+```
+2. 实例承担着其他风格的不相关的域.域不能被做成final的,除非构造器初始化所有不相关的域
+```
+```
+3. 构造器必须不借助编译器,来设置标签域,独立初始化正确的数据域
+```
+```
+4. 如果要添加风格,必须修改源文件,同时必须记得给每个条件语句都添加一个条件.
+```
+#####子类型化(取代标签类)
+#######构建子类型原则
+```
+1. 定义一个抽象类,将标签类中依赖于标签值的方法提取到抽象类中,定义为抽象方法.
+```
+```
+2. 如果还有其他方法不依赖于标签的值,直接定义实现在抽象类中.
+```
+```
+3. 所有都用到的某些数据域,放到抽象类中.
+```
+```
+4. 子类中都包含:与子类相关的数据域+抽象方法的相应实现
+```
+- 举例
+```java
+    abstract class Figure {
+        abstract public double area();
+    }
+    class Circle extends Figure {
+        private final double radius;
+
+        Circle(double radius) {
+            this.radius = radius;
+        }
+
+        public double area() {
+            return Math.PI * radius * radius;
+        }
+    }
+    class Rectangle extends Figure {
+        private final double length;
+        private final double width;
+        Rectangle(double length, double width) {
+            this.length = length;
+            this.width = width;
+        }
+        public double area(){
+            return length*width;
+        }
+    }
+```
+
+#######子类化优点
+```
+1. 代码清晰,无原来版本中的所有的样板代码
+```
+```
+2. 每个类型的实现都配有自己的类,类不用受到不相关的数据域的拖累,所有的域都可以是final
+```
+```
+3. 编译器会确保每一个抽象方法都必须被实现,每一个数据域都要初始化
+```
+```
+4. 可以清晰的反应类型之间本质上的层次关系.比如:Square,能反应出正方形是特殊的矩形
+```
+- 举例:
+```java
+class Square extends Rectangle{
+	Square(double side){
+    	super(side,side);
+    }
+}
+```
+
+#####总结
+```
+		当想编写包含显示标签域的时候,请考虑使用子类化方法,构造一个层次结构.
+```
+
+###第21条:用函数对象表示策略

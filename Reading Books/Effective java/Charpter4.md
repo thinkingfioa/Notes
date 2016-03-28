@@ -847,5 +847,9 @@ Class Host{
 ```
 考虑计算器类Calculator类,支持各种操作(30),则可以在计算器类Calculator类中加入一个公有静态成员类:Operation枚举.那么,客户端就可以使用诸如:Calculator.Operation.PLUS或Calculator.Operation.MINUS这样的名称来引用这些操作.
 ```
+#####静态成员类和非静态成员类区别
+```
+1. 
+```
 
 

@@ -145,6 +145,67 @@ if(o instanceof Set){
 ```
 
 ###第24条：消除非受检警告
+#####本条目目的:
+```
+尽可能消除每一个非受检警告。因为消除了所有的警告，就可以确保代码类型安全。
+```
+#####@SuppressWarnings("unchecked")的使用
+```
+如果无法消除警告,同时可以证明引起警告的代码是类型安全的.使用@SuppressWarnings("unchecked")注解来禁止这条警告.
+```
+#######使用注意事项
+```
+1. SuppressWarnings注解可以用在任何粒度的级别中,从单独的局部变量声明到整个类都可以.
+```
+```
+2. 应该始终在尽可能小的范围中使用SuppressWarnings注解.通常可以是个变量声明,或是非常简短的方法或者构造器.请永远不要在整个类上使用SuppressWarnings,这样会掩盖许多重要的警告.
+```
+```
+3. 如果不止一行的方法或者构造器中使用了SuppressWarnings注解,可以将它移到一个局部变量的声明中.
+```
+- 举例:
+
+```java
+// have warning code
+public <T> T[] toArray(T [] a){
+	if(a.length < size){
+    	return (T []) Arrays.copyOf(elements,size,a.getClass());
+    }
+    System.arraycopy(elements,0,a,0,size);
+    if(a.length > size){
+    	a[size] = null;
+    }
+    return a;
+}
+```
+Note:注解SupressWarnings放在return语句中是非法的.如果将注解放到整个方法上,在实践中千万不要这样做.应该采取声明一个局部变量:result.
+```java
+// no have warning code by adding local variable
+public <T> T[] toArray(T [] a){
+	if(a.length < size){
+    	@SuppressWarnings("unchecked")
+        T [] result = (T []) Arrays.copyOf(elements,size,a.getClass());
+    	return result;
+    }
+    System.arraycopy(elements,0,a,0,size);
+    if(a.length > size){
+    	a[size] = null;
+    }
+    return a;
+}
+```
+```
+4. 每次使用SupressWarnings("unchecked")注解时,都要添加一条注释,详细讲解为什么这么做是安全的.可以帮助理解代码,避免错误.
+```
+#####总结
+```
+1. 非受检警告很重要,不要忽略它们,每条警告都可能出现ClassCastException异常.要尽最大努力消除警告
+```
+```
+2. 无法消除非受检警告,在尽可能小的范围内,使用@SupressWarnings("unchecked")注解禁止该警告.并注释使用注解安全的原因.
+```
+
+#####第25条:列表优先于数组
 
 
 

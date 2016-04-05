@@ -205,7 +205,37 @@ public <T> T[] toArray(T [] a){
 2. 无法消除非受检警告,在尽可能小的范围内,使用@SupressWarnings("unchecked")注解禁止该警告.并注释使用注解安全的原因.
 ```
 
-#####第25条:列表优先于数组
+###第25条:列表优先于数组
+#####数组和泛型不同点
+```
+1. - 数组是协变的.意思是:如果Sub为Super的子类型,那么数组类型Sub[]是Super[]的子类型.
+   - 泛型是不可变的,对于任意两个不同的类型Type1和 Type2,List<Type1>既不是List<Type2>的子类型,也不是List<Type2>的超类型.
+```
+- 举例:
+```java
+//Fails at runtime,can pass Compile
+Object [] objectArray = new Long[1];
+objectArray [0] = "I don't fit in"; //Throws ArrayStroeException at runtime.
+```
+```java
+//Won't compile
+List<Object> ol = new ArrayList<Long> (); // Incompatible types
+ol.add("I don't fit in");
+```
+
+```
+2. - 数组是具体化的.因此数组会在运行时才知道并检查它们的元素类型约束.所以,将String保存到Long [] 中,会在运行时才得到一个ArrayStoreException异常.
+  - 类型是通过擦除来实现的.泛型只在编译时强化它们的类型信息,运行时丢弃(或擦除)它们的元素类型信息.擦除就是使泛型可以与没有使用泛型的代码随意进行互用(23)
+```
+
+#####数组和泛型不能混用
+```
+创建泛型数组是非法的.eg:new List<E> ();因为它不是类型安全的
+```
+- 举例说明:
+```java
+
+```
 
 
 

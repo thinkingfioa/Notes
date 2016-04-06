@@ -6,7 +6,7 @@
 ```
 2. 将~/.ssh/id_rsa.pub的内容复制到github账户上
 ```
-#####git使用
+###git使用表格
 |命令|作用|
 |:---:|:---:|
 |git clone address|复制代码库到本地|
@@ -27,12 +27,30 @@
 |git init|将当前目录初始化为本地仓库|
 |git checkout|丢弃本地修改|
 
-#####git命令的举例
-#######丢弃本地修改
+###git命令的使用
+
+#####用户设置(本质:修改home目录下的.gitConfig文件)
 ```
-git checkout -- <file>
+$	git config --global user.name "thinkingfioa"
+$	git config --global user.email "thinking_fioa@163.com"
 ```
-#######查看本机库与远程库之间区别
+
+#####从版本库中删除文件
+```
+$	git rm test.txt
+$	git commit -m "remove test.txt"
+```
+
+#####误删文件,但版本库中还有,可以恢复
+```
+$	git checkout -- < filename >
+```
+
+#####丢弃本地修改,回到本地库版本
+```
+$	git checkout -- < filename >
+```
+#####查看本机库与远程库之间区别
 ```
 1. 取回本地
 $	git fetch origin
@@ -43,16 +61,16 @@ $	git diff master(local) origin/master
 ```
 ```
 3. merge
-$ git merge origin/master
+$	git merge origin/master
 ```
-#######对修改文件进行提交
+#####对修改文件进行提交
 ```
 1. git add fileName
 ```
 ```
 2. git commit -m "desription"
 ```
-#######git对commit撤销
+#####git对commit撤销
 ```
 1. 查看commit的id
 $	git log
@@ -61,7 +79,7 @@ $	git log
 2. 撤销commit
 $	git reset --hard commid_id
 ```
-#######将本地目录文件上传远程仓库
+#####将本地目录文件上传远程仓库
 ```
 Note:将本地目录文件上传全新远程仓库
 git init
@@ -76,36 +94,52 @@ Note:将本地目录文件上传已经存在远程仓库
 git remote add origin git@github.com:thinkingfioa/gitExam.git
 git push -u origin master
 ```
-#######创建一个分支
+
+#####git 分支
+
+#######查看分支
 ```
-1. 检查现有分支
-git branch
+$	git branch
 ```
+
+#######创建一个新的分支
 ```
-2. 创建一个新的分支
-git branch newbranchname
+$	git branch newbranchname
 ```
+
+####### 切换分支
 ```
-3. 切换分支
- git checkout newbranchname
+$	git checkout newbranchname
 ```
-#######回滚
+####### 创建+切换分支
+```
+$	git checkout -b newbranchname
+```
+####### 合并分支到当前分支
+```
+$	git merge branchname
+```
+#######删除分支
+```
+$	git branch -d branchname
+```
+#####回滚
 ```
 git reset HEAD filename
 ```
-#######拷贝仓库到本地
+#####拷贝仓库到本地
 ```
 $	git colne git@github.com:thinkingfioa@RepositoryName
 ```
-#######添加文件到代码库中
+#####添加文件到代码库中
 ```
 $	git add fileName
 ```
-#######提交更改
+#####提交更改
 ```
 $	git commit -m "description information"
 ```
-#######将本地的commit信息,推送到github代码仓库
+#####将本地的commit信息,推送到github代码仓库
 ```
 $	git push -u origin master
 ```

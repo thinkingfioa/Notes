@@ -301,6 +301,196 @@ Note:这里只列出优秀代码,如上例所示.具体比较可以参考书本.
 ```
 
 ###第26条:优先考虑泛型
+```
+编写自己的泛型比较困难些,但是非常值得花时间去学习如何编写.
+```
+#####下面将以第6条中简单堆栈实现作为例子,利用泛型强化这个类
+```java
+public class Stack {
+    //Object-based collection - a prime candidate for generics
+    private Object[] elements;
+    private int size = 0;
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+    
+    public Stack(){
+        elements = new Object[DEFAULT_INITIAL_CAPACITY];
+    }
+    public void push(Object e){
+        ensureCapacity();
+        elements[size++]=e;
+    }
+    public Object pop(){
+        if(size == 0){
+            throw new EmptyStackException();
+        }
+        Object result = elements[--size];
+        elements[size] = null;
+        return result;
+    }
+    public boolean isEmpty(){
+        return size == 0;
+    }
+    private void ensureCapacity(){
+        if(elements.length == DEFAULT_INITIAL_CAPACITY){
+            elements = Arrays.copyOf(elements, 2*size+1);
+        }
+    }
+```
+#####第1步:声明添加一个或者多个类型参数.这个例子中将栈中的元素类型写为:E(42)
+```java
+public class Stack<E> {
+    //Initial attempt to generify Stack = won't compile
+    private E[] elements;
+    private int size = 0;
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+    
+    public Stack(){
+        elements = new E[DEFAULT_INITIAL_CAPACITY];// won't compile
+    }
+    public void push(E e){
+        ensureCapacity();
+        elements[size++]=e;
+    }
+    public E pop(){
+        if(size == 0){
+            throw new EmptyStackException();
+        }
+        E result = elements[--size];
+        elements[size] = null;
+        return result;
+    }
+    public boolean isEmpty(){
+        return size == 0;
+    }
+    private void ensureCapacity(){
+        if(elements.length == DEFAULT_INITIAL_CAPACITY){
+            elements = Arrays.copyOf(elements, 2*size+1);
+        }
+    }
+}
+```
+```java
+ public Stack(){
+        elements = new E[DEFAULT_INITIAL_CAPACITY];
+    }
+```
+Note:上面这句报错,因为使用了不可具体化的类型数组(25),每当编写用数组支持泛型时,都会有这个问题.
+
+#####第2步:处理数组支持泛型报错的两种方法
+#######第一种:使用强转,直接绕过创建泛型数组的禁令,+消除警告
+```
+1. 使用强转,直接绕过创建泛型数组的禁令
+```
+```java
+public Stack(){
+        elements = (E[])new Object[DEFAULT_INITIAL_CAPACITY];
+}
+```
+```
+2. 证明未受检的转换是安全的,要在尽可能小的范围中禁止警告(24) : 由于elements变量是私有域,同时push方法中的参数类型也是E,所以未受检的转换不会有风险.
+```
+```java
+@SuppressWarnings("unchecked")
+public Stack(){
+	elements = (E[])new Object[DEFAULT_INITIAL_CAPACITY];
+}
+```
+#######第二种:将elements域的类型从E [] 改为Object []. + 消除错误
+```
+1. 将elements域的类型从E [] 改为Object [].
+```
+```java
+public class Stack<E> {
+    private Object[] elements; // E[] change to  Object[]
+    private int size = 0;
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+    
+    public Stack(){
+        elements = new Object[DEFAULT_INITIAL_CAPACITY];
+    }
+    public void push(E e){
+        ensureCapacity();
+        elements[size++]=e;
+    }
+    public E pop(){
+        if(size == 0){
+            throw new EmptyStackException();
+        }
+        E result = elements[--size]; // Won't compile, Error!!!
+        elements[size] = null;
+        return result;
+    }
+    public boolean isEmpty(){
+        return size == 0;
+    }
+    private void ensureCapacity(){
+        if(elements.length == DEFAULT_INITIAL_CAPACITY){
+            elements = Arrays.copyOf(elements, 2*size+1);
+        }
+    }
+}
+```
+```
+2. 强转+禁止警告
+```
+```java
+//Appropriate suppression of unchecked warning
+ public E pop(){
+        if(size == 0){
+            throw new EmptyStackException();
+        }
+        //push requires elements to be of type E,so cast is corret
+        @SuppressWarnings("unchecked")
+        E result = (E)elements[--size]; // Error!!!
+        elements[size] = null;
+        return result;
+    }
+```
+#######处理报错的两种方法的比较
+```
+1. 禁止数组类型的未受检转换比禁止标量类型的更加危险,所以作者建议第二种方案
+```
+```
+2. 但是由于实际应用中Stack泛型类,代码中经常调用方法public E Pop(){ ... },第二种方法中需要多次转换成E,而不是初始化的时候转换成E []
+```
+
+#####使用泛型一个巨大的好处
+```
+不需要显式的转换,并且会确保自动生成的转换会成功.
+```
+- 举例
+```java
+// Little program to exercise our generic Stack
+public static void main(String [] args){
+	Stack< String > statck = new Stack< String >();
+    for(String arg : args){
+    	stack.push(arg);
+    }
+    while(! stack.isEmpty()){
+    	System.out.println(stack.pop().toUpperCase());
+    }
+}
+```
+
+#####解释为何Stack中的使用了数组而不是列表,违反了先使用而非数组(25)
+```
+实际上并不是在泛型中使用列表,Java不是生来就支持列表,因此泛型如ArrayList,则必须在数组上实现.有的也是提升性能,比如HashMap也在使用数组.
+```
+
+#####有限制的类型参数:< E extends Father >
+```java
+class DelayQueue< E extends Delayed > implements BolckingQueue< E > ;
+```
+```
+类型参数列表( < E extends Delayed >)要求实际的类型参数E必须是java.util.concurrent.Delayed的子类型,才可使用.这样允许DelayQueue的元素上利用Delayed方法,无需显式的转换,也不会有ClassCastException风险.
+```
+
+#####总结
+```
+
+```
+
+
 
 
 

@@ -228,16 +228,79 @@ ol.add("I don't fit in");
   - 类型是通过擦除来实现的.泛型只在编译时强化它们的类型信息,运行时丢弃(或擦除)它们的元素类型信息.擦除就是使泛型可以与没有使用泛型的代码随意进行互用(23)
 ```
 
-#####数组和泛型不能混用
+#####数组和泛型不能混用使用
 ```
-创建泛型数组是非法的.eg:new List<E> ();因为它不是类型安全的
+创建泛型,参数化类型或者类型参数的数组是非法的.eg:new List<E> ();因为它不是类型安全的
 ```
 - 举例说明:
 ```java
-
+// Why generic array creation is illegal -- won't compile!
+List< String > [] stringLists = new List< String > [1];//(1)
+List< Integer > intList = Arrays.asList(42);           //(2)
+Object[] objects = stringLists;                        //(3)
+objects[0] = intList;                                  //(4)
+String s = stringList[0].get(0);                       //(5)
 ```
 
+Note:
+```
+1. 假设第1行合法,创建一个泛型数组
+2. 第2行创建并初始化一个包含单个元素的List< Integer >
+3. 第3行将List< String > 数组保存到一个Object数组变量中,这是合法的,因为数组是协变的.
+4. 将List< Integer >保存到Object数组里唯一的元素中,这是可以的,因为泛型是通过擦除实现的:List< Integer >实例的运行时类型只是List,List< String > [] 实例的运行时类型则是list[],因此这种安排不会出现ArrayStoreException异常.
+5. 但是在第5行中,运行时出现ClassCastException异常.所以让编译器在第1行就编译不通过
+```
 
+#####创建无限制通配类型的数组讨论
+```
+不可具体化类型是指其运行时表示法包含的信息比它的编译时表示法包含的信息更少的类型.
+```
+```
+无限制的通配符类型,如List< ? >和Map< ?,? >唯一可具体化的参数化类型.所以创建无限制通配类型的数组是合法的.
+```
+#######禁止创建泛型数组可能不太可行
+```
+1. 这表明泛型一般不可能返回它的元素类型数组(部分解决方案见29)
+```
+```
+2. 这也意味着在结合使用可变参数(varargs)方法(42)和泛型时会出现令人费解的警告
+```
+#######当使用泛型数组创建错误时,处理方法
+```
+当得到泛型数组创建错误时,最好的解决方法通常是优先使用集合类型List< E >,而不是数组类型E[].
+```
+- 举例:
+
+```java
+// List-based generic reduction
+static < E > E reduce(List< E > list, Funciton< E > f, E initVal){
+ // init : 0 --> '+' , : 1 --> '*', :"" --> String.
+	List< E > snapshot;
+    synchronized(list){
+    	snapshot = new ArrayList< E >(list);
+    }
+    E result = initVal;
+    for( E e : snapshot){
+    	result = f.apply(result,e);
+    }
+    return result;
+}
+
+interface Function< T > {
+	T apply(T arg1,T arg2);
+}
+```
+Note:这里只列出优秀代码,如上例所示.具体比较可以参考书本.
+
+#####总结
+```
+1. 数组是协变且可以具体化的;泛型是不可变的且可以擦除的.
+```
+```
+2. 一般来说,数组和泛型不能很好的混合使用.如果你将它们混合使用,且得到编译器的错误或警告,请考虑使用列表代替数组.
+```
+
+###第26条:优先考虑泛型
 
 
 

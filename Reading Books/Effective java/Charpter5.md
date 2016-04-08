@@ -497,8 +497,47 @@ class DelayQueue< E extends Delayed > implements BolckingQueue< E > ;
 ```
 
 ###第27条:优先考虑泛型方法
+```
+方法可以从泛型中受益.静态工具方法尤其适合于泛型化.
+```
+- 举例:
+```java
+// Generic method
+public static < E > Set< E > union(Set< E > s1,Set< E > s2){
+	Set< E > result = new HashSet< E >(s1);
+    result.add(s2);
+    return result;
+}
+```
 
+```
+Note:
+1. 在三个集合的元素类型(两个参数和一个返回值),并在方法中使用类型参数
+2. union方法的局限性在于,三个集合的类型(两个输入和一个返回值)必须全部相同.可以利用有限制的通配符类型,使这个方法更加灵活(28)
+```
 
+#####泛型方法的显著特性
+```
+泛型方法中无需明确指定类型参数的值,不像调用泛型构造器的时候必须指定.编译器会通过类型推导,计算类型参数的值.eg:对于上诉的程序而言,编译器发现union的两个参数都是Set< String >类型,则会知道类型参数E必须是String.
+```
+
+#####利用泛型方法,使创建参数化类型实例变得简单.
+#######调用泛型构造器
+```java
+//Parameterized type instance creation with constructor
+Map<String , List< String > > anagrams = new HashMap< String, List< String > > ();
+```
+Note:类型参数出现在变量声明的两边,显得冗余.
+#######利用泛型静态工厂方法,与想使用的每个构造器对应
+```java
+//Generic static factory method
+public static <K,V> HashMap<K,V> newHashMap(){
+	return new HashMap<K,V>();
+}
+
+//Parameterized type instance creation with static factory
+Map<String,List<String>> anagrams = newHashMap();
+```
 
 
 

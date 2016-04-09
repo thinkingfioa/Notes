@@ -528,7 +528,7 @@ Note:
 Map<String , List< String > > anagrams = new HashMap< String, List< String > > ();
 ```
 Note:类型参数出现在变量声明的两边,显得冗余.
-#######利用泛型静态工厂方法,与想使用的每个构造器对应
+#######利用泛型静态工厂方法,与想使用的每个构造器对应,消除冗余.
 ```java
 //Generic static factory method
 public static <K,V> HashMap<K,V> newHashMap(){
@@ -539,10 +539,96 @@ public static <K,V> HashMap<K,V> newHashMap(){
 Map<String,List<String>> anagrams = newHashMap();
 ```
 
+#####泛型单例工厂
+```
+有时,会需要创建不可变但又适合于许多不同类型的对象.因为泛型是通过擦除(25)实现的,可以给所有必要的类型参数使用单个对象,但是需要编写一个静态工厂方法,重复给每个必要的类型参数分发对象.这种模式最常用的是函数对象(21)
+```
+- 举例:
+```
+编写一个接口,描述一个方法,该方法接收和返回某个类型T的值.
+```
+```java
+public interface UnaryFounction< T > {
+	T apply(T arg);
+}
+```
+```
+提供一个恒等函数.如果泛型被具体化了,每个类都需要一个恒等函数,但是它们被擦除后,就只需要一个泛型单例
+```
+```java
+//Generic singleton factory pattern
+private static UnaryFunction< Object > IDENTITY_FUNCTION = new UnaryFunction< Object > (){
+	public Object apply(Object arg){
+    	return arg;
+    }
+}
+//IDENTITY_FUNCTION is stateless and its type parameter is
+//unbounded so it's safe to share one instance across all types.
+@SuppressWarnings("unchecked")
+public static < T > UnaryFunction< T > identityFunction(){
+	return (UnaryFunction < T > )IDENTITY_FUNCTION;
+}
+```
+Note:恒等函数很特殊:它返回未被修改的参数,因此我们知道无论T的值是什么,用它作为UnaryFunction< T >都是类型安全的.所以使用@suppressWarnings("unchecked")来禁止警告.
+```
+利用泛型单例作为UnaryFunction< String > 和UnaryFunction< Number >.
+```
+```java
+// Sample program to exercise generic singleton
+public static void main(String [] args){
+	String [] strings = {"pan","ping","ping"};
+    UnaryFunction< String > sameString = identityFunction();
+    for(String s :strings){
+    	System.out.println(sameString.applys(s));
+    }
+    Number[] numbers = {1,2.0,3L};
+    UnaryFunction< Number > sameNumber = identityFunction();
+    for(Number n : numbers){
+    	System.out.println(sameNumber.apply(n));
+    }
+}
+```
 
+#####递归类型限制(28)
+```
+通过某个包含该类型参数本身的表达式来限制类型参数是允许的,这就是递归类型限制.
+```
+```
+限制:要求列表中的每个元素都能够与列表中的每个其他元素相比较,也就是说列表的元素可以相互比较.
+```
+- 举例:约束条件示例
 
+```java
+public interface Comparable< T >{
+	int compareTo(T o);
+}
 
+//Returns the maximum value in a list - users recursive type bound
+public static <T extends Comparable< T > > T max(List< T > list){
+	Iterator< T > i = list.iterator();
+    T result = i.next();
+    while(i.hasNext()){
+    	T t = i.next();
+        if(t.compareTo(result) > 0){
+        	result = t;
+        }
+    }
+    return result;
+}
+```
 
+#####总结:
+```
+1. 泛型方法就像泛型一样,使用起来比客户端需要强转返回值的方法更加安全和容易.
+```
+```
+2. 使用泛型后,可以确保新方法可以不用转换就能使用.
+```
+```
+3. 和类型一样,将现有方法泛型化,是新用户使用方便,且不会破坏现有的客户端.
+```
+
+###第28条:利用有限制通配符来提升API的灵活性
 
 
 

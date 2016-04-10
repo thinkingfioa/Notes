@@ -629,10 +629,188 @@ public static <T extends Comparable< T > > T max(List< T > list){
 ```
 
 ###第28条:利用有限制通配符来提升API的灵活性
+```
+参数化类型是不可变的(25),也就是说,List< Type1 > 既不是List< Type2 >的子类型,也不是超类型.
+```
+#####提高API的灵活性
+- 举例1:(26中堆栈例子)
+```java
+public class Stack < E >{
+	public Stack();
+    public void push( E e);
+    public E pop();
+    bublic boolean isEmpty();
+    //PushAll method without wildcard type 
+    public void pushAll(Iterable< E > src){
+    	for(E e:src){
+        	push(e);
+        }
+    }
+}
+```
+Note:
+```
+这个方法 pushAll正确无误,但是缺乏灵活性.比如:一个Stack< Number >,并且调用pushAll(intVal),这里的intVal是Integer类型.由于Integer是Number的一个子类型,所以应该也允许的的
+```
+```java
+Stack< Number > numberStack = new Stack< Number> ();
+Iterable< Integer > integers = ...;
+numberStack.pushAll(integers);
+```
 
+#######有限制的通配符类型,提高API灵活性.
+```
+pushAll的输入参数类型不应该为"E的Iterable接口",而应该为"E的某个子类型的Iterable接口" : Iterable< ? extends E >
+```
+```java
+public void pushAll(Iterable< ? extends E > src){
+	for(E e : src){
+    	push(e);
+    }
+}
+```
+- 举例2:
+```
+为Stack< E > 提供popAll方法.
+```
+```java
+//popAll method without wildcard type 
+public void popAll(Collection< E > det){
+	while(! isEmpty()){
+    	dst.add(pop());
+    }
+}
+Stack< Number > numberStack = new Stack< Number > ();
+Collection< Object > objects = ...;
+numberStack.popAll(objects); // Error,Won't Compile
+```
+Note:由于Collection< Object > 不是 Collection< Number> 的子类型,所以编译出错.
 
+#######解决方案
+```
+popAll的输入参数类型,不应该是"E的集合",而应该是"E的某种超类的集合" : Collection< ? super E>
+```
+```java
+//Wildcard type for parameter that servers an an E comsumer
+public void popAll(Collection< ? super E > dst){
+	while(! isEmpty()){
+    	dst.add(pop());
+    }
+}
+```
 
+#####如何获得最大限度的灵活性,又能保证类型安全
+```
+为了获得最大限度的灵活性,要在生产者或者消费者的输入参数上使用通配符类型.
+```
+#######助记符
+```
+PECS :: producer-extends, consumer-super,也就是说:如果参数化类型表示一个T的生产者,就使用< ? extends T>;如果表示一个T的消费者,就使用<? super E>
+```
+#####相关案例分析
 
+#######第25条中的static < E > E reduce(List< E > list,Function< E > f,E initVal),list参数应该是E的生产者,而参数f既是生产者也是消费者
+```java
+//Wildcard type for parameter that servers as an E producer
+static < E > E reduce(List< ? extends E> list,Function< E > f,E initVal);
+```
+Note:如何想通过Function< Number> 简化一个List< Integer > ,就可以直接使用.
+
+#######第27条中的public static < E > Set< E > union(Set< E > s1,Set< E > s2);,s1,s2参数都是生产者.
+```java
+public static < E > Set< E > union( Set< ? extends E> s1,Set< ? extends E> s2)
+```
+Note:返回的类型仍然都是Set< E > ,请不要用通配符类型作为返回类型.因为这样,会强制用户客户端代码中使用通配符类型.
+
+#######重点讨论:第27条中的max方法
+```
+1. 初始声明
+```
+```java
+public static < T extends Comparable< T > > T max(List< T > list)
+```
+```
+2. 使用通配符类型的声明
+```
+```java
+public static < T extends Comparable< ? super T > > T max(List< ? extends T> list)
+```
+Note:
+```
+1. 参数list,产生T的实例,所以将List< T >改为List< ? extends T > .
+2. comparable始终是消费者,因此将Comparable< T > 改为Comparable< ? super T>
+```
+```
+3. 举例说明,修改后的max函数是否真的起到作用(List<ScheduledFuture<?> > scheduledFutures = ...,具体参考书本中这节)
+```
+```
+4. 修改过的max声明,方法体需要修改下
+```
+```java
+public static <T extends Comparable< ? super T > > T max(List< ? extends T > list){
+	Iterator< ? extends T > i = list.iterator();
+    T result = i.next();
+    while(i.hasNext()){
+    	T t = i.next();
+        if(t.compareTo(result) > 0){
+        	result = t;
+        }
+    }
+    return result;
+}
+```
+
+#####类型参数和通配符之间具有双重性
+```
+类型参数和通配符之间具有双重性,许多方法都可以利用其中一个或者另一个进行声明
+```
+```
+使用两种静态方法声明,来交换列表中的两个被索引的醒目.第一个使用无限制的类型参数(27),第二个使用无限制的通配符.
+```
+```java
+// Two possible declarations for the swap method
+public static < E > void swap(List< E > list,int i,int j);
+public static void swap(List< ? > list,int i,int j);
+```
+#######选择类型参数 Or 通配符 ?
+```
+1. 在公共API中,第二种常用,因为它更简单.
+```
+```
+2. 一般来说,如何类型参数只在方法声明中出现一次,就可以用通配符来取代它.
+```
+```
+3. 如果是无限制的类型参数,就用无限制的通配符取代它;如果是有限制的类型参数,就用有限制的通配符取代它
+```
+#######使用通配符,注意事项
+```
+1. 下面代码报错,因为:编译优先使用通配符,而非类型参数
+```
+```java
+public static void swap(List< ? > list,int i,int j){
+	list.set(i,list.set(j,list.get(i)));//Error!,Won't Complie
+}
+```
+Note:问题在于list的类型是List< ? >,你不能将null之外的任何值放到List< ? > 中.
+```
+2. 提供私有的类型参数方法解决错误
+```
+```java
+public static void swap(List< ? > list,int i,int j){
+	swapHelper(list,i,j);
+}
+// Private helper method for wildcard capture
+private static < E > void swapHelper(List< E > list,int i,int j){
+	list.set(i,list.set(j,list.get(i)));
+}
+```
+
+#####总结
+```
+在API中使用通配符类型虽然比较需要技巧,但是使API变得灵活得多.要适当的利用通配符类型.记住一个原则:PECS.
+```
+
+###第29条:优先考虑类型安全的异构容器
 
 
 

@@ -811,7 +811,114 @@ private static < E > void swapHelper(List< E > list,int i,int j){
 ```
 
 ###第29条:优先考虑类型安全的异构容器
+#####类型安全的异构容器:Favorites
+```
+将键(Key)进行参数化而不是将容器(container)参数化,然后将参数化的键交给容器,来插入或者获取值.
+```
+- 举例:
+```java
+public class Favorites {
+    //Typesate heterogeneous container pattern - implementation
+    private Map<Class< ? >,Object> favorites = new HashMap<Class< ? >,Object>();
+    
+    public < T > void putFavorites(Class< T > type,T instance){
+        if(type == null){
+            throw new NullPointerException(" Type is null");
+        }
+        favorites.put(type,instance);
+    }
+    public <T> T getFavorite(Class< T > type){
+        return type.cast(favorites.get(type));
+    }
+}
+public class Test{
+	public static void main(String [] args){
+   		Favorites f = new Favorites();
+    	f.putFavorite(String.class,"java");
+    	f.putFavorite(Integer.clss,1);
+    	System.out.println("%s %x",f.getFavorite(String.class),f.getFavorite(Integer.class));
+    }
+}
+```
+Note:Favorites类可以存储任意数量的其他类.
+```
+Favorites被称作类型安全的异构容器,因为Favorites实例是类型安全的:当你请求String的时候,不会返回一个Integer给你.同时也是异构的,因为所有的键都是不同类型的.
+```
+```
+你可能认为由于无限制通配符类型的关系,将不能把任何东西放进这个Map中,但事实却正好相反.因为这里使用的通配符类型是嵌套的
+```
+```
+favorites Map的值只能是 object,Map则可以存储多个类型的Value.所以仅仅从Map中无法将键和值之间的"类型联系"起来,但是提供的方法putFavorites,getFavorites则保证了.
+```
+```
+getFavorite方法的实现利用Class的cast方法,将对象引用动态的转换成了Class对象所表示的类型.
+```
+#######cast方法知识补充
+```
+cast方法是Java的cast操作符的动态模拟,只检测它的参数是否是Class对象所表示的类型实例.Favorites中语句:type.cast(favorites.get(type))则会检测favorites.get(type)是否是type的实例.
+```
 
+#####Favorites类的两个局限性
+#######第一个局限性
+```
+客户端如果恶意使用原生态形式使用Class对象,则会将不同类型的Key和Value放入Map中
+```
+#######解决办法(eg:java.util.Collections 中有checkedSet类似于同样的道理)
+```
+putFavorites的方法进行类型判断.
+```
+```java
+  public < T > void putFavorites(Class< T > type,T instance){
+        if(type == null){
+            throw new NullPointerException(" Type is null");
+        }
+        favorites.put(type,type.cast(instance));
+    }
+```
+#######第二个局限性
+```
+它不能用不可具体化的类型.也就是说,可以保存最喜爱的String或者String [],但是无法保存最喜爱的List<String> 或list<Integer>,因为List<String>和List<Integer>公用一个Class对象,即List.class.
+```
+#######解决办法
+```
+目前没有好的方法解决
+```
 
+#####有限制的类型令牌
+```
+利用有限制的类型参数(27)或者有限制通配符(28)来限制可以表示的类型.
+```
+#######注解API(35)广泛利用有限制的类型令牌
+```
+这是一个在运行时读取注解的方法,参数annotationType表示一个注解类型的有限制的类型令牌.
+```
+```java
+public <T extends Annotation> T getAnnotation(Class< T > annotationType);
+```
+Note:
+```
+假设一个类型Class< ? >的对象,并且想将它传给一个需要有限制的类型令牌的方法,如:getAnnotation,所以需要将对象转换成Class< ? extends Annotation>,但是会有警告(24).下面提供解决办法.
+```
+#######利用asSubclass方法在编译时读取类型未知的注解
+```java
+//Use of asSubclass to safely cast to a bounded type token
+static Annotation getAnnotation(AnnotatedElement element,String annotationTypeName){
+	Class< ? > annotationType = null;
+    try{
+    	annotationType = Class.ForName(annotationTypeName);
+    }catch(Exception ex){
+    	throw new IllegalArgumentException(ex);
+    }
+    return element.getAnnotation(annotationType.asSubclass(Annotation.class));
+}
+```
+
+#####总结
+```
+1. 集合API说明了泛型的一般用法，限制每个容器只能有固定数目的类型参数，但是可以通过将类型参数放在键上而不是容器上来避开这个限制．
+```
+```
+2. 对于类型安全的异构容器,可以使用Class对象作为Key,这个方式使用的Class对象称作类型令牌.
+```
 
 

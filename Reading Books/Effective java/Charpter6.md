@@ -208,23 +208,161 @@ public static void main(String args[]) throws Exception {
 }
 ```
 
+#####枚举类型的方法valueOf(String)方法.
+```
+枚举类型有一个自动产生的valueOf(String)方法,将常量的名字转成常量本身
+```
+```java
+Operation plus = Operation.vlaueof("PLUS");
+```
+#######如果枚举类型中覆盖toString,要考虑编写一个fromString方法.
+```
+因为外部程序只是将toString的字符串与枚举类型实例对等,所以需要提供一个fromString方法.
+```
+```java
+public enum Operation {
+    PLUS("+") {
+        double apply(double x, double y) {
+            return x + y;
+        }
+    },
+    MINUS("-") {
+        double apply(double x, double y) {
+            return x - y;
+        }
+    },
+    TIMES("*") {
+        double apply(double x, double y) {
+            return x * y;
+        }
+    },
+    DIVIDE("/") {
+        double apply(double x, double y) {
+            return x / y;
+        }
+    };
+    private static final Map<String, Operation> stringToEnum = new HashMap<String, Operation>();
+    static {
+        for (Operation op : values()) {
+            stringToEnum.put(op.toString(), op);
+        }
+    }
 
+    public static Operation fromString(String symbol) {
+        return stringToEnum.get(symbol);
+    }
 
+    private final String symbol;
 
+    Operation(String symbol) {
+        this.symbol = symbol;
+    }
 
+    @Override
+    public String toString() {
+        return symbol;
+    }
 
+    abstract double apply(double x, double y);
+}
+```
 
+#####策略枚举
+```
+多个枚举常量同时共享相同的行为,则考虑使用策略枚举
+```
+```
+下面的例子,考虑用一个枚举表示薪资.五个工作日,超过正常的8个小时工作时间产生加班工资.双休日所有工作都是加班工资.
+```
+- 举例:
+```java
+enum PayrollDay {
+    MONDY, THESDAY, WEDNESDAY, THURSDAY, FRIDAY,
+    STATURDAY, SUNDAY;
+    private static final int HOUR_PER_SHIFT = 8;
+    double pay(double hoursWorked,double payRate){
+        double basePay = hoursWorked * payRate;
+        
+        double overtimePay=0;
+        switch(this){
+            case STATURDAY: 
+            case SUNDAY:
+                overtimePay = hoursWorked * payRate /2;
+            deafult://Weekdays
+                 overtimePay = hoursWorked <= HOUR_PER_SHIFT ? 0:(hoursWorked - HOUR_PER_SHIFT)*payRate /2;
+                break;
+        }
+        return basePay + overtimePay;
+    }
+```
+Note:
+```
+这段代码简洁,但是维护困难.如果想将一个元素添加到枚举中,要记住修改switch语句.编译器并不会提醒.
+```
 
+#######解决办法:策略枚举
+```
+策略枚举:每当添加一个枚举常量时,就强制选择一种加班报酬策略.将加班工作计算移到一个私有的嵌套枚举中,再将这个策略枚举的实例倡导PlayrollPay枚举的构造器中.
+```
+```java
+enum PayrollDay {
+    MONDAY(PayType.WEEKDAY), 
+    TUSEDAY(PayType.WEEKDAY), 
+    WEDNESDAY(PayType.WEEKDAY), 
+    THURSDAY(PayType.WEEKDAY), 
+    FRIDAY(PayType.WEEKDAY), 
+    SATURDAY(PayType.WEEKEND), 
+    SUNDAY(PayType.WEEKEND);
+    
+    private final PayType payType;
 
+    PayrollDay(PayType payType) {
+        this.payType = payType;
+    }
 
+    double pay(double hoursWorked, double payRate) {
+        return payType.pay(hoursWorked, payRate);
+    }
 
+    // The strategy enum type
+    private enum PayType {
+        WEEKDAY {
+            double overtimePay(double hours, double payRate) {
+                return hours <= HOURS_PER_SHIFT ? 0 : (hours - HOURS_PER_SHIFT) * payRate / 2;
+            }
+        },
+        WEEKEND {
+            double overtimePay(double hours, double payRate) {
+                return hours * payRate / 2;
+            }
+        };
+        private static final int HOURS_PER_SHIFT = 8;
 
+        abstract double overtimePay(double hours, double payRate);
 
+        double pay(double hoursWorked, double payRate) {
+            double basePay = hoursWorked * payRate;
+            return basePay + overtimePay(hoursWorked, payRate);
+        }
+    }
+}
+```
 
+#####何时使用枚举
+```
+每当需要一组固定常量的使用,也是使用枚举最佳的时候.比如:行星,一周的天数,棋子,菜单的选项,操作代码等.
+```
 
-
-
-
+#####总结
+```
+1. 枚举易读,而且类型安全,功能也更加强大.
+```
+```
+2. 枚举一般都不需要显式的构造器或者成员.
+```
+```
+3. 当在枚举中,遇到多种行为与单个方法关联时.如果是特定于常量的方法要优先于启用自有值的枚举.如果是多个枚举常量同时共享相同的行为时,则考虑策略枚举
+```
 
 
 

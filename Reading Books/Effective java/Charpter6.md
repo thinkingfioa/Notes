@@ -364,9 +364,53 @@ enum PayrollDay {
 3. 当在枚举中,遇到多种行为与单个方法关联时.如果是特定于常量的方法要优先于启用自有值的枚举.如果是多个枚举常量同时共享相同的行为时,则考虑策略枚举
 ```
 
+###第31条:用实例域代替序数
+```
+所有的枚举都有一个ordinal方法,返回每个枚举常量在类型中的数字位置.枚举天生就与一个单独的int值相关联
+```
+```java
+//Abuse of ordinal to derive an associated value - DON'T DO THIS
+public enum Ensemble{
+	//DON'T DO THIS
+    SOLO,DUET,TRIO,QUARTET,QUINTET,
+    SEXTET,SEPTET,OCTET,NONET,DECTET;
+    public int numberofMusicians(){
+    	return ordinal() + 1;
+    }
+}
+```
+Note:
+```
+上面的例子初次使用往往还可以,但是维护,就是一场噩梦.根本无法将int值与常量对应起来.
+```
+#####解决方法
+```
+永远不要根据枚举的序数导出与它关联的值,而是要将它保存在一个实例域中
+```
+```java
+public enum Ensemble{
+	 SOLO(1),DUET(2),TRIO(3),QUARTET(4),QUINTET(5),
+    SEXTET(6),SEPTET(7),OCTET(8),NONET(9),DECTET(10),
+    TRIPLE_QUARTET(12);
+    private final int numberOfMusicians;
+    Ensemble(int size){
+    	this.numberOfMusicians = size;
+    }
+    public int numberOfMusicians(){
+    	return numberOfMusicians;
+    }
+}
+```
 
+#####总结
+```
+1. Enum规范中写道:程序员不需要方法ordinal,这个方法设计成用于像EnumSet和EnumMap这种基于枚举的通用数据结构的.
+```
+```
+2. 建议程序员最好完全避免使用ordinal方法.
+```
 
-
+###第32条:用 EnumSet代替位域
 
 
 

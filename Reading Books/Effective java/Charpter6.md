@@ -411,7 +411,66 @@ public enum Ensemble{
 ```
 
 ###第32条:用 EnumSet代替位域
+```
+如果一个枚举类型的元素主要用于集合中,一般就使用int枚举模式(30),将2的不同倍数赋予每个常量
+```
+```
+程序中经常使用的位域方式.
+```
+```java
+public class Text{
+	public static final int STYLE_BOLD = 1<<0;//1
+    public static final int STYLE_ITALIC = 1 <<1; // 2
+    public static final int STYLE_UNDERLINE = 1 <<2;//4
+    public static final int STYLE_STRIKETHROUGH = 1 << 3; //8
+    
+    //Patameter is bitwise OR of zero or more STYLE_ constants
+    public void applyStyles(int styles){ ... }
+}
+```
+Note:
+```
+位域方式有着int枚举常量的所有缺点,甚至更多.
+```
+```
+1. 位域以数字形式打印时,翻译位域比翻译简单的int枚举常量要困难的多.而且,当要遍历位域表示的所有元素也没有很容易的方法.
+```
 
+#####代替使用位域的方法:EnumSet类
+```
+java.util包中的类EnumSet类有效的表示从单个枚举类型中提取的多个值的多个集合.
+```
+```
+EnumSet内容都表示为位矢量,查看内部实现发现,如果底层的枚举类型有64个或者更少的元素,那么整个EnumSet就是用单个long表示,性能也是非常好的.
+```
+#######修改案例
+```java
+public class Text{
+	public enum Style{
+    	BOLD,ITALIC,UNDERLINE,STRIKETHROUGH;
+    }
+    //Any Set could be passed in,but EnumSet is clearly best
+    public void applyStyles(Set<Style> styles){ ... }
+}
+```
+#######客户端代码
+```java
+text.applyStyles(EnumSet.of(Style.BOLD,Style.ITALIC));
+```
+Note:
+```
+applyStyles方法采用的是Set< Style >而非EnumSet< Style >.这样就可以接收接口而非接受实现类型.
+```
+
+#####总结
+```
+1. 正是因为枚举类型要用在集合(Set)中,所以没有理由用位域来表示它,请使用EnumSet类,EnumSet类优点太多.
+```
+```
+2. EnumSet有一个缺点:无法创建不可变的EnumSet,不过可以使用Collections.unmodifiableSet将EnumSet封装起来,但影响简洁性和性能.
+```
+
+###第33条:用EnumMap代替序数索引
 
 
 

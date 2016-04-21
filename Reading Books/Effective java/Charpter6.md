@@ -471,7 +471,154 @@ applyStyles方法采用的是Set< Style >而非EnumSet< Style >.这样就可以�
 ```
 
 ###第33条:用EnumMap代替序数索引
+#####枚举类型序数提供数组下标(unRecommand)
+```
+有时候可能会见到oridinal方法(31)来索引数组的代码,例如下面用于表示一种烹饪的香草.
+```
+```java
+public class Herb {
+    public enum Type{
+        ANNUAL,PERENNIAL,BIENNIAL
+    }
+    private final String name;
+    private final Type type;
+    Herb(String name,Type type){
+        this.name = name;
+        this.type = type;
+    }
+    @Override
+    public String toString(){
+        return name;
+    }
+}
+```
+```
+假设有一个香草的数组,需要按照类型(一年,二年,多年)来将植物分类.所以需要提供三个集合.
+```
+```java
+        //Using ordinal() to index an array --- don't Do This
+        Herb [] garder = ... ;
+        Set< Herb > [] herbsByType = (Set<Herb >[] ) new Set[Herb.Type.values().length];
+        for(int i = 0; i<herbsByType.length;i++){
+            herbsByType[i]=new HashSet< Herb >();
+        }
+        for( Herb h : garden){
+            herbsByType[h.getType().ordinal()].add(h);// Distrubte Herb by year
+        }   
+```
+Note:上面程序中使用ordinal()来控制下标,隐藏许多问题
+```
+1. 数组不能与泛型兼容(25),程序需要进行未受检的转换,所以会有警告出现
+```
+```
+2. 最严重的问题是:当你使用枚举的序数进行索引的数组时,务必小心处理正确的int值;int不能提供枚举的类型安全,如果使用错误的值,则很难发现.
+```
 
+#######处理问题方法
+```
+数组其实充当的是:从枚举到值的映射,因此Map是最合适的.
+```
+```
+java.util.EnumMap是非常快速的Map实现专门用于枚举键的.
+```
+```java
+//Using an EnumMap to associate date with an enum
+        Map<Herb.Type, Set<Herb>> herbsByType = 
+            new EnumMap<Herb.Type, Set<Herb>>(Herb.Type.class);
+        for(Herb.Type t : Herb.Type.values()){
+            herbsByType.put(t, new HashSet<Herb>());
+        }
+        for(Herb b : gardern){
+            herbsByType.get(b.getType()).add(b);
+        }
+```
+Note:
+```
+1. EnumMap提供了高效的性能+安全类型保护,同时隐藏了底层实现细节
+```
+```
+2. 注意一点是:EnumMap构造器采用了类型的Class对象,这是一个有限制的类型令牌(29),
+```
+#####枚举类型序数进行索引(两次)数组的数组
+```
+下面的程序使用一个数组将两个阶段映射到一个阶段的过渡(液体 --> 固体,固体 --> 气体)
+```
+```java
+public enum Phase {
+    //Using ordinal() to index array of array  -- DON'T DO THIS!
+    SOLID,LIQUID,GAS;
+    public enum Transition{
+        MELT,FREEZE,BOIL,CONDENSE,SUBLIME,DEPOSIT;
+        private static final Transition[][] TRANSITIONS = {
+            { null, MELT,SUBLIME},
+            {FREEZE,null,BOIL},
+            {DEPOSIT,CONDENSE,null}
+        };
+        //Returns the phase transition from on phase to another
+        public static Transition from(Phase src,Phase dst){
+            return TRANSITIONS[src.ordinal()][dst.ordinal()];
+        }
+    }
+}
+```
+Note:
+```
+程序初看感觉比较优雅,但事实并非如此.维护时,时刻记得这张二维表TRANSITIONS结构,编译器无法知道序数和数组索引之间的关系
+```
+#######解决办法:EnumMap
+```
+第一个map的键是枚举(起始阶段),值为另一个map.第二个map的键为第二个枚举(目标阶段),它的值为结果(阶段过渡).
+也就是:Map(起始阶段,Map(目标阶段,阶段过渡))
+```
+```java
+public enum Phase {
+    //Using a nested EnumMap to associate date with enum parirs
+    SOLID,LIQUID,GAS;
+    public enum Transition{
+        MELT(SOLID,LIQUID),
+        FREEZE(LIQUID,SOLID),
+        BOIL(LIQUID,GAS),
+        CONDENSE(GAS,LIQUID),
+        SUBLIME(SOLID,GAS),
+        DEPOSIT(GAS,SOLID);
+        private final Phase src;
+        private final Phase dst;
+        Transition(Phase src,Phase dst){
+            this.src = src;
+            this.dst = dst;
+        }
+        // Initialize the phase transition map
+        private static final Map<Phase, Map<Phase,Transition>> m =
+            new EnumMap<Phase, Map<Phase, Transition>>(Phase.class);
+        static {
+            for(Phase p: Phase.values()){
+                m.put(p, new EnumMap<Phase,Transition>(Phase.class));
+            }
+            for(Transition trans : Transition.values()){
+                m.get(trans.src).put(trans.dst,trans);
+            }
+        }
+        public static Transition from(Phase src,Phase dst){
+            return m.get(src).get(dst);
+        }
+    }
+}
+```
+Note:
+```
+1. 静态初始化代码块的第一个循环初始化了外部map,得到了三个空的内容map.代码块中的第二个循环利用每个Transition中的每个状态得到具体的目标信息.
+```
+```
+2. 如果现在想要增加一个新的阶段:Plasma(离子),需要给Phash添加一个新的常量(PLASMA,同时给Phase.Transition添加两种新常量(IONIZE(GAS,PLASMA)和DEIONIZE(PLASMA,GAS)添加到Phase.Transition列表.后一个类的设计,几乎不会有任何错误.
+```
+
+#####总结
+```
+不要使用序数来索引数组,而使用EnumMap.如果关系是多维的,使用EnumMap<...,EnumMap<...> >.
+```
+```
+应用程序下,请不要使用Enum.ordinal,坚决杜绝(31)
+```
 
 
 

@@ -25,21 +25,25 @@ Note:
 ```java
 Class<?> clazz1= Class.forName("org.apache.vlis.Agent");
 ```
+
 2. 使用某一个对象 X ,调用对象方法`getClass()`得到
 ```java
 Father father = new Father();
 Class<?> clazz2 = father.getClass();
 ```
+
 3. 使用某一个类Class得到
 ```java
 Class<?> clazz3 = Father.class;
 ```
+
 4. 类没有加载过,使用类加载器得到类的Class
 ```java
 Class< ? > clazz4 = ClassLoader.getSystemClassLoader().loadClass("org.apache.vlis.Agent");
 ```
 
 #####(2)通过在(1)得到了某个特定的类，接下来要实例化对象
+
 1. 通过使用`newInstance()`方法
 Note:`newInstance()`方法，需要实例化的类必须有无参的构造函数
 ```java
@@ -47,12 +51,14 @@ Class<?> clazz = Class.forName("org.apache.vlis.Father");
 //类Father，必须有无参的构造函数
 Father father = (Father) clazz.newInstance();
 ```
+
 2. 通过使用`getConstructors()`方法得到有参构造函数
 ```java
 Class<?> clazz = Class.forname("org.apache.vlis.Father");
 Constructor<?> constructors[] = clazz.getConstructors();
 Father father = (Father) constructors[index].newInstance("fatherName",47);
 ```
+
 3. Constructor常用方法
 
 |序号|方法|描述|
@@ -94,6 +100,7 @@ public class Thinking{
     }
 }
 ```
+
 1. 反射调用多参的静态方法(public)
 ```java
 package vlis;
@@ -109,6 +116,7 @@ public class Client{
     }
 }
 ```
+
 2. 反射调用非静态方法(public)
 ```java
 package vlis;
@@ -125,6 +133,7 @@ public class Client{
     }
 }
 ```
+
 3. 反射调用非静态方法无参函数
 ```java
 package vlis;
@@ -141,6 +150,7 @@ public class Client{
     }
 }
 ```
+
 4. 封装setXXX(...),getXXX(...),使反射得到的对象可以操作具体的属性
 Note:如果类中有多个属性时，另写一个setter(...),getter(...)操作方法
  - 基础类Father
@@ -206,7 +216,6 @@ public class Client{
     }
 }
 ```
-
 
 #####(4)通过在(1)中得到了某个特定的类，然后得到具体的Field(Field就是值属性,区别出:Filed[] getFields(),Field[] getDeclaredFields())
 - Filed类常用的方法

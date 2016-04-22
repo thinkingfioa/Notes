@@ -54,6 +54,7 @@ Constructor<?> constructors[] = clazz.getConstructors();
 Father father = (Father) constructors[index].newInstance("fatherName",47);
 ```
 3. Constructor常用方法
+
 |序号|方法|描述|
 |:---:|:---:|:---:|
 |1|int getModifiers()|得到构造方法修饰符(public,private,protected)|

@@ -2,6 +2,7 @@
 ```
 本章目的:讨论使用新的类型:枚举类型+注解类型
 ```
+[TOC]
 
 ###第30条:用enum代替int常量
 ```
@@ -619,6 +620,127 @@ Note:
 ```
 应用程序下,请不要使用Enum.ordinal,坚决杜绝(31)
 ```
+
+###第34条:用接口模拟可伸缩的枚举
+```
+就几乎所有的方面,枚举类型都具有众多优势.但是有一个例外:枚举类型不能提供继承,也就是不可扩展.
+```
+```
+有时候,为了让API的用户提供自己的操作,可以采用接口+枚举的方式.下面以第30条的Operation类型为例
+```
+```java
+//Emulae extensible enum using an interface
+public interface Operation{
+	double apply(double x,double y);
+}
+public enum BasicOperation implements Operation{
+    PLUS("+"){
+        double apply(double x,double y){
+            return x+y;
+        }
+    },
+    MINUS("-"){
+        double apply(double x,double y){
+            return x-y;
+        }
+    },
+    TIMES("*"){
+        double apply(double x,double y){
+            return x* y;
+        }
+    },
+    DIVIDE("/"){
+        double apply(double x,double y){
+            return x/y;
+        }
+    };
+    private final String symbol;
+    Operation(String symbol){
+        this.symbol = symbol;
+    }
+    @Override
+    public String toString(){
+        return symbol;
+    }
+}
+```
+Note:
+```
+虽然枚举类型不可扩展,但是接口可以提供扩展.如果想要定义另一个枚举类型,实现这个接口就好,并用新类型的实例代替基本类型.
+```
+#######扩展Operation操作类型,添加求幂(exponentiation)和求余(remainder)操作
+```java
+public enum ExtendedOperation implements IOperation{
+    EXP("^"){
+        public double apply(double x,double y){
+            return Math.pow(x, y);
+        }
+    },
+    REMAINDER("%"){
+        public double apply(double x,double y){
+            return x%y;
+        }
+    };
+    private final String symbol;
+    ExtendedOperation(String symbol){
+        this.symbol = symbol;
+    }
+    @Override
+    public String toString(){
+        return symbol;
+    }
+}
+```
+Note:
+```
+只要被写成采用接口类型(Operation)而非实现(BasicOperation).新的枚举类型都可以正常使用.
+```
+#######客户端如何使用声明的ExtendedOperation枚举,方法1
+```
+可以在任何需要BasicOpertion枚举的地方单独传递一个ExtendedOperation枚举实例,而且还能传递完整的ExtendedOperation枚举类型
+```
+```java
+public static void main(String args[]) throws Exception {
+        double x = Double.parseDouble(args[0]);
+        double y = Double.parseDouble(args[1]);
+        test(ExtendedOperation.class , x,y);
+    }
+    private static<T extends Enum<T> & Operation> void test(Class<T> opSet,double x,double y){
+        for(Operation op : opSet.getEnumConstants()){
+            System.out.printf("%f %s %f = %f%n",x,op,y,op.apply(x, y));
+        }
+    }
+```
+Note:
+```
+使用了有限制的类型令牌(29),确保Class对象既表示枚举又是Operation的子类型(T extends Enum<T> & Operation)
+```
+#######客户端如何使用声明的ExtendedOperation枚举,方法2
+```
+使用Collection< ? extends Operation >,这是个有限制的通配符类型(28)
+```
+```java
+    public static void main(String args[]) throws Exception {
+        double x = Double.parseDouble(args[0]);
+        double y = Double.parseDouble(args[1]);
+        test(Arrays.asList(ExtendedOperation.values()) , x,y);
+    }
+    private static void test(Collection<? extends IOperation> opSet,double x,double y){
+        for(IOperation op : opSet){
+            System.out.printf("%f %s %f = %f%n",x,op,y,op.apply(x, y));
+        }
+    }
+```
+
+#####总结
+```
+1. 使用接口,弥补了无法实现一个枚举类型继承到另一个枚举类型的小小不足.允许用户自定义枚举类型处理逻辑
+```
+```
+2. 上例中BasicOperation和ExtendsOperation中,关联的逻辑代码如果共享功能比较多,可以考虑封装到一个辅助类或静态辅助方法中.
+```
+
+###第35条:注解优先于命名模式
 
 
 

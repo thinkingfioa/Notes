@@ -741,7 +741,248 @@ Note:
 ```
 
 ###第35条:注解优先于命名模式
+#####命令模式
+```
+比如JUnit测试框架,原本一定要用test作为测试方法名称的开头.优缺点也不用管了,直接完全废除.
+```
+#####注解
+#######Test注解类型
+```java
+//Marker annotation type declaration
+/**
+* Indicates that the annotated method is a test method
+* Use only on parameterless static methods
+*
+*/
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface Test{
 
+}
+```
+Note:
+```
+1. Retention和Target注解被称作元注解
+```
+```
+2. @Retention(RetentionPolicy.RUNTIME)元注解表明,Test注解应该在运行时保留.
+```
+```
+3. @Target(ElementType.METHOD)元注解表明,Test注解只在方法声明中才是合法的.
+```
+```
+4. Test注解只能用于无参的静态方法
+```
+#######现实中应用Test注解,称为标记注解
+```java
+public class Sample{
+	@Test
+    public static void m1(){  }
+    public static void m2(){ }
+    @Test
+    public static void m3(){ 
+    	throw new RuntimeException("Boom");
+    }
+    public static void m4(){}
+    @Test
+    public void m5(){ }
+    public static void m6(){ }
+    @Test
+    public static void m7(){
+    	throw new RuntimeException("Crash");
+    }
+    public static void m8(){    }
+}
+```
+Note:
+```
+4个方法注解为测试:m1,m3,m5,m7
+m1方法:正常通过
+m3,m7方法中抛出异常
+m5方法因为实例方法(非static),注解无效使用
+```
+#######简单的测试运行类
+```
+注解永远不会改变被注解代码的语义
+```
+```java
+public class RunTests {
+    public static void main(String [] args) throws Exception{
+        int tests = 0;
+        int passed = 0;
+        Class<?> testClass = Class.forName("vlis.Sample");
+        for(Method m : testClass.getDeclaredMethods()){
+            if(m.isAnnotationPresent(Test.class)){
+                tests++;
+                try{
+                    m.invoke(null);
+                    passed++;
+                }catch(InvocationTargetException wrappedExc){
+                    Throwable exc = wrappedExc.getCause();
+                    System.out.println(m+" failed: "+exc.getMessage());
+                }catch(Exception exc){
+                    System.out.println("INVALID @Test: " +m);
+                }
+            }
+        }
+        System.out.printf("Passed: %d, Failed: %d%n", passed,tests-passed);
+    }
+}
+```
+Note:
+```
+1. 利用Method.invoke反射方法运行Test方法
+```
+```
+2. isAnnotationPresent方法告知该工具运行哪些方法
+```
+```
+3. 异常类InvocationTargetException来捕捉测试方法抛出异常和反射机制
+```
+
+#####新的注解类型:异常注解
+```
+为在抛出特殊异常时才成功的测试添加支持,声明一个性的注解类型
+```
+```java
+/**
+ * Indicates that the annotated method is a test method that
+ * must throw the designated exception to succeed.
+ * */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface ExceptionTest {
+    Class<? extends Exception > value();
+}
+```
+Note:
+```
+这个注解的参数类型是:Class< ? extends Exception>.这个有限制的类型令牌(29)的意思是:某个扩展Exception的类的Class对象.
+```
+#######实际中应用这个注解+测试用例
+```java
+public class Sample2 {
+    //Program containing annotations with a parameter
+    @ExceptionTest(ArithmeticException.class)
+    public static void m1(){//Test should pass
+        int i = 0;
+        i = i/i;
+    }
+    @ExceptionTest(ArithmeticException.class)
+    public static void m2(){//Should fail(wrong exception)
+        int [] a = new int[0];
+        int i = a[1];
+    }
+    @ExceptionTest(ArithmeticException.class)
+    public static void m3(){//Should fail (no exception)
+    }
+}
+```
+```java
+public class RunTest2 {
+    public static void main(String [] args) throws Exception{
+        int tests = 0;
+        int passed = 0;
+        Class<?> testClass = Class.forName("vlis.Sample");
+        for(Method m : testClass.getDeclaredMethods()){
+            if(m.isAnnotationPresent(ExceptionTest.class)){
+                tests++;
+                try{
+                    m.invoke(null);
+                    System.out.printf("Test %s failed: no exception%n",m);
+                }catch(InvocationTargetException wrappedExc){
+                    Throwable exc = wrappedExc.getCause();
+                    Class<? extends Exception> excType = 
+                        m.getAnnotation(ExceptionTest.class).value();
+                   if(excType.isInstance(exc)){
+                       passed++;
+                   }else{
+                       System.out.printf("Test %s failed: expected %s,got %s%n", m,excType.getName(),exc.getMessage());
+                   }
+                }catch(Exception exc){
+                    System.out.println("INVALID @Test: " +m);
+                }
+            }
+        }
+        System.out.printf("Passed: %d, Failed: %d%n", passed,tests-passed);
+    }
+}
+```
+
+#####ExceptionTest注解的参数类型改成Class对象数组
+```
+测试可以在抛出任何一个指定异常时都得到通过
+```
+```java
+//Annotation type with an array parameter
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface ExceptionTest3 {
+    Class<? extends Exception > [] value();
+}
+```
+Note:
+```
+注解中数组参数的语法十分灵活.为了指定多元素数组,要用花括号({})将元素包围起来,并用都好(,)隔开.如果想使用单元素,和上面的写法一致
+```
+#######使用
+```
+@ExceptionTest3({IndexOutOfBoundsException.class,NullPointerException.class})
+public static void doublyBad(){
+	List<String> list = new ArrayList<String>();
+    //The spec permits this method to throw either
+    //IndexOutOfBoundsException or NullPointerException
+    list.addAll(5,null);
+}
+```
+#########客户端测试
+```java
+public class RunTest3 {
+    public static void main(String [] args) throws Exception{
+        int tests = 0;
+        int passed = 0;
+        Class<?> testClass = Class.forName("vlis.Sample");
+        for(Method m : testClass.getDeclaredMethods()){
+            if(m.isAnnotationPresent(ExceptionTest3.class)){
+                tests++;
+                try{
+                    m.invoke(null);
+                    System.out.printf("Test %s failed: no exception%n",m);
+                }catch(InvocationTargetException wrappedExc){
+                    Throwable exc = wrappedExc.getCause();
+                    Class<? extends Exception > []  excTypes = 
+                        m.getAnnotation(ExceptionTest3.class).value();
+                    int oldPassed = passed;
+                    for(Class< ? extends Exception> excType: excTypes){
+                        if(excType.isInstance(exc)){
+                            passed++;
+                            break;
+                        }
+                    }
+                    if (passed == oldPassed) {
+                        System.out.printf("Test %s failed: %s%n", m,
+                            exc.getMessage());
+                    }
+                }catch(Exception exc){
+                    System.out.println("INVALID @Test: " +m);
+                }
+            }
+        }
+        System.out.printf("Passed: %d, Failed: %d%n", passed,tests-passed);
+    }
+}
+
+```
+
+#####总结
+```
+1. 本条目示范了注解的优越性.既然有了注解,完全没有理由再使用命名模式
+```
+```
+2. 一般来书,大多数程序员都不必要定义注解类型,但是所有的程序员都应该使用Java平台提供的预定义的注解类型(36,24)
+```
+
+###第36条:坚持使用Override注解
 
 
 

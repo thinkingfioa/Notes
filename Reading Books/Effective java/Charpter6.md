@@ -926,7 +926,7 @@ Note:
 注解中数组参数的语法十分灵活.为了指定多元素数组,要用花括号({})将元素包围起来,并用都好(,)隔开.如果想使用单元素,和上面的写法一致
 ```
 #######使用
-```
+```java
 @ExceptionTest3({IndexOutOfBoundsException.class,NullPointerException.class})
 public static void doublyBad(){
 	List<String> list = new ArrayList<String>();
@@ -983,7 +983,48 @@ public class RunTest3 {
 ```
 
 ###第36条:坚持使用Override注解
-
+```
+Override注解只能在方法声明中,表示被注解的方法声明覆盖了超类型中的一个声明.
+```
+```
+Override注解能防止一大类的非法错误.比如:类Bigram表示一个双字母组或者有序的字母对.
+```
+```java
+public class Bigram {
+    //there is a bug
+    private final char first;
+    private final char second;
+    public Bigram(char first,char second){
+        this.first = first;
+        this.second = second;
+    }
+    public boolean equals(Bigram b){
+        return b.first == first && b.second == second;
+    }
+    public int hashCode(){
+        return 31*first + second;
+    }
+    public static void main(String [] args){
+        Set<Bigram> s = new HashSet<Bigram>();
+        for(int i =0;i<10;i++){
+            for(char ch = 'a';ch <='z';ch++){
+                s.add(new Bigram(ch,ch));
+            }
+        }
+        System.out.println("size : "+s.size());
+    }
+}
+```
+Note:
+```
+1. Question:输入内容是260,而不是我们期望26.
+```
+```
+2. 问题在于:Bigram类的创建者原本想要覆盖equals方法(8),同时还记得覆盖hashCode.但却把equals方法的参数写成了Bigram类,导致了重载(41),而非覆盖.
+```
+```
+3. 
+```
 
 
 

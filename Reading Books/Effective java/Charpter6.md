@@ -1023,7 +1023,30 @@ Note:
 2. 问题在于:Bigram类的创建者原本想要覆盖equals方法(8),同时还记得覆盖hashCode.但却把equals方法的参数写成了Bigram类,导致了重载(41),而非覆盖.
 ```
 ```
-3. 
+3. 因此,Bigram从Object继承了equals方法,而默认的equals方法测试对象的同一性,也就是是否是同一个对象,就像==操作符一样.
+```
+
+########加上@Override标注的Bigram.equals结果
+```java
+@Override
+public boolean equals(Bigram b){
+	return b.first == first && b.second == second;
+}
+```
+Note:
+```
+如果加上这个@Override注解,编译器将会帮你检查,则会报错
+```
+#######那么,Bigram类中应该怎么写equals方法(8)
+```java
+@Override
+public boolean equals(Object o){
+	if(!(o instanceof Bigram)){
+    	return false;
+    }
+    Bigram bigram = (Bigram) o;
+    return b.first == first && b.second == second;
+}
 ```
 
 

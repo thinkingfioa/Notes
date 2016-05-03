@@ -1026,7 +1026,7 @@ Note:
 3. 因此,Bigram从Object继承了equals方法,而默认的equals方法测试对象的同一性,也就是是否是同一个对象,就像==操作符一样.
 ```
 
-########加上@Override标注的Bigram.equals结果
+#######加上@Override标注的Bigram.equals结果
 ```java
 @Override
 public boolean equals(Bigram b){
@@ -1035,7 +1035,7 @@ public boolean equals(Bigram b){
 ```
 Note:
 ```
-如果加上这个@Override注解,编译器将会帮你检查,则会报错
+如果加上这个@Override注解,编译器将会帮你检查,会报错提醒
 ```
 #######那么,Bigram类中应该怎么写equals方法(8)
 ```java
@@ -1048,6 +1048,20 @@ public boolean equals(Object o){
     return b.first == first && b.second == second;
 }
 ```
+#######特殊情况
+```
+编写一个继承抽象类,可不必将Override注解放在该方法上.因为编译器会提醒覆盖超类的方法.
+```
+
+#####总结
+```
+1. 坚持使用Override注解,可以提醒你无意识的覆盖或者无意识覆盖不成功.
+```
+```
+2. 只有一个特例:在具体的类中,不必标注你确信覆盖了抽象方法声明的方法.
+```
+
+###第37条:用标记接口定义类型
 
 
 

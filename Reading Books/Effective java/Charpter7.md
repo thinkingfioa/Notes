@@ -98,6 +98,136 @@ Note:
 ```
 
 ###第39条:必要时进行保护性拷贝
+```
+有时可能由于其他程序员对你的API产生误解,导致的各种不可预期的行为,所以,应该能保持健壮的类.
+```
+- 举例:
+```java
+public final class Period {
+// Broken "immutable" time period class
+    private final Date start;
+    private final Date end;
+    
+    /**
+     * @param start the beginning of the period
+     * @param end the end of the period;must no precede start
+     * @throws IllegalArgumentException if start is after end
+     * @throws NullPointerException if start or end is null
+     */
+    public Period(Date start,Date end){
+        if(start.compareTo(end) > 0){
+            throw new IllegalArgumentException(start + " after"+end);
+        }
+        this.start = start;
+        this.end = end;
+    }
+    public Date getStart(){
+        return start;
+    }
+    public Date getEnd(){
+        return end;
+    }
+}
+```
+Note:
+```
+乍一看,这个类不可变,且对构造器输入的数据进行了检查.但是由于Date类本身是可变的,所以,并不能保证不可变性.下面客户端,则修改了不可变类.
+```
+```java
+//Attack the internals of a Period instance
+Date start = new Date();
+Date end = new Date();
+Period p = new Period(start,end);
+end.setYear(78);//Modifies internals of p!
+```
+
+#####对可变参数进行保护性拷贝
+```java
+//make defensive copies of parameters
+public Period(Date start,Date end){
+	this.start = new Date(start.getTime());
+    this.end = new Date(end.getTime());
+    
+    if(this.start.commpareTo(this.end) > 0){
+    	 throw new IllegalArgumentException(start + " after"+end);
+    }
+}
+```
+#######深度探讨
+```
+1. 保护性拷贝是在检查参数的有效性(38)之前进行的,并且有效性检查是针对拷贝后的对象,而不是原始对象.
+```
+Note:
+```
+这样做,是非常必要的.这样可以避免"危险阶段"期间从另一个线程改变类的参数.危险阶段是指:检查参数开始,直到拷贝参数之间的时间段.
+```
+```
+2. 并没有用Date的clone方法进行保护性拷贝.因为Date是非final的,不能保证clone方法一定返回的是java.util.Date的对象:可能返回出于恶意而设计的不可信的子类实例.
+```
+```
+3. 上面的修改,Period实例仍然可以被修改
+```
+```java
+// Second attack on the internals of a Period instance
+Date start = new Date();
+Date end = new Date();
+Period p = new Period(start,end);
+p.getEnd().setYear(78);//Modifies internals of p!
+```
+Note:
+```
+解决办法:返回不可变内部域的保护性拷贝
+```
+```java
+    public Date getStart(){
+        return new Date(start.getTime());
+    }
+    public Date getEnd(){
+        return new Date(end.getTime());
+    }
+```
+```
+4. 访问方法和构造器不同,它们在进行保护性拷贝的时候允许使用clone方法.因为,我们直到Period内部的Date对象是java.util.Date
+```
+```java
+ public Date getStart(){
+        return start.clone());
+    }
+    public Date getEnd(){
+        return end.clone());
+    }
+```
+```
+5. 采用新的构造器和新的访问方法之后,Period真正不可变了.所有的域都被真正封装到对象的内部.
+```
+
+#####参数的保护性拷贝使用场景
+```
+参数的保护性拷贝并不是针对不可变类,应该参考下面的两点
+```
+#######第一点
+```
+如果编写方法或者构造器时,允许用户提供的对象进入内部数据结构,需要考虑:客户提供的对象是否可能是可变,如果是,是否可以容忍进入数据结构后发生变化,如果不允许进入的参数在发生变化,则应该使用参数的保护性拷贝.
+```
+- 举例:
+```
+如果,客户端提供的类实例作为了内部Map实例的键(key),则明显不能变.
+```
+#######第二点
+```
+内部组件,返回到客户端,同样需要认真考虑是否需要保护性拷贝.
+```
+#####尽量使用不可变的对象作为内部组件
+```
+一个非常重要的启示:只要有可能,都应该使用不可变的对象作为对象内部的组件,这样就不需要在为保护性拷贝(15)操心．比如前面的Period例子，有经验的程序员将会使用long　start = Date.getTime()基本类型来作为内部时间.因为Date是可变的.
+```
+
+#####总结
+```
+如果类具有从客户端得到或者返回到客户端的可变组件,类就必须保护性拷贝这些组件.如果受到拷贝的成本限制,且信任客户端,则在文档中指明,以代替保护性拷贝.
+```
+
+###第40条:谨慎设计方法签名
 
 
 

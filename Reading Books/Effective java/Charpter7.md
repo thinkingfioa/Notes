@@ -323,7 +323,7 @@ public class CollectionClassifier {
 ```
 Note:
 ```
-程序的期望输出结果应该是："Set","List","Unknown Collection".但实际输出结果是"Unknown Collection"
+程序的期望输出结果应该是："Set","List","Unknown Collection".但实际输出结果全是是"Unknown Collection"
 ```
 
 #######输出结果解释
@@ -334,6 +334,7 @@ Note:
 2. 对于重载方法的选择是静态的，在编译期间决定。对于被覆盖方法的选择是动态的，也就是说选择的依据是根据所在对象的运行时类型选择具体的调用方法。
 ```
 - 举例：
+
 ```java
 class Wine{
     String name(){
@@ -366,7 +367,48 @@ public class Overriding {
     }
 }
 ```
+Note:
+```
+name方法在类Wine声明，并且被子覆写。如预期结果一样："wine, sparking wine和champagne".
+```
+```
+这时覆写与重载一个非常大的区别，重载是编译期间决定执行逻辑，覆写是会在执行期间根据对象类型来决定执行逻辑
+```
 
+#######CollectionClassifier示例中最佳修正方案是
+```
+提供静态方法，根据instanceof来判断具体对象类型，注意要从具体到一般，子类到父类的顺序。
+```
+```java
+public static String classify(Collection< ? > c){
+	return c instanceof Set ? "Set" : c instanceof List ? "List" : "Unknown Collection";
+}
+```
+
+#####重载机制特点
+```
+由于重载机制的执行逻辑是编译期间决定的，而且重载机制使用时，可能导致程序员困惑，这就是一个失败的类。
+```
+
+#####如何避免胡乱使用重载机制
+```
+1.安全保守策略：永远不要导出两个具有相同参数数目的重载方法。
+```
+```
+2. 如果方法使用可变参数，保守的策略是永远不要重载它(42除外)。
+```
+- 举例：
+```
+比如ObjectOutputStream类，对于每个基本类型，它的Write方法都有变形。并不是采用重载write方法，分别是:writeBoolean(boolean),writeInt(int),writeLong(long)变形。这样可读性变得很强。
+```
+```
+3. 对于构造器，并不能使用不同名称，所以可能选择采用静态工厂(1),而不是构造器方式。
+```
+```
+4. 如果导出多个具有相同参数数目的重载方法，但是方法的参数类型具有根本不同，不可能把一种参数的实例转换成另一种参数类型，那么，重载也是可以接受的。比如:ArrayList有一个构造器参数是:int，另一个是Collection参数,就是可以接受。
+```
+
+#####
 
 
 

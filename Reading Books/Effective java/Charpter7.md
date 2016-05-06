@@ -290,9 +290,82 @@ Note:
 ```
 
 ###第41条：慎用重载
+```
+下面例子试图根据一个集合是Set,List或其他集合类型，来进行分类
+```
+- 举例：
+```java
+public class CollectionClassifier {
+    //Broken! - What does this program print?
+    public static String classify(Set<?> s){
+        return "Set";
+    }
+    
+    public static String classify(List<?> list){
+        return "List";
+    }
+    
+    public static String classify(Collection<?> c){
+        return "Unknown Collection";
+    }
+    
+    public static void main(String [] args){
+        Collection<?> [] collections ={
+            new HashSet<String>(),
+            new ArrayList<BigInteger>(),
+            new HashMap<String,String>().values()
+        };
+        for(Collection<?> c : collections){
+            System.out.println(classify(c));
+        }
+    }
+}
+```
+Note:
+```
+程序的期望输出结果应该是："Set","List","Unknown Collection".但实际输出结果是"Unknown Collection"
+```
 
+#######输出结果解释
+```
+1. classif方法被重载了，我们知道：调用哪个重载方法是在编译时就决定了。上面程序的for循环中，编译期间已经决定调用方法:String classify(Collection<?> c).
+```
+```
+2. 对于重载方法的选择是静态的，在编译期间决定。对于被覆盖方法的选择是动态的，也就是说选择的依据是根据所在对象的运行时类型选择具体的调用方法。
+```
+- 举例：
+```java
+class Wine{
+    String name(){
+        return "wine";
+    }
+}
 
+class SparklingWine extends Wine{
+    @Override
+    String name(){
+        return "sparking wine";
+    }
+}
 
+class Champagne extends SparklingWine{
+    @Override
+    String name(){
+        return "champagne";
+    }
+}
+public class Overriding {
+    public static void main(String [] args){
+        Wine [] wines ={
+            new Wine(),new SparklingWine(),new Champagne()
+        };
+        
+        for(Wine wine : wines){
+            System.out.println(wine.name());
+        }
+    }
+}
+```
 
 
 

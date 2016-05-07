@@ -485,6 +485,56 @@ Note:
 ```
 
 ###第42条：慎用可变参数
+```
+可变参数机制通过先创建一个数组，然后将参数值传到数组中，最后将数组传递给方法。
+```
+```
+下面的例子是求和
+```
+- 举例1：
+```java
+static int sum(int... args){
+	int sum = 0;
+    for(int arg : args){
+    	sum+=arg;
+    }
+    return sum;
+}
+```
+```
+下面的例子，是求多个int参数的最小值,要求编写需要1个或者多个某种类型参数的方法
+```
+- 举例2:
+```java
+static int min(int... args){
+	if(args.length == 0){
+    	throw new IllegalArgumentException("Too few arguments");
+    }
+    int min = args[0];
+    for(int i =0;i<args.length;i++){
+    	if(args[i] < min){
+        	min = args[i];
+        }
+    }
+    return min;
+}
+```
+Note:
+```
+上诉代码，唯一一个比较大的缺点是：需要编写1个或者多个参数，但上述代码可以接收不传参数，而且是在运行时才出错，编译期间无法发现。
+```
+#######比较好的做法
+```java
+static int min(int firstArg, int... remainingArgs){
+	int min = firstArg;
+    for(int arg : remainingArgs){
+    	if(arg < min){
+        	min = arg;
+        }
+    }
+    return min;
+}
+```
 
 
 

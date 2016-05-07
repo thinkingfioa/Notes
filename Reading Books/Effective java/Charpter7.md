@@ -213,6 +213,7 @@ Note:
 ```
 如果,客户端提供的类实例作为了内部Map实例的键(key),则明显不能变.
 ```
+
 #######第二点
 ```
 内部组件,返回到客户端,同样需要认真考虑是否需要保护性拷贝.
@@ -398,6 +399,7 @@ public static String classify(Collection< ? > c){
 2. 如果方法使用可变参数，保守的策略是永远不要重载它(42除外)。
 ```
 - 举例：
+
 ```
 比如ObjectOutputStream类，对于每个基本类型，它的Write方法都有变形。并不是采用重载write方法，分别是:writeBoolean(boolean),writeInt(int),writeLong(long)变形。这样可读性变得很强。
 ```
@@ -408,7 +410,81 @@ public static String classify(Collection< ? > c){
 4. 如果导出多个具有相同参数数目的重载方法，但是方法的参数类型具有根本不同，不可能把一种参数的实例转换成另一种参数类型，那么，重载也是可以接受的。比如:ArrayList有一个构造器参数是:int，另一个是Collection参数,就是可以接受。
 ```
 
-#####
+#####要特别留心基本类型的自动装箱，可能导致真正的麻烦
+- 举例：
+```java
+public class SetList {
+    public static void main(String [] args){
+        Set< Integer > set = new TreeSet< Integer>();
+        List< Integer > list = new ArrayList< Integer >();
+        for(int i = -3;i<3;i++){
+            set.add(i);
+            list.add(i);
+        }
+        for(int i =0;i<3;i++){
+            set.remove(i);
+            list.remove(i);
+        }
+        System.out.println(set + " " +list);
+    }
+}
+```
+Note:
+```
+预期结果:[-3 -2 -1] [-3 -2 -1],事实结果是:[-3 -2 -1][0 1 2]
+```
+
+#######输出结果解释
+```
+set.remove(i)选择重载方法是remove(E),它会将i从int自动装箱到Integer中。这是符合我们整个思路的。但是list.remove(i)调用选择重载方法remove(int index)，从列表指定位置去除元素，先去除第一个元素，再去除第二个元素，再去除第三个元素。但是有一种方法是，可以调用list的另一个重载对象:list.remove(Object o).
+```
+```java
+for(int i =0;i<3;i++){
+	set.remove(i);
+    list.remove(Integer.valueOf(i));
+}
+```
+Note:
+```
+如果代码是上面这样的，那么整个输入符合我们期望的结果:[-3 -2 -1][-3 -2 -1]
+```
+
+#######输出结果引发的思考
+```
+正如前面所说：如果重载方法的参数类型有质的区别，那么重载也是可以接受的。比如上面案例的根本原因是：remove(Object)和remove(int)重载导致的，而且再加上java中自动装箱的影响。这也更能体现一个重要观点：自动装箱和泛型加入java语言一部分后，谨慎重载变得更加重要了。
+```
+
+#####如果重载方法执行相同的逻辑，允许重载
+- 举例：
+```
+String类中有重载方法，但执行逻辑一样
+```
+
+```java
+ public boolean contentEquals(StringBuffer sb) {
+        synchronized (sb) {
+            return contentEquals((CharSequence) sb);
+        }
+    }
+    
+public boolean contentEquals(CharSequence cs) {
+        if (value.length != cs.length())
+            return false;
+        // Argument is a StringBuffer, StringBuilder
+        ....
+    }
+```
+Note:
+```
+尽管违反了本条目的规则，但是两个重载方法最终在相同参数被调用，执行相同的功能，重载就不会带来危害。
+```
+
+#####总结
+```
+本节被提出的主要目的是：让程序员知道执行那个重载方法。尽量避免重载。
+```
+
+###第42条：慎用可变参数
 
 
 

@@ -585,5 +585,86 @@ public void foo(int a1,int a2,int a3,int ...rest){}
 ```
 
 ###第43条：返回零长度的数组或者集合，而不是null
+```java
+private final List<Cheese> cheesesInStock = ...;
+/**
+* @return an array containing all of the cheeses in the shop
+* or null if no cheeses are available for purchase.
+*/
+public Cheese[] getCheeses(){
+	if(cheesesInStock.size() == 0){
+    	return null;
+    }
+    ...
+}
+```
+#######客户端调用代码
+```java
+Cheese [] cheeses = shop.getCheeses();
+if(cheeses != null && Arrays.asList(cheeses).contains(Cheese.STILTON)){
+	System.out.println("Jolly good,just the thing");
+}
+```
+#######而不是下面的代码
+```java
+if(Arrays.asList(shop.getCheeses()).contains(Cheese.STILTON)){
+	System.out.println("Jolly good,just the thing");
+}
+```
+Note:
+```
+对于一个返回null而不是零长度数组或者集合的方法，几乎每次用到该方法都要留意处理null特殊情况。很容易忘记写这种代码来处理null返回值
+```
+
+#####对于null返回值比零长度数组好的一个理由讨论
+```
+有人认为:null返回值比零长度数组更好，因为它避免了分配数组所需要的开销。
+```
+#######上面的观点不成立有两个原因
+```
+1. 在这个级别上担心性能问题是不明智的，除非分析表明这个方法正是造成性能问题的主要原型(55)
+```
+```
+2. 如果每次返回同一个零长数组是有可能的，因为零长度数组是不可变的，而把不可变对象有可能被自由共享(15)，比如下面的实现
+```
+```java
+//The right way to return an array from a collection
+private final List<Cheese> cheesesInStock = ...;
+private static final Cheese[] EMPTY_CHEESE_ARRAY = new Cheese[0];
+/**
+* @return an array containing all of the cheeses in the shop
+*/
+public Cheese[] getCheese[](){
+	return cheesesInStock.toArray(EMPTY_CHEESE_ARRAY);
+}
+```
+Note:
+```
+这是一种非常棒的代码手法。零长度数组常量被传递给toArray方法。这种做法永远也不会分配零长度的数组。
+```
+```java
+//The right way to return a copy of a collection
+public List<Cheese> getCheeseList(){
+	if(cheesesInStock.isEmtpy())
+    	return Collections.emptylist();
+    else
+    	return new ArrayList<Cheese>(cheesesInStock);
+}
+```
+Note:
+```
+可以采用集合值的方法，返回同一个不可变的空集合
+```
+
+#####总结
+```
+如果返回类型为数组或者集合的方法没有理由返回null,而不是返回一个零长度的数组或者集合
+```
+
+###第44条：为所有导出的API元素编写文档注释
+
+
+
+
 
 

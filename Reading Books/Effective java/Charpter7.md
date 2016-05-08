@@ -536,5 +536,54 @@ static int min(int firstArg, int... remainingArgs){
 }
 ```
 
+#####一个提醒
+```
+不要将使用final参数数组的现有方法，改造成使用可变参数代替。
+```
+- 举例：
+```java
+public static void main(String args[]) throws Exception {
+      int [] myArray={1,2,3};
+      System.out.println(Arrays.asList(myArray));
+    }
+```
+Note:
+```
+上面的输出毫无意义，这种做法在对象引用类型的数组才有作用。比如将上面的int改为Integer，则可以正确输出。
+```
+#######输出解释
+```
+Array.asList方法将int[]包装到List<int []>类型，如果直接调用printf输出，则输出的是数组的地址，产生令人遗憾的结果。
+```
+#######代替策略
+```
+发现Array提供了Arrays.toString方法，可以使用Arrays.toString代替Arrays.asList
+```
+```java
+System.out.println(Arrays.toString(myArray));
+```
+
+#####性能问题的讨论
+```
+在重视性能的情况下，使用可变参数机制要特别小心。可变参数的每次调用都会导致进行一次数组分配和初始化，可能会影响到性能问题
+```
+#######解决办法
+```
+假设某个方法95%会调用3个或则更少的参数，可以采用声明5个重载的方式,非常有名的例子就是：EnumSet的of方法
+```
+```java
+public void foo(){}
+public void foo(int a1){}
+public void foo(int a1,int a2){}
+public void foo(int a1,int a2,int a3){}
+public void foo(int a1,int a2,int a3,int ...rest){}
+```
+
+#####总结
+```
+当定义参数数目不定的方法时，可变参数方法是一种很方便的方法，但是不应该过渡滥用，同时需要考虑性能问题。
+```
+
+###第43条：返回零长度的数组或者集合，而不是null
 
 

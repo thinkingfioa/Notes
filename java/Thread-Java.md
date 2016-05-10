@@ -53,7 +53,7 @@ public synchronized void sale(){
 - public static ExecutorService newCacheThreadPool()
 > Note:创建一个线程池，如果以前的线程可用，将重用，对于执行短期异步任务的程序，速度快
 - public static ExecutorService newFixedThreadPool(int nThreads)
-> Note:创建一个可重用的，数目固定的线程，以共享的无界队列来运行这些线程
+> Note:创建一个可重用的，数目固定的线程，以共享的无界队列来运行这些线程(主要是这个线程池可以在挂掉或者出异常的情况下，重新启动一个线程来执行接下去的任务)
 - public static ExecutorService newSingleThreadExecutor()
 > Note:创建一个可线程，以共享的无界队列来运行线程
 

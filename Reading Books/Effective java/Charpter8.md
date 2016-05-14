@@ -238,3 +238,84 @@ float和double提供广泛的数值范围，但并没有提供完全精确的结
 ```
 
 ###第49条：基本类型优先于装箱基本类型
+#####Java有一个类型系统由两部分组成
+```
+基本类型:int,double,boolean,float等,, 和引用类型:String,List等.每个基本类型对应于引用类型:Integer,Double,Boolean.
+```
+```
+java1.5版本后增加了自动装箱和自动拆箱.但并没有抹去基本类型和装箱基本类型之间的区别.对这两种类型进行选择很重要
+```
+
+#####基本类型和装箱基本类型之间的区别
+```
+1. 基本类型只有值,而装箱基本类型则具有与它们的值不同的同一性.也就是说,两个装箱基本类型可以具有相同的值和不同的同一性
+```
+```
+2. 基本类型只有功能完备的值,而每个装箱基本类型除了对应基本类型的所有的功能值之外,还有一个非功能值:null
+```
+```
+3. 基本类型通常比装箱基本类型更节省时间和空间.
+```
+
+#####举例说明上面三点区别的重要性
+#######区别1例子:比较器例子
+```
+设计Integer值的比较器,compare方法第一个参数<第二个,等于第二个,大于第二个,分别返回负数,零和正数
+```
+```java
+//Broken comparator - can you spot the flaw?
+Comparator< Integer > naturalOrder = new Comparator< Integer > (){
+	public int compare(Integer first, Integer second){
+    	return first < second ? -1 :(first == second ? 0 : 1) ;
+    }
+};
+```
+Note:
+```
+这个比较器,可以通过很多测试用例.但是有一个致命的Bug:
+naturalOrder.Compare(new Integer(42),new Integer(42));这个代码输出为:1,但我们期望输出应该是0
+```
+#######解释输出:1解释
+```
+表达式:first<second执行计算会导致first和second引用自动拆箱,也就是提取了基本类型值.这一步表达式计算符合预料.
+接下来表达式:first == second,是比较对象引用是否在执行上具有同一性.这当然不具有同一性,所以结果是:false.
+```
+```
+对装箱基本类型运用==操作符几乎总是错误的.
+```
+#######修正比较器的例子
+```java
+Comparator< Integer > naturalOrder = new Comparator< Integer > (){
+	public int compare(Integer first,Integer second){
+    	int f = first;
+        int s = second;
+        return f<s?-1:(f==s?0:1);
+    }
+}
+```
+
+#######区别2例子:混合使用基本类型和装箱基本类型举例
+```
+当一项操作中混合使用基本类型和装箱基本类型时,装箱基本类型就会自动拆箱
+```
+```java
+public class Unbelievable{
+	static Integer i;
+    public static void main(String [] args){
+    	if (i == 42){
+        	System.out.println("Unbelievable");
+        }
+    }
+}
+```
+Note:
+```
+上面代码运行会抛出NullPointerException异常.因为Integer会被自动拆箱,而且在java中所有的对象引用域一样,初始值都是null.
+当对一个null对象引用进行自动拆箱,就会得到NullPointerException异常
+```
+#######区别3例子:考虑性能问题
+```
+借用第5条中的例子
+```
+```java
+```

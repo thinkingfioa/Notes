@@ -392,3 +392,82 @@ Note:这种方法很过缺点
 更好的做法是:简单的编写一个类来描述这个数据集,通常是一个私有的静态成员类(22)
 ```
 #####字符串不适合代替能力表
+```
+有时候,字符串被用于对某种功能进行授权访问
+```
+- 举例:
+```
+考虑设计一个线程局部变量的机制,这个机制提供的变量在每个线程中都有自己的值.
+```
+
+#######第一种设计方法
+```
+利用客户提供的字符串键,对每个线程局部变量的内容进行访问授权
+```
+```java
+//Broken - inappropriate use of string as capability!
+public class ThreadLocal{
+	private ThreadLocal(){}//Noninstantiable
+    //Set the current thread's value for the named variable
+    public static void set(String key,Object value);
+    //Return the current thread's value for the named variable
+    public static Object get(String key);
+}
+```
+Note:
+```
+这个方法一个问题在于:字符串键代表了一个共享的全局命名空间.要使这种方法可行,客户端提供的字符串键必须是唯一的:如果两个客户端碰巧使用同一个字符串,那么会导致两个客户端都失败.
+```
+#######第二种设计方法
+```
+为了修正第一种设计方法,改成使用一个不可伪造的键来代替字符串.
+```
+```java
+public class ThreadLocal{
+	private ThreadLocal(){}//Noninstantiable
+    
+    public static class Key(){ }
+    //Generates a unique ,unforgeable key
+    public static Key getKey(){
+    	return new Key();
+    }
+    public static void set(Key key,Object value);
+    public static Object get(Key key);
+}
+```
+#######第三种设计方法
+```
+实际在,可以在第二种设计方法中,取消静态方法,将ThreadLocal变成线程局部变量.
+```
+```java
+public final class ThreadLocal{
+	public ThreadLocal(){}
+    public void set(Object value);
+    public Object get();
+}
+```
+#######第四种设计方法
+```
+第三种设计方法的API并不是类型安全的,因为当你从线程局部变量得到它时,必须将值从Object转换成它实际的值.
+采用将ThreadLocal类泛型化(26),使这个API变成类型安全的就容易多了
+```
+```java
+public final class ThreadLocal< T > {
+	public ThreadLocal(){}
+    public void set(T valude);
+    public T get();
+}
+```
+Note:
+```
+上面的代码与前面的两个基于键的API相比,更加快速,更优雅.
+```
+#####总结
+```
+1. 如果可以使用更加合适的数据类型,或者编写更加适当的数据类型,就应该避免使用字符串来表示对象.
+```
+```
+2. 经常被错误地用字符串来代替的类型包括基本类型,枚举类型和聚集类型
+```
+
+###第51条:当心字符串连接的性能

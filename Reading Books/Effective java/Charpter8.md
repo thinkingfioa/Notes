@@ -471,3 +471,46 @@ Note:
 ```
 
 ###第51条:当心字符串连接的性能
+```
+想要产生单独一行的输出,或者构造一个字符串来表示较小的,大小固定的对象,使用连接操作符"+"是非常合适的.
+但是,连接操作符"+"不是适合运用到大规模的场景中.为了连接n个字符串而重复地使用字符串连接符,需要n的平方级的时间.
+```
+```
+字符串都是不可变(15)的,两个串连接在一起,内容都是被拷贝的
+```
+- 举例:
+```java
+//Inappropriate use of string concatenation - Performs horribly
+public String statement(){
+	String result = "";
+    for(int i=0;i<numItems();i++){
+    	result +=lineForItem(i);
+    }
+    return result;
+}
+```
+Note:
+```
+上面的代码,可能产生巨大的性能问题.第15条中,应该使用StringBuilder代替String.(StringBuffer类已经过时了,不要使用)
+```
+#######修改后的版本代码
+```java
+public String statement(){
+	StringBuilder b = new StringBuilder(numItem() * LINE_WIDTH);
+    for(int i=0;i<numItems();i++){
+    	b.append(lineForItem(i));
+    }
+    return b.toString();
+}
+```
+Note:
+```
+第二种方法比第一种方法的执行速度快80倍.因为第一种执行方法的时间是平方级增加,第二种做法线性增加.
+```
+
+#####总结
+```
+不要使用字符串连接操作符来合并多个字符串,除非性能无关紧要.如果遇到多个字符串,请使用StringBuilder的append方法.
+```
+
+###第52条:通过接口引用对象

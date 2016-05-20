@@ -592,3 +592,71 @@ ThreadLocal类在Thread中使用了一个包级私有的Map域,将每个线程�
 使用反射需要付出上面三个代价,但是可以获得许多好处.有时无法获取具体类,使用反射创建实例,然后在通过它们的接口或则超类使用.
 RPC(远程过程访问)就是一个非常典型的例子.
 ```
+- 举例:
+```
+下面的程序创建一个Set<String> 实例.第一个命令行参数指定集合类型,其余的命令行参数插入到这个集合中.
+如果第一个参数是＂java.util.HashSet"，则其余参数随机顺序打印
+如果第一个参数是"java.util.TreeSet",则会按字母顺序打印
+```
+```java
+    //Reflective instantiation with interface access
+    public static void main(String [] args){
+        //Translate the class name into a Class object
+        Class< ? > clazz = null;
+        try{
+            clazz = Class.forName(args[0]);
+        }catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        
+        //Instantiate the class
+        Set<String> s = null;
+        try{
+            s = (Set<String>) clazz.newInstance();
+        }catch(IllegalAccessException e){
+            e.printStackTrace();
+        }catch(InstantiationException e){
+            e.printStackTrace();
+        }
+        
+        //Exercise the set
+        s.addAll(Arrays.asList(args).subList(1, args.length));
+        System.out.print(s);
+    }
+```
+Note:
+```
+这段代码经常被用来变成一个通用的集合测试器,测试和操作多个集合实例
+```
+
+#######这段代码有两个缺点
+```
+1. 这个例子会产生3个运行错误,如果不是用反射方式的实例化,3个错误都可以变成编译期错误
+```
+```
+2. 代码相当冗长.
+```
+
+#####反射使用一个非常重要的场景
+```
+如果编写一个包,运行时必须依赖与其他某个包的多个版本.可以在支持包所需要的最小环境下对它进行编译,
+然后使用反射方式访问任何更加新的类或方法
+```
+
+#####总结
+```
+反射机制功能强大,对于特定的复杂系统编程任务,是合适的,但是要注意它的三个缺点.
+```
+```
+如果程序需要和编译时未知的类一起工作,则有可能应该使用反射机制来实例化对象,而访问对象时则使用编译时已知的接口或超类
+```
+
+###第54条:谨慎地使用本地方法
+
+
+
+
+
+
+
+

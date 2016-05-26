@@ -144,3 +144,82 @@ API设计者允许其恢复，则使用受检的异常。如果不允许，使�
 ```
 
 ###第59条：避免不必要地使用受检的异常
+```
+受检异常是Java程序设计语言的一项很好的特性，强迫程序员程序处理异常的条件，大大增加可靠性。
+```
+```
+但是，过分使用受检异常，会使API使用起来非常不方便。所以，请避免不必要的受检异常
+```
+
+#####受检的异常使用原则
+#######使用条件
+```
+如果下面两个条件有任何一个不成立,则更适合使未受检的异常
+```
+```
+1. 正确地使用API并不能保证这种异常条件的产生
+```
+```
+2. 并且一旦产生异常，使用API程序员的程序可以理解采取有用的动作.这种负担被认为是正当的
+```
+-  举例:
+```java
+} catch(TheCheckedException e){
+	throw new AssertionError(); // Can't happen
+}
+```
+```java
+} catch(TheCheckedException e){
+	e.printStackTrace(); // Oh well, we close
+    System.exit(1);
+}
+```
+Note:
+```
+在实践中,catch块几乎总是具有断言(assertion)失败的特征.异常受检的本质并没有为程序员提供任何好处,反而需要付出努力,让程序变的复杂.
+```
+
+#####受检的异常后果
+```
+被一个方法单独抛出的受检异常,会给程序员带来非常高的负担.如果这个方法中还有其他的受检异常,对使用方法的程序员来说,
+每个异常可能都要加一个catch块.
+```
+
+#####将受检的异常变成未受检的异常
+```
+把这个抛出异常的方法分成两个方法,其中一个方法返回一个boolean,表明是否应该抛出异常.
+```
+```java
+// Invocation with checked exception
+try{
+	obj.action(args);
+}catch(TheCheckedException e){
+	// handle exceptional condition
+}
+```
+```
+重构成
+```
+```java
+// Invocation with state-testing method and unchecked exception
+if(obj.actionPermitted(args)){
+	obj.action(args);
+}else{
+	//handle exceptional condition
+}
+```
+Note:
+```
+这种重构可能并不总是恰当的.但是如果可行,会使API使用舒服.
+```
+
+#####总结
+```
+本条目提到的重构,可能在本质上等同于"状态测试方法"(57),并且,同样的告诫依然有效:
+如果对象在缺少外部同步的情况下被并发访问,或者可被外界改变状态,这种重构方式将是不恰当的.
+```
+```
+如果单独的actionPermitted方法必须重复action方法的工作,处于性能,这种API重构不值得做.
+```
+
+###第60条:优先使用标准的异常

@@ -223,3 +223,65 @@ Note:
 ```
 
 ###第60条:优先使用标准的异常
+```
+讨论常见的可重用异常
+```
+```
+Java平台类库提供了一组基本的未受检异常,满足了大多数API的异常抛出需求.
+```
+
+#####专家级程序员与缺乏经验的程序员最大的区别
+```
+专家追求并且通常也能实现高度的代码重用.代码重用是值得提倡的,异常代码也不例外.
+```
+#####重用现有的异常的好处
+```
+1. 它会使你的API更加容易学习和使用,你的API属于习惯用法
+```
+```
+2. 对于使用这些API的程序员而言,可读性会更好,因为它不会出现很多程序员不熟悉的异常.
+```
+
+#####Java类库中的异常
+
+####### 大多数的方法错误调用,都可以使用异常:IllegalArgumentException,IllegalStateException
+```
+1. 非法参数异常:IllegalArgumentException
+
+当调用这传递的参数不合适时,产生这个异常.比如:一个参数代表"某个动作执行次数",但程序却出入一个负数.
+```
+```
+2. 非法状态异常:IllegalStateException
+
+如果对象的状态使用非法,产生这个异常.比如:在某个对象被正确初始化之前,调用者企图使用这个对象,则应该抛出这个异常.
+```
+
+####### 还有一些标准异常被用于特定情况下的非法参数和非法状态
+```
+1. 如果某个方法不允许传入null值的参数,习惯抛出NullPointException,而不是IllegalArgumentException
+```
+```
+2. 如果序列的下标参数传递越界只,习惯抛出IndexOutOfBoundsException,而不是IllegalArgumentException
+```
+
+#######其他常用的异常
+```
+1. 并发状态异常:ConcurrentModificationException
+
+如果某个对象被设计成单线程或者与外部同步机制配合使用,一旦发现被并发修改,则应该抛出ConcurrentModificationException异常
+```
+```
+2. 不支持操作的异常:UnsupportedOperationException
+
+绝大多数对象都会支持它们实现的所有方法.但是可能由于继承某个接口,不得不实现这个接口的某些方法,但是又不想被调用,可以使用
+```
+
+#####最常见的可重用异常
+|异常|使用场合|
+|:---:|:---:|
+|IllegalArgumentException|非null参数值的不正确|
+|IllegalStateException|对方法调用而言,对象状态不合适|
+|NullPointerException|禁止使用null的情况下参数值为null|
+|IndexOutOfBoundsException|下标参数值越界|
+|ConcurrentModificationException|禁止并发修改的情况下,检查到对象并发修改|
+|UnsupportedOperationException|

@@ -305,3 +305,95 @@ Java平台类库提供了一组基本的未受检异常,满足了大多数API的
 ```
 
 ###第61条:抛出与抽象相对应的异常
+```
+如果方法抛出的异常与它的执行任务没有明显的联系,这种情况下可能会让人不知所措.
+```
+- 举例:
+```
+当方法传递有低层抽象抛出的异常时,往往可能污染了更高层的PAI.可能高层的实现在未来的版本中发生变化,需要记得处理低层异常.
+```
+#######解决方法
+```
+异常转译:更高层的实现应该捕获低层的异常,同时抛出可以按照高层抽象进行解释的异常.
+```
+```java
+// Exception Translation
+try{
+//Use lower-level abstraction to do our bidding
+}catch(LowerLevelException e){
+	throw new HigherLevelException();
+}
+```
+
+#####异常转译举例
+```
+异常转译例子取自于AbstractSequentialList类.List接口的一个骨架实现(18)
+```
+```
+List< E > 接口中get方法的规范要求,异常转译是必须的.
+```
+```java
+ /**
+     * Returns the element at the specified position in this list.
+     *
+     * @param index index of the element to return
+     * @return the element at the specified position in this list
+     * @throws IndexOutOfBoundsException if the index is out of range
+     *         (<tt>index &lt; 0 || index &gt;= size()</tt>)
+     */
+    public E get(int index){
+    	ListIterator< E > i = listIterator(index);
+        try{
+        	return i.next();
+        }catch(NoSuchElementException e){
+        	throw new IndexOutOfBoundsException("Index :" + index );
+        }
+    }
+```
+
+##### 异常链
+```
+一种特殊的异常转译形式是异常链.
+如果低层的异常对于调试导致高层异常的问题有帮组,请使用异常链,将低层的异常(原因)传到高层的异常.
+高层的异常提供访问方法(Throwable.getCause)来获得低层异常
+```
+```java
+// Exception Chaining
+try{
+	...// Use lower-level abstraction to do our bidding
+}catch(LowerLevelException cause){
+	throw new HigherLevelException(cause);
+}
+```
+```
+高层异常的构造器将原因传到支持链的超级构造器,因此它最终将被传给Throwable的其中一个运行异常链的构造器
+```
+```java
+//Exception with chaining-aware constructor
+class HigherLevelException extends Exception{
+	HigherLevelException(Throwable cause){
+    	supper(cause);
+    }
+}
+```
+Note:
+```
+大多数标准异常都支持链的构造器,对于没有支持链的异常,可以使用Throwable的initCause方法设置原因.
+程序可以使用getCause方法得到异常原因,这样就可以将原因的堆栈轨迹集成到更高层的异常中
+```
+
+#####不可滥用异常转译
+```
+异常转译与不加选择地从低层传递异常的做法相比有所改进,但是不可滥用
+```
+```
+处理来自低层的异常的最好做法是,在调用低层方法之前确保会执行成功.所以会检查高层方法的参数的有效性,从而避免低层方法抛出异常.
+```
+```
+如果无法避免低层异常,可以让高层绕开这些异常,不做任何处理.但是最好使用日志的方式,将异常记录下来.
+```
+
+#####总结
+```
+如果不能阻止或者处理来至更低层的异常,一般的做法是采用
+```

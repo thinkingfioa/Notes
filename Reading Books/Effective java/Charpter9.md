@@ -284,5 +284,24 @@ Java平台类库提供了一组基本的未受检异常,满足了大多数API的
 |NullPointerException|禁止使用null的情况下参数值为null|
 |IndexOutOfBoundsException|下标参数值越界|
 |ConcurrentModificationException|禁止并发修改的情况下,检查到对象并发修改|
-|UnsupportedOperationException|
-|IllegalAccessException|
+|UnsupportedOperationException|对象不支持用户请求的方法|
+|IllegalAccessException|不允许方法的方法,非法访问异常|
+
+#####其他异常类
+```
+在条件许可的情况下,其他的异常也可以被重用
+```
+```
+如果希望稍微增加更多的失败-捕获(failure-capture)信息(63),可以放心的将现有的异常类子类化
+```
+- 举例:
+```
+实现诸如复数或者有理数之类的算术对象,也可以重用ArithmeticException和NumberFormatException.
+```
+
+#####总结
+```
+可能选择重用哪个异常并不总是那么精确,可能使用场合互相排斥.
+```
+
+###第61条:抛出与抽象相对应的异常

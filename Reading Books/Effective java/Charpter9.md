@@ -285,3 +285,4 @@ Java平台类库提供了一组基本的未受检异常,满足了大多数API的
 |IndexOutOfBoundsException|下标参数值越界|
 |ConcurrentModificationException|禁止并发修改的情况下,检查到对象并发修改|
 |UnsupportedOperationException|
+|IllegalAccessException|

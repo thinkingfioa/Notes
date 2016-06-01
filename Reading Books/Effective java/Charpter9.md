@@ -438,3 +438,62 @@ Note:
 ```
 
 ###第63条:在细节消息中包含能捕获失败的信息
+```
+当程序发生未被捕获异常时,异常类型的toString方法应该更可能的返回有关失败原因的信息.
+也就是说:异常细节消息应该捕获住失败,便于以后分析
+```
+
+#####异常的细节信息
+```
+异常的细节信息应该包含所有"对该异常有贡献"的参数和域的值.
+```
+- 举例:
+```
+比如IndexOutOfBoundsException异常的细节消息应该告诉程序员是下界,还是上界,还是不在界内.
+```
+
+```
+应该提供丰富的堆栈信息,方便程序员结合源码分析代码异常.
+```
+
+#####确保异常的细节消息丰富
+```
+将异常细节消息写入异常的构造器.这样,当发生异常时,构造器根据异常细节自动产生完整的细节消息.
+```
+- 举例:
+```
+比如:IndexOutOfBoundsExcepiton构造器并不是一个String构造器.
+```
+
+```java
+
+public class IndexOutOfBoundsException {
+    /**
+    * Construct an IndexOutOfBoundsException.
+    *
+    * @param lowerBound the lowest legal index value.
+    * @param upperBound the highest legal index value plus one.
+    * @param index the actual index value
+    */
+    public  IndexOutOfBoundsException(int lowerBound, int upperBound,int index){
+      //Generate a detail message tha captures the failure
+        super("Lower bound: "+lowerBound +", Upper bound: "
+            +", Index: "+index);
+        this.lowerBound =lowerBound;
+        this.upperBound = upperBound;
+        this.index = index;
+    }
+}
+```
+Note:
+```
+可以Java平台类库并没有广泛采取这种做法.但是这种做法值的大力推荐,方便程序员易于捕获程序失败原因.
+```
+
+#####总结
+```
+为异常的"失败捕获"信息提供一些访问方法是合适的(58),提供这样的访问方法对于受检的异常,比对于未受检异常更为重要,
+因为,可能提供的捕获信息对从失败中恢复非常游泳.
+```
+
+###第64条:努力使失败保持原子性.

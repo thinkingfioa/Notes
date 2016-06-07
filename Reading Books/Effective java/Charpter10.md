@@ -192,6 +192,68 @@ Java类库中java.util.concurrent.atomic提供一部分可以保证互斥的类.
 ```
 
 ###第67条:避免过度同步
+```
+66条告诫我们缺少同步的危险性.但本条目则担心过度同步可能会导致性能降低,死锁,甚至不确定的行为.
+```
+
+#####设计同步方法或者代码块警告
+```
+1. 在一个被同步的方法或者代码块中,永远不要放弃对客户端的控制.
+换句话说,在一个被同步的区域内部,不要调用设计成要被覆盖的方法,或者由客户端以函数对象的形式提供的方法(21).否则,将无法控制整个同步是否有问题
+```
+- 举例:
+```
+实现一个观察到集合包装.该类允许客户端将元素添加到集合中时预定通知.这就是观察者模式.
+```
+
+```java
+public class ObservableSet< E > extends ForwardingSet< E >{
+    //Broken - invokes alien method from synchronzied block
+    public ObservableSet(Set<E> set) {
+        super(set);
+    }
+    
+    private final List<SetObserver< E > > observers = new ArrayList<SetObserver <E>>();
+    
+    public void addObserver(SetObserver< E >  observer){
+        synchronized(observers){
+            observers.add(observer);
+        }
+    }
+    
+    public void removeObserver(SetObserver< E >  observer){
+        synchronized(observers){
+            observers.remove(observer);
+        }
+    }
+    
+    private void notifyElementAdded(E element){
+        synchronized(observers){
+            for( SetObserver< E >  observer : observers){
+                observer.added(this.element);
+            }
+        }
+    }
+    
+    @Override
+    public boolean add(E element){
+        boolean added = super.add(element);
+        if(added)
+            notifyElementAdded(element);
+        return added;
+    }
+    
+    @Override
+    public boolean addAll(Collection<? extends E> c){
+        boolean result = false;
+        for(E element : c){
+            result != add(element);
+        }
+        return result;
+    }
+}
+
+```
 
 
 

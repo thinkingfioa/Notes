@@ -254,6 +254,190 @@ public class ObservableSet< E > extends ForwardingSet< E >{
 }
 
 ```
+Note:
+```
+方法addObserver方法预定通知,方法removeObserver方法取消预定.最终通过回调接口的实例都会被传递个方法
+```
+```java
+pubilc interface SetObserver< E >{
+	void added(ObserverableSet< E> , E element);
+}
+```
+#####案例检验上面的代码
+```
+1. 粗略检验下,ObservableSet显示正常
+```
+```java
+public static void main(String [] args){
+	ObservableSet< Integer > set = new ObservableSet<Integer > (new HashSet<Integer> ());
+    set.addObserver(new SetObserver<Integer> (){
+    	public void added(ObservableSet< Integer> s, Integer e){
+        	System.out.println(e);
+        }
+    });
+    for(int i = 0;i<100;i++){
+    	set.add(i);
+    }
+}
+```
+Note:
+```
+上面的程序是典型的将added方法交予用户使用,允许客户端自定义逻辑.程序执行正常
+```
+```
+2. 想实现,如果某个值为23,观察者要将自身删除.
+```
+```java
+set.addObserver(new SetObserver<Integer> (){
+    	public void added(ObservableSet< Integer> s, Integer e){
+        	System.out.println(e);
+            if(e == 23){
+            	s.removeObserver(this);
+            }
+        }
+    });
+```
+Note:
+```
+程序会抛出ConcurrentModificationException异常,
+```
+```
+问题在于,当notifyElementAdded调用观察者的added方法时,正处于遍历observers列表的过程,不允许进行删除.
+```
+```
+3. 尝试一个比较奇特的例子:编写一个试图取消预订的观察者,但是不直接调用removeObserver.而是用另一个线程的服务完成
+这个观察者使用一个executorService(68)
+```
+```java
+set.addObserver(new SetObserver<Integer> (){
+    	public void added(final ObservableSet< Integer> s, Integer e){
+        	System.out.println(e);
+            if(e == 23){
+            	ExecutorService executor =
+                	Executors.newSingleThreadExecutor();
+                final SetObserver<Integer> observer = this;
+                try{
+                	executor.submit(new Runnable(){
+                    	public void run(){
+                        	s.removeObserver(observer);
+                        }
+                    }).get();
+                }catch(ExecutionExceptin ex){
+                	throw new AssessertionError(ex.getCause());
+                }catch(IntegeruptedException ex){
+                	throw new AssessertionError(ex.getCause());
+                }finally{
+                	executor.shutdown();
+                }
+            }
+        }
+    });
+```
+Note:
+```
+这次,程序可能出现死锁.后台线程调用s.removeObserver,企图锁定observers,但是主线程掌握锁,并且主线程在等待线程删除观察者.
+```
+
+#####解决方案
+#######解决方案 1
+```
+使用将外来方法的调用移出同步的代码块来解决这个问题.对于notifyElementAdded方法,还涉及给observers列表拍张"快照".
+```
+```java
+// Alien method moved outside of synchronized block - open calls
+private void notifyElementAdded(E element){
+	List<SetObserver< E > > snapshot = null
+    synchronzied(observers){
+    	snapshot = new ArrayList<SetObserver< E > > (observers);
+    }
+     for( SetObserver< E >  observer : snapshot){
+         observer.added(this.element);
+    }
+}
+```
+#######解决方案 2
+```
+自从Java 1.5版本后,Java类库提供一个并发集合(69):CopyOnWriteArrayList.
+```
+```
+CopyOnWriteArrayList会重新拷贝整个底层数组,实现所有的写操作.如果大量使用CopyOnWriteArrayList的性能将大受影响.但是对于观察者列表来说,由于几乎不会改动,并且经常被遍历,非常合适使用
+```
+```java
+public class ObservableSet< E > extends ForwardingSet< E >{
+    public ObservableSet(Set<E> set) {
+        super(set);
+    }
+    
+    private final List<SetObserver< E > > observers
+    	= new CopyOnWriteArrayList<SetObserver <E> >();
+    
+    public void addObserver(SetObserver< E >  observer){
+        observers.add(observer);
+    }
+
+    public boolean removeObserver(SetObserver< E >  observer){
+        return observers.remove(observer);
+    }
+
+    private void notifyElementAdded(E element){
+       for( SetObserver< E >  observer : observers){
+            observer.added(this.element);
+       }
+    }
+
+    @Override
+    public boolean add(E element){
+        boolean added = super.add(element);
+        if(added)
+            notifyElementAdded(element);
+        return added;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c){
+        boolean result = false;
+        for(E element : c){
+            result != add(element);
+        }
+        return result;
+    }
+}
+```
+#####开放调用
+```
+在同步区域之外被调用的外来方法被称为"开放调用".除了避免死锁外,同时还可以增加并发性.
+```
+```
+我们应该在同步区域内做尽可能少的工作.获得锁,检查共享数据,根据需要转换数据,然后释放锁.任何耗时的动作,都应该在同步区域外进行.
+```
+
+#####同步性能讨论
+```
+永远不要过度同步.在多核时代,过度同步会浪费VM优化的巨大潜能.
+```
+```
+1. 如果一个可变的类要并发使用,应该使这个类变成线程安全的(70).通过内部同步,将会获得明显比外部锁定的整个对象更高的并发性.
+```
+```
+2. 如果在内部同步了类,就可以使用不同的方法来实现高并发性.例如分拆锁,分离锁和非阻塞并发控制.
+```
+```
+3. 如果方法修改了静态域,那么你就必须同步这个域的访问,即使它往往只用于单个线程.
+客户要在这个方法上执行外部同步是不可能的.因为不可能保证其他不相关的客户也会执行外部同步.比如:前面的例子:generateSerialNumber
+```
+
+#####总结
+```
+1. 为了避免死锁和数据破坏,千万不要从同步区域内部调用外来的方法.也就是说,尽量限制同步区域内部的工作量.
+```
+```
+2. 当你设计一个可变类的时候,要考虑下它们是否该自己完成同步操作.
+```
+```
+3. 避免过度同步,只有有足够的理由才在内部同步类.
+```
+
+###第68条:executor和task优先于线程
 
 
 

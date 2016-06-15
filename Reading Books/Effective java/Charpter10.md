@@ -438,6 +438,53 @@ public class ObservableSet< E > extends ForwardingSet< E >{
 ```
 
 ###第68条:executor和task优先于线程
+#####executor使用
+```
+1. 创建一个单线程处理器
+```
+```java
+ExecutorService executor = Executors.newSingleThreadExecutor();
+executor.execute(runnable);
+```
+```
+2. 创建多个线程来处理队列的请求.
+```
+```java
+ExecutorService executor = Executors.newCachedThreadPool();
+```
+Note:
+```
+如果对于大负载的服务器来说,缓存的线程池不是好的方法.在缓存的线程中,被提交的任务是立即响应的,直接交给线程执行.
+如果没有线程可用,则创建一个新的线程.
+```
+```
+3. 创建固定线程数目的线程池
+```
+```java
+ExecutorService executor = Executors.newFixedThreadPool(100);
+```
+Note:
+```
+这样线程池的个数控制在100,控制线程池的上限.
+```
+
+#####抽象的工作单元--任务
+```
+以后应该尽量不要直接使用线程.使用ExecutorService
+```
+```
+任务有两种:Runnable及其近亲Collable(有返回值).ExecutorService执行会非常灵活
+```
+
+#####定时器:timer
+```
+timer一般执行定时任务.如果timer线程抛出未捕捉的异常,timer就会停止执行.但是线程池executor支持多个线程,并且可以优雅的从抛出未受检异常的任务中恢复.
+```
+
+#####总结
+```
+Executor Framework的完整处理方法超出本书讨论内容,可以参考<<Java Concurrency in Practice>>(中文:Java并发编程实践)
+```
 
 
 

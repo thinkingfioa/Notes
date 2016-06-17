@@ -486,6 +486,18 @@ timer一般执行定时任务.如果timer线程抛出未捕捉的异常,timer就
 Executor Framework的完整处理方法超出本书讨论内容,可以参考<<Java Concurrency in Practice>>(中文:Java并发编程实践)
 ```
 
+### 第69条:并发工具优先于wait和notify
+```
+想要正确的使用wait和notify比较困难,就应该用更高级的并发工具来代替
+```
+```
+java.util.concurrent中提供更高级的工具分三类:Executor Framework(68), 并发集合以及同步器.并发集合和同步器将在本条目中进行简单的阐述
+```
+#####并发集合
+```
+并发集合为标准的集合接口(eg:List,Queue,Map)提供了高性能的并发实现.为了提供高并发性,这些实现在内部自己管理同步(67)
+```
+
 
 
 

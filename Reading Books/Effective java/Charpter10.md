@@ -497,8 +497,92 @@ java.util.concurrent中提供更高级的工具分三类:Executor Framework(68),
 ```
 并发集合为标准的集合接口(eg:List,Queue,Map)提供了高性能的并发实现.为了提供高并发性,这些实现在内部自己管理同步(67)
 ```
+```
+并发集合保证内部同步并发,但不可能排除并发活动.这意味着客户无法原子的对并发集合进行方法调用.
+有些集合接口已经通过依赖状态的修改操作进行了扩展,将集合基本操作合并到单个原子操作中
+```
+- 举例:
+```
+ConcurrentMap扩展了Map接口,并添加集合方法,包括putIfAbsent(key,value);
+```
+```java
+private static final ConcurrentMap<String, String > map = new ConcurrentHashMap<String, String> ();
 
+public static String intern(String s){
+	String previousValue = map.putIfAbsent(s,s);
+    return previousValue == null ? s : previousValue;
+}
+```
+Note:
+```
+事实上可以做的更好写,因为ConcurrentHashMap对获取操作(如get)进行了优化.
+```
+```java
+//Concurrent canonicalizing map atop ConcurrentMap - faster
+public static String intern(String s){
+	String result = map.get(s);
+    if(null == result){
+    	result = map.putIfAbsent(s,s);
+        if(null == result){
+        	result = s;
+        }
+    }
+    return result;
+}
+```
 
+#####阻塞操作扩展的集合接口
+```
+通过阻塞操作的集合接口,会一直等待(或阻塞)到成功执行为止.
+```
+#######BlockingQueue
+```
+BlockingQueue扩展了Queue接口,并添加了包括take在内的集合方法.也就是通常所说的生产者-消费者队列
+一个或者多个生产者线程在工作队列中添加工作项目,如果满了,就等待
+一个或者多个消费者线程从工作队列中取出并且处理.
+不出所料,大多数ExecutorService实现(包括ThreadPoolExecutor)都使用了BlockingQueue(68)
+```
+#####同步器
+```
+同步器是一些线程能够等待另一个线程的对象,允许它们协调动作.最常用的同步器是CountDownLatch和Semaphore
+```
+#####倒计数锁存器
+```
+倒计数锁存器是一次性的障碍,允许一个或者多个线程等待一个或者多个其他线程来做某些事情.
+CountDownLatch的唯一构造器带有一个int类型的参数,这个int参数是指允许所有在等待的线程被处理之前,必须在锁存器上调用CountDown方法的次数
+```
+- 举例:
+```
+假设想要构建一个简单的框架,用来给一个动作的并发执行定时
+```
+```java
+//Simple framework for timing concurrent execution
+public static long time(Executor executor, int concurrency, final Runnable action) throws InterruptedException{
+	final CountDownLatch ready = new CountDownLatch(concurrency);
+    final CountDownLatch start = new CountDownLatch(1);
+    final CountDownLatch done = new CountDownLatch(concurrency);
+    for(int i = 0;i<concurrency;i++ ){
+    	executor.execute(new Runnable(){
+        	public void run(){
+            	ready.countDown(); // Tell timer we're ready
+                try{
+                	start.await(); //Wait till peers are ready
+                    action.run();
+                }catch(InterruptedException e){
+                	Thread.currentThread().interrupt();
+                }final{
+                	done.countDown();//Tell timer we're done
+                }
+           }
+        });
+    }
+    ready.await();
+    long startNanos = System.nanoTime();
+    start.countDown();
+    done.await();
+    return System.nanoTime() - startNanos;
+}
+```
 
 
 

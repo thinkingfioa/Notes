@@ -584,6 +584,85 @@ public static long time(Executor executor, int concurrency, final Runnable actio
 }
 ```
 
+Note:
+```
+1. 第一个倒计数锁存器是:ready,工作线程用它来告诉timer线程它们已经准备好了.
+```
+```
+2.  第二个倒计数锁存器是:start,最后一个工作线程调用ready.countDown时,timer线程记录下起始时间,并调用start.countDown,允许工作线程继续进行.
+```
+```
+3. 第三个倒计数锁存器是:down,直到最后一个工作线程运行该动作,并调用down.countDown.一旦调用这个,timer线程就会苏醒,并记录下时间
+```
+#######总结
+```
+三个倒计数的锁存器,可以使用一个CyclicBarrier来代替,这样代码更加简洁.(参考:Java并发编程实战)
+```
+
+#####wait和notify用法
+```
+应该优先使用并发工具,而不是使用wait和notify,但可能必须维护使用wait和notify遗留代码.
+```
+```
+1. wait方法被用来使线程等待某个条件
+wait必须在同步区域内部被调用,这个同步区域将对象锁定在调用wait方法的对象上
+```
+- 举例:
+```java
+// The standard idiom for using the wait method
+synchronzied(obj){
+	while(<condition does not hold>)
+    	obj.wait(); //Releases lock, and reacquires on wakeup
+    ...// Perform action appropriate to condition
+}
+```
+Note:
+```
+始终应该使用wait循环模式来调用wait方法;永远不要在循环之外调用wait方法.循环会在等待之前和之后测试条件
+```
+
+#######等待之前测试条件
+```
+等待之前测试条件,当条件已经成立时就跳过等待,这将可以确保活性(liveness).
+如果条件已经成立,并且在线程等待之前,notify(或者nitifyAll)方法已经被调用,则无法保证该线程将会从等待中苏醒.
+```
+#######等待之后测试条件
+```
+等待之后测试条件,如果条件不成立的化继续等待,可以确保安全性(safety)
+如果条件不成立的时候,如果线程继续执行,则可能会破坏被锁保护的约束关系
+```
+- 举例:
+```
+Note:当测试条件不成立时,下面的理由将会使一个线程苏醒过来
+```
+- 另一个线程可能已经得到了锁,并且从一个线程调用notify那一刻起,到等待线程苏醒过来的这段时间,得到锁的线程已经改变了受保护的状态
+- 条件不成立,但是另一个线程可能意外地或恶意地调用notify
+- 通知线程在唤醒等待线程时可能过度"大方".例如,即使只有某一些等待线程的条件已经被满足,但是通知线程可能仍然会调用notifyAll
+- 在没有通知的情况下,等待线程也可能会苏醒.常称:伪唤醒.
+
+#####notify和notifyAll使用
+```
+notify唤醒正在等待的线程,假设有这样的线程存在.而notifyAll唤醒的则是所有等待的线程
+```
+```
+一种保守的做法是:总是使用nofityAll.因为它可以保证你将会唤醒所有需要被唤醒的线程.可能也会唤醒其他线程,
+但这不影响程序的正确性,线程醒来后,会检查它们等待的条件,如果条件不满足,就会继续等待.
+```
+```
+从优化的角度来说,如果处于等待状态的所有线程都在等待同一个条件,那么每次将只有一个线程从这个条件中被唤醒,应该选择调用notify,而不是notifyAll
+```
+
+#####总结
+```
+1. wait和notify非常难用,而java.util.concurrent提供更高级的语言,所以没有理由在新的代码中使用wait和notify.
+```
+```
+2. 如果维护使用wait和notify的代码,务必确保始终是利用标准的模式从while循环内部调用wait.
+一般情况下,优先使用notifyAll,而不是使用notify.
+```
+
+###第70条:线程安全性的文档化
+
 
 
 

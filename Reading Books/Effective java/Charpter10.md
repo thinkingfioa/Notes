@@ -749,13 +749,82 @@ Note:
 1. 正常初始化的一个实例域.
 ```
 - 举例:
+
 ```java
 // Normal initialization of an instance field
 private final FieldType filed = ComputeFieldValue();
 ```
+
 ```
-2. 
+2. 如果要利用延迟优化来破坏初始化的循环,就要使用同步访问方法
 ```
+- 举例:
+
+```java
+// Lazy initialization of instance field - synchronized accessor
+private FieldType field;
+
+synchronized FieldType getField(){
+	if(null == field){
+    	field = computeFieldValue();
+    }
+    return field;
+}
+```
+
+```
+3. 推荐一种对静态域使用的延迟初始化:lazy initialization holder class
+```
+- 举例:
+
+```java
+// Lazy initialization holder class idiom for static fields
+private static class FieldHolder{
+	static final FieldType field = computeFieldValue();
+}
+
+static FieldType getField(){
+	return FieldHolder.field;
+}
+```
+Note:
+```
+这种方法非常优秀,保证同步访问.
+```
+
+```
+4.  推荐一种对实例域使用的延迟初始化:双重检查模式
+```
+```
+避免该域在初始化后,访问这个域时所带来的锁定开销(67).
+利用两次检查模式:第一次检查有没有锁定,看看这个域是否被初始化;第二次检查时有锁定.
+只有当第二次检查时表明这个域没有被初始化,才会调用computeFieldValue方法初始化.所以已经被初始化的就不会有锁定,域需要被声明为volatile
+```
+- 举例:
+
+```java
+//Double-check idiom for lazy initialization of instance fields
+private volatile FieldType field;
+FieldType getField(){
+	FieldType result = field;
+    if(null == result){   // First check (no locking)
+    	synchronzied(this){
+        	result = field;
+            if(null == result){  //Second check (with locking)
+            	field = result = computeFieldValue();
+            }
+        }
+    }
+    return result;
+}
+```
+
+####### 使用局部变量result解释
+```
+这个变量的作用是确保field只在已经初始化的情况下读取一次,可以提升性能,给并发编程应用了一些标准.一般上述方法比没用局部变量的方法块25%
+```
+
+#######双重检查模式的变形:单重检查模式
 
 
 

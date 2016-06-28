@@ -855,7 +855,78 @@ Note:
 ```
 
 ###第72条:不要依赖于线程调度器
+```
+当有多个线程时,可能有人使用线程调度器来控制线程.但是,这些调度器可能和操作系统紧密相关,任何依赖于线程调度器来达到正确性或者性能要求的程序,很可能不能移植.
+```
+```
+编写健壮的,响应良好的,可移植的多线程应用程序,最好的办法就是确保可运行程序的平均数量不明显多于处理器的数量.这样线程调度器没有更多的选择.在不同的线程调度算法下,程序的行为不会有很大的变化.
+```
+```
+保持可运行线程数量尽可能少的主要方法是:让每个线程做有意义的工作,然后等待更多有意义的工作.
+所以Executor Framework(68)应该规定线程池的大小,任务也不应该太小,否则分配的开销也会影响性能.
+```
 
+#####注意线程的忙等现象
+```
+忙等现象这种做法会极大的增加处理器的负担,降低同一机器上其他进程可以完成的有用工作量.
+```
+- 举例:
+```java
+// Awful CountDownLatch implementation - busy-waits incessantly!
+public class SlowCountDownLatch{
+	private int count;
+    public SlowCountDownLatch(int count){
+    	if(count < 0){
+        	throw new IllegalArgumentException(count + "<0");
+        }
+        this.count = count;
+    }
+    public void await(){
+    	while(true){
+        	synchronized(this){	
+            	if(count == 0)
+                	return;
+            }
+        }
+    }
+    public synchronized void countDown(){
+    	if(count != 0){
+        	count--;
+        }
+    }
+}
+```
+Note:
+```
+当有1000线程锁存器中等待时候,SlowCountDownLatch比CountDownLatch慢2000倍.
+这提示我们系统中有一个或者多个线程处于不必要的可运行状态,将会大大影响性能.
+```
+
+#####Thread.yield
+```
+常常有些新手,发现一个程序因为某些线程无法获得足够的CPU时间,则使用Thread.yield来"修正"该程序.
+这种做法不可取,因为yield在每个JVM版本中,对性能的影响都是不确定的.建议是:重新构造应用程序,减少并发运行线程数量
+```
+```
+应该使用Thread.sleep(1)代替Thread.yield来进行并发测试.千万不要使用Thread.sleep(0),它会立即返回.
+```
+#####线程优先级使用
+```
+同样的警告:线程优先级是Java平台最不可移植的特征.
+```
+
+#####总结
+```
+不要让程序依赖于线程调度器,否则,程序将不健壮,也不具有可移植性
+```
+```
+也不要依赖Thread.yield或者线程优先级.
+```
+```
+请记住,永远不要"修正"一个原本并不能工作的程序.
+```
+
+###第73条:避免使用线程组
 
 
 

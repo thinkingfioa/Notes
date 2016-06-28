@@ -825,7 +825,36 @@ FieldType getField(){
 ```
 
 #######双重检查模式的变形:单重检查模式
+```
+单重检查模式适用于:初始化一个可以接受重复初始化的实例域.可以省略第二次查询
+```
+```java
+// Single-check idiom - can cause repeated initialization
+private volatile FieldType field;
 
+private FieldType getField(){
+	FieldType result = field;
+    if(null == result){
+    	field = result = computeFieldValue();
+    }
+    return result;
+}
+```
+Note:
+```
+如果去除关键字:volatile,则增加了额外的初始化(知道访问该域的每个线程都进行一次初始化)
+```
+
+#####总结
+```
+1. 大多数的域都应该正常的初始化,而不是延迟初始化.
+```
+```
+2. 为了达到性能目标,或者为了破坏有害的初始化循环,而需要延迟一个域.
+如果是实例域,可以使用双重检查模式;如果是静态域,使用Lazy initialization holder class idiom;如果可以接受重复初始化实例域,也可以使用单重检查模式.
+```
+
+###第72条:不要依赖于线程调度器
 
 
 

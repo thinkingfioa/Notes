@@ -286,6 +286,7 @@ Java平台类库提供了一组基本的未受检异常,满足了大多数API的
 |ConcurrentModificationException|禁止并发修改的情况下,检查到对象并发修改|
 |UnsupportedOperationException|对象不支持用户请求的方法|
 |IllegalAccessException|不允许方法的方法,非法访问异常|
+|InvalidObjectException|不合理对象异常|
 
 #####其他异常类
 ```

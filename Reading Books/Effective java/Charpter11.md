@@ -91,7 +91,111 @@ private void readObjectNoData() throws InvaliaObjectException{
 	throw new InvaliaObjectException("Stream data required");
 }
 ```
+#####如何实现父类不允许序列化,而允许子类序列化
+```
+如果一个类专门为了继承而设计的类,不可序列化.特别是超类并没有提供无参构造器,但其子类可能允许实现序列化,那么即使其子类实现了Serializable接口,也无法序列化.
+所以,对于为了继承而设计的不可序列化的类,应该考虑提供一个无参构造器.
+```
+```
+最好在所有的约束条件都已经建立的情况下再创建对象(15).不可盲目地为一个类增加无参构造器和单独的初始化方法,不然可能破坏约束关系.
+```
+#######解决办法
+```
+有一种办法可以给"不可序列化但可扩展的类"增加无参构造器,同时避免上面的不足.
+```
+- 举例:不可序列化父类
+```java
+public abstract class AbstractFoo {
+    //Nonserializable stateful calss allowing serializable subclass
+    private int x, y;// Our state
+    
+    //This enum and field are used to tract initialization
+    private enum State{
+        NEW,INITIALIZING,INITIALIZED
+    }
+    private final AtomicReference<State> init = new AtomicReference<State>(State.NEW);
+    public AbstractFoo(int x, int y){
+        initialize(x,y);
+    }
+    // This constructor and the following method allow
+    // subclass's readObject method to initialize our state
+    protected AbstractFoo(){}
+    protected final void initialize(int x, int y){
+        if(!init.compareAndSet(State.NEW, State.INITIALIZING)){
+               throw new IllegalStateException(" Already initialized");
+        }
+        this.x = x;
+        this.y = y;
+        //Do anything else the original constructor did
+        init.set(State.INITIALIZED);
+    }
+    protected final int getX(){checkInit(); return x;}
+    protected final int getY(){checkInit(); return y;}
+    // Must call from all public and protected instance methods
+    private void checkInit(){
+            if(init.get() != State.INITIALIZED){
+                throw new IllegalStateException("Uninitialized");
+            }
+            ///...
+    }
+}
+```
+Note:
+```
+增加一个受保护的无参构造器,和一个初始化方法.初始化方法与正常的构造器具有相同的参数,并且建立起同样的约束关系
+```
+```
+AbstractFoo类中所有的公有的和受保护的实例方法被调用之前都必须调用checkInit方法来检查
+```
+```
+init域是一个原子引用,这种模式利用compareAndSet方法来操作枚举原子引用,这是很好的线程安全状态机的通用实现.
+```
+- 举例:子类序列化
+```java
+public class Foo extends AbstractFoo implements Serializable{
+    private static final long serialVersionUID = -7508750994790720854L;
 
+    // Serializable subclass of nonserializable stateful class
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException{
+        s.defaultReadObject();
+        //Manually deserialize and initialize superclass state
+        int x = s.readInt();
+        int y = s.readInt();
+        initialize(x, y);
+    }
+    
+    private void writeObject(ObjectOutputStream s) throws IOException{
+        s.defaultWriteObject();
+        //Manually serialize superclass state
+        s.writeInt(getX());
+        s.writeInt(getY());
+    }
+    
+    //Constructor does not use the fancy mechanism
+    public Foo(int x, int y){
+        super(x, y);
+    }
+}
+```
+
+#####内部类与静态成员类实现Serializable接口
+```
+内部类(22)不应该实现Serializable接口.
+```
+```
+静态成员类却可以实现Serializable接口
+```
+
+#####总结
+```
+千万不要认为实现Serializable接口很容易,因为后期的维护和更新非常耗费精力,所以之前要慎重考虑清楚.
+```
+```
+如果遇到一个为了继承而设计的类,需要更加小心.如果允许子类实现Serializable接口,则需要提供一个可访问的无参构造器.
+这个方案允许子类实现Serializable接口,但有不是强行需要实现Serializable接口.
+```
+
+###第75条:考虑使用自定义的序列化形式
 
 
 

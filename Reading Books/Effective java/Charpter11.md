@@ -196,7 +196,54 @@ public class Foo extends AbstractFoo implements Serializable{
 ```
 
 ###第75条:考虑使用自定义的序列化形式
+```
+如果一个类实现了Serializable接口，并且使用了默认的序列化形式，那么将可能永远也无法彻底摆脱这个类。
+```
+```
+如果没有先认真考虑默认序列化是否合适，那么则不要贸然接受。一般来讲，只有当自行设计的自定义序列化形式和默认的序列化形式基本相同时，才会接受默认的序列化形式。
+```
+#####默认序列化
+```
+默认序列化形式描述了该对象内部所包含的数据，以及每个从这个对象到达其他的对象的内部数据。
+同时也描述了所有这些对象被链接起来后的拓扑结构。但是，理想的序列化形式应该只包含该对象的逻辑数据。
+```
+```
+如果一个对象的物理表示法等同于它的逻辑内容，可能适合使用默认的序列化形式。
+```
+- 举例：
+```java
+//Good candidate for default serialized form
+public class Name implements Serializable{
+	private final String lastName;
+    private final String firstName;
+    private final String middleName;
+    //...
+}
+```
+Note:
+```
+从逻辑的角度看，名字的确由三个串组成。实例域精确反映了它的逻辑内容。
+```
+#######还需要提供readObject方法
+```
+即使你确定使用默认的序列化形式是合适的，通常还必须提供一个readObject方法以保证约束性和安全性。
+对于上例Name类而言，readObject方法必须确保lastName和firstName是非null.
+```
 
+#####物理结构无法反映逻辑结构的探讨。
+```
+另一个极端的例子，StringList类表示一个字符串列表(不考虑使用List)
+```
+- 举例:
+```java
+//Awful candidate for default serialized form
+public final class StringList implements Serializable{
+	private int size = 0;
+    private Entry head = null;
+    
+    private static class entry implements Seria
+}
+```
 
 
 

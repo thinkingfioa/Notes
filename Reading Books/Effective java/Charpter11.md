@@ -244,6 +244,10 @@ public final class StringList implements Serializable{
     private static class entry implements Seria
 }
 ```
+Note:
+```
+逻辑意义上:一个字符串序列;物理意义上:双向列表.如果采用物理意义上的序列化形式,则会显示出链表的所有项,以及项之间的双向链接.
+```
 
 
 

@@ -241,13 +241,41 @@ public final class StringList implements Serializable{
 	private int size = 0;
     private Entry head = null;
     
-    private static class entry implements Seria
+    private static class entry implements Serializable{
+    	String data;
+        Entry next;
+        Entry previous;
+    }
+    //...
 }
 ```
 Note:
 ```
 逻辑意义上:一个字符串序列;物理意义上:双向列表.如果采用物理意义上的序列化形式,则会显示出链表的所有项,以及项之间的双向链接.
 ```
+
+#######物理表示法和逻辑数据冲突
+```
+如果一个对象的物理表示法与它的逻辑数据内容有实质性的区别时,使用默认序列化形式有四大缺点
+```
+
+```
+1. 使这个类的导出API永远地束缚在该类的内部表示法上
+比如上面的例子,尽管StringList.Entry是私有类,但序列化将其变成公有API.该类永远也摆脱不掉维护链表项所需要的代码
+```
+```
+2.消耗过多的空间
+上面的例子,需要维护每项之间的所有链接关系.远远超出我们需要维护的逻辑数据.
+```
+```
+3. 消耗过多的时间
+序列化逻辑并不了解的对象图的拓扑关系,需要进行图遍历过程.上例就需要沿着next进行遍历
+```
+```
+4. 引起栈溢出
+因为需要进行图遍历,据作者所言,当StringList实例包含1258个元素时,对其序列化就会导致出错.
+```
+#####
 
 
 

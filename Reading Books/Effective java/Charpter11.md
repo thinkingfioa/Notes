@@ -275,8 +275,114 @@ Note:
 4. 引起栈溢出
 因为需要进行图遍历,据作者所言,当StringList实例包含1258个元素时,对其序列化就会导致出错.
 ```
-#####
+#####如何构建逻辑数据
+```
+比如上面的例子:StringList类,只需先包含链表中字符串的数目,再紧跟者这些字符串即可.这样就构成了StringList所表示的逻辑数据.
+```
+```
+改写StringList类,提供writeObject和readObject方法,用来实现序列化.同时使用transient修饰的实例域,会从序列化中省略
+```
+- 举例:
+```java
+public class StringList {
+    //StringList with a reasonable custom serialized form
+    private transient int size = 0;
+    private transient Entry head = null;
+    
+    //No longer Serializable
+    private static class Entry{
+        String data;
+        Entry next;
+        Entry previous;
+    }
+    
+    public final void add(String s){
+        //...
+    }
+    
+    private void writeObject(ObjectOutputStream s) throws IOException{
+        s.defaultWriteObject();
+        s.writeInt(size);
+        //Write the String List
+        for(Entry e = head ; e != null ; e = e.next){
+            s.writeObject(e.data);
+        }
+    }
+    
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException{
+        s.defaultReadObject();
+        int numElements = s.readInt();
+        //Read in all elements and insert them in list
+        for(int i=0;i < numElements; i++){
+            add((String) s.readObject());
+        }
+    }
+}
+```
 
+Note:
+```
+1. 虽然StringList的所有域都是transient,但请仍然使用defaultWriteObject,和defaultReadObject.因为这样会极大的增加灵活性,
+保持向前或向后的兼容性.
+```
+```
+2. 这种修订后版本的序列化性能得到巨大的提升
+```
 
+#####默认序列化可能会破坏对象约束关系
+```
+有些对象的约束关系要依赖与特定实现细节,这样采用默认的序列化,可能对象都无法恢复.
+```
+- 举例:
+```
+考虑散列表情况,物理表示法包含"键-值"项散列桶.即使在同一个JVM实现中,可能也无法保证每次运行结果一样.
+所以,对于散列表而言,接收默认的序列化将会构成一个严重的Bug.所以散列表对象进行序列化和反序列化产生对象,会对约束关系遭到破坏.
+```
+
+#####序列化注意点
+
+#######transient关键字的使用
+```
+当defaultWriteobject被调用时,每个未被标记为transient的实例域都会被序列化.
+```
+```
+序列化时,对于冗余的域或则可以通过其他域计算得到的域,请使用transient关键字.
+```
+```
+在决定一个域是否需要transient关键字时,一个重要的考察点:该域的值是否属于对象的逻辑状态的一部分.
+如果正在使用自定义的序列化形式,应该将大多数或者所有的域标记为transient.就像StringList那样
+```
+#######默认序列化
+```
+当使用默认序列化时,那么被标记为transient域被反序列化时,这些域会被初始化为它们的默认值(false, 0, null).
+```
+```
+如果这些值不能被transient域接受,第一种方法:可以提供一个readObject方法,先调用defaultReadObject,然后将这些域恢复为可接受的值(76).第二种方法:这些域被延迟到第一次被使用的时候才开始初始化(71)
+```
+#######对象序列化时,同步问题
+```
+无论是否使用默认序列化,读取整个对象状态的任何其他方法上强制任何同步时,那么也必须在对象序列化上强制这种同步.
+如果是对象是一个线程安全对象(70),即使使用的是默认序列化形式,也必须提供并发的序列化
+```
+```java
+//writeObject for synchronzied class with default serialized form
+private synchronized void writeObject(ObjectOutStream s) throws IOException{
+	s.defaultWriteObject();
+}
+```
+Note:
+```
+这样将会避免其他动作相同的锁排列约束条件,解决死锁危险
+```
+
+#####总结
+```
+1. 当你考虑将类变成可序列化(74)时,只有当默认序列化形式满足对象的逻辑状态时,才可以使用默认序列化
+```
+```
+2. 当采用自定义方法序列化时,仔细思考其逻辑表示.因为这将影响后期维护代价
+```
+
+###第76条:保护性地编写readObject方法
 
 

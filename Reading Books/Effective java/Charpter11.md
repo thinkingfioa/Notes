@@ -384,5 +384,188 @@ Note:
 ```
 
 ###第76条:保护性地编写readObject方法
+```
+第39条中介绍了不可变的日期范围类,包含Date域.并且提供器构造器和访问方法保护性的拷贝Date对象
+```
+```java
+public final class Period{
+	private final Date start;
+    private final Date end;
+    
+    public Period(Date start, Date end){
+    	this.start=new Date(start.getTime());
+        this.end = new Date(ent.getTime());
+        if(this.start.compareTo(this.end) > 0){
+        	throw new IllegalArgumentException(start +" after "+ end);
+        }
+    }
+    
+    public Date start(){
+    	return new Date(start.getTime());
+    }
+    
+    public Date end(){
+    	return new Date(end.getTime());
+    }
+    public String toString(){
+    	return start+", -"+end;
+    }
+}
+```
+Note:
+```
+Period对象的物理表示法正好反映它的逻辑数据,按照75条理论,可以使用默认序列化.只需要增加"implements Serializable"字样.
+但是,要特别注意的是,如果这么做了,这个类将不再保证它的关键约束了.
+```
+#####约束条件破坏+原因解释
+```
+无法保证关键约束原因是:readObject方法实际上也是另一种公共的构造器.所以也必须要和其他的构造器一样,注意同样的所有注意的事项,
+构造器必须检查其参数的有效性(38),并且必要时对参数进行保护性拷贝(39).所以readObject方法也必须要做到.
+```
+```
+readObject方法是一个"用字节流作为唯一参数"的构造器.所以使用默认的readObject方法,攻击者可能会传入一个不符合要求的字节流,以来攻击
+```
+- 举例:
+```java
+//参看书本267页的例子.提供子接口,以达到违反约束条件的对象生成
+```
+#######解决办法
+```
+为Preiod类提供一个readObject方法,该方法首先调用defaultReadObject,然后检查反序列化之后的对象的有效性.
+如果有效性失败,抛出InvalidObjectException异常.
+```
+```java
+//readObject method with validity checking
+private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException{
+	s.defaultReadObject();//如果是未加transient关键字的域,就可以直接使用了
+    //Check that our invariants are satisfied
+    if(start.compareTo(ent) > 0){
+    	throw new InvalidObjectException(start+ " after" +end);
+    }
+}
+```
+#####不可变的Period实例破坏+原因解释
+```
+攻击者可以通过使用伪造字节流,创建可变的Period实例.
+```
+```
+字节流以一个有效的Period实例开头,然后附上两个额外的引用,指向Period实例的两个私有的Date域.
+攻击者从ObjectInputStream中读取Period实例,然后读取附加在后面的"恶意编制的对象引用".
+这些对象引用可以访问到私有的Date域所引用的对象.通过改变Date实例,攻击者改变了Period实例
+```
+- 举例:
+```java 
+public class MutablePeriod{
+	//A period instanc
+    public final Period period;
+    //period's start field, to which we shouldn't have access
+    public final Date start;
+    publci final Date end;
+    public MutablePeriod(){
+    	try{
+        	ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            
+            //Serialize a valid Period instance
+            out.writeObject(new Period(new Date(), new Date()));
+            
+            /* Append rouge "previous object refs" for internal
+            * Date fields in Period. For details, see"Java Object Serialization Specificatin," Section 6.4
+            **/
+            byte[] ref ={0x71, 0, 0x7e, 0,5}//Ref # 5
+            bos.write(ref);//The start filed
+            ref[4]=4 //Ref #4
+            bos.write(ref);//The end field
+            
+            //Deserialize Period and "stolen" Date references
+            ObjectInputStream in = new ObjectInputStream(
+            	new ByteArrayInputStream(bos.toByteArray());
+            period = (Period)in.readObject();
+            start = (Date)in.readObject();
+            end = (Date)in.readObject();
+        }catch(Exception e){
+        	throw new AssertionError(e);
+        }
+    }
+}
+```
+```
+运行下面的程序,可以看到攻击效果
+```
+```java
+public static void main(String [] args){
+	MutablePeriod mp = new MutablePeriod();
+    Period p = mp.period;
+    Data pEnd = mp.end;
+    pEnd.setYear(78);
+    PEnd.setYear(69);
+}
+```
+Note:
+```
+上面的代码,虽然在Period实例被创建之后,它的约束条件没有被破坏,但是可以随意修改其内部组件是可能的.
+那么原本依赖于其不可变性的所有问题,都可能成为问题.
+```
+#######解决变法
+```
+出现上面的问题在于,Period的readObejct方法并没有完成足够的保护性拷贝.
+```
+```
+当一个对象被反序列化时,客户端不应该拥有该对象的引用.如果哪个域包含了这些对象引用,必须做保护性拷贝.
+因此,对于不可变类,如果包含了私有的可变组件,必须提供readObject,并对这些组件进行保护性拷贝.
+```
+```java
+//ReadObejct method with defensive copying and validity checking
+private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException{
+	s.defaultReadObject();
+    //Defendsively copy our mutable components
+    start = new Date(start.getTime());
+    end = new Date(end.getTime());
+    if(start.compareTo(end) > 0){
+    	throw new InvalidObjectException(start +" after" +end);
+    }
+}
+```
+Note:
+```
+保护性拷贝位于有效性检查之前,也并没有利用Data的clone方法来进行保护性拷贝.
+一个比较遗憾的一点是:使用final域是不可能进行保护性拷贝.因此,必须去掉start,end域的final修饰符.
+```
+```
+也请不要再使用writeUnshared和readUnshared方法,安全性没有达到要求.
+```
+#####"石蕊"测试
+```
+"石蕊"测试可以测试默认的readObject方法是否可以被接受.
+```
+```
+具体做法是:增加一个公有的构造器,对对象的所有非transient的域,无论是参数值是什么,都是不进行检查就可以保存到相应的域中.
+如果不接受这种做法,那么一种做法是:请提供一个显示的readObject方法,进行有效性检查和保护性拷贝.
+另一种做法是:使用序列化代理模式(78)
+```
+
+#####提醒
+```
+readObject方法类似与构造器,readObject方法不可以调用可被覆盖的方法,无论是直接调用,还是间接调用都不可以(17).
+```
+#####如何编写更加健壮的readObject方法
+```
+1. 对象引用域必须保持为私有的类,要保护性拷贝这些域中的每个对象.比如:不可变类中可变的域引用
+```
+```
+2. 对于任何约束条件,必须在readObject方法方法中进行检查,如果检查失败,抛出InvalidObjectException异常
+```
+```
+3. 如果整个对象图在被反序列化之后必须进行验证,就应该使用ObjectInputValidation接口
+```
+```
+4. 无论是直接或者间接方式,都不要在readObject方法调用覆盖方法.
+```
+#####总结:
+```
+当编写readObject方法时,应当认为你正在编写一个公有的构造器.如果使用默认序列化形式,应该考虑后果
+```
+
+
 
 

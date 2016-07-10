@@ -647,10 +647,143 @@ readResolve方法控制实例技术,相比较Enum枚举要复杂点,但是却是
 应该尽可能地使用枚举类型来实施实例控制的约束条件
 ```
 ```
-如果编译器无法做到实例个数的判断，需要提供一个具有readResolve方法的类，并确保该类所有的实例域都为基本类型，或者是transient
+如果编译器无法做到实例个数的判断，需要提供一个具有readResolve方法的类，并确保该类所有的实例域都为基本类型，或者是transient修饰
 ```
 
+###第78条：考虑用序列化代理代替序列化实例
+```
+决定使用Serializable接口，会增加出错和出现安全问题的可能性。因为提供一种特殊的构造器来创建实例。
+有一种方法可以极大的减少风险：序列化代理模式
+```
+#####序列化代理模式
+```
+序列化代理模式比较简单：首先，为可序列化的类设计一个私有的静态嵌套类，精确的表示外围类的实例的逻辑状态。
+```
+```
+这个嵌套类被称为序列化代理,它应该提供一个单独的构造器,其参数类型就是那么外围类.
+这个构造器只从它的参数中复制数据,不需要进行任何一致性检查或保护性拷贝.外围类和序列化代理类都应该实现Serializable接口
+```
+- 举例:
+```
+为76条中的Period类提供序列化代理类SerializationProxy
+```
+```java
+//Serialization proxy for Period class
+private static class SerializationProxy implements Serializable{
+	private static final long serialVersionUID = 1242352435q432L;
+	private final Date start;
+    private final Date end;
+    
+    SerializationProxy(Period p){//参数类型则是外围类
+    	this.start = p.start;//同样也无需进行保护性拷贝和一致性检查
+        this.end = p.end;
+    }
+}
+```
+```
+将writeReplace方法添加到外围类中
+```
+```java
+//writeReplace method for the serialization proxy pattern
+private Object writeReplace(){
+	return new SerializationProxy(this);//替换外围类的实例
+}
+```
+```
+为了反序列化不遭到破坏,需要在外围类中添加readObject方法
+```
+```java
+//readObject method for the serialization proxy pattern
+private void readObject(ObjectInputStream stream)throws InvalidObjectException{
+	throw new InvalidObjectException("Proxy required");
+}
+```
+```
+在SerializationProxy类中需要提供一个readResolve方法,返回逻辑上相当的外围类的实例.在反序列化时,将序列化代理变回外围类的实例.
+```
+```
+这个readResolve方法将会利用它的公有API创建外围类的实例.这样就一定可以遵守类的约束性条件,满足实例创建条件
+```
+```java
+//readResolve method for Period.SerializationProxy
+private Object readResolve(){
+	return new Period(start, end); //Users Public constructor
+}
+```
+#####序列化代理模式优点
+```
+序列化代理方法可以阻止伪字节流的攻击(267页),以及内部域的盗用攻击(268页)
+```
+```
+序列化代理方法该允许Period的域为final的.确保Period类真正的不可变
+```
+```
+序列化代理方法相比前两种方法,比较容易实现,也比较容易理解
+```
+#####EnumSet情况探讨,EnumSet使用了序列化代理模式
+```
+这个EnumSet类没有公有的构造器,只有静态工厂.同时静态工厂可能返回两种子类.
+第一种:RegularEnumSet,如果底层的枚举类型有64个,或者少于64个.
+第二种:JumboEnumSet,如果底层的枚举类型超过64个.
+```
+#######考虑下面这种情况
+```
+如果序列化一个枚举集合,开始时枚举类型有60个元素,然后这个枚举类型在增加5个元素,一共有65个元素.
+当它被序列化时,是一个RegularEnumSet实例,但是反序列化最好是JumboEnumSet实例.所以,EnumSet使用了序列化代理模式.
+```
+```java
+ private static class SerializationProxy <E extends Enum<E>>
+        implements java.io.Serializable
+    {
+        /**
+         * The element type of this enum set.
+         *
+         * @serial
+         */
+        private final Class<E> elementType;
 
+        /**
+         * The elements contained in this enum set.
+         *
+         * @serial
+         */
+        private final Enum[] elements;
+
+        SerializationProxy(EnumSet<E> set) {
+            elementType = set.elementType;
+            elements = set.toArray(ZERO_LENGTH_ENUM_ARRAY);
+        }
+
+        private Object readResolve() {
+            EnumSet<E> result = EnumSet.noneOf(elementType);
+            for (Enum e : elements)
+                result.add((E)e);
+            return result;
+        }
+
+        private static final long serialVersionUID = 362491234563181265L;
+    }
+```
+Note:
+```
+我看了EnumSet类,非常符合本条目的思路,可以参考下.
+```
+
+#####序列化代理模式局限性
+```
+1. 它不能与可以被客户端扩展的类兼容(17)
+```
+```
+2. 它也不能与对象图中包含循环的某些类兼容:如果企图从一个对象的序列化代理的readResolve方法内部调用这个对象中的方法,就会得到一个ClassCastException异常,因为对象并没有创建,只有其序列化代理.
+```
+```
+3. 序列化代理模式来序列化和反序列化Period实例,比用保护性拷贝进行的开销大10%(作者说).
+```
+
+#####总结:
+```
+当发现自己必须在一个不能被客户端扩展的类上编写readObject或者writeObject方法时,可以考虑序列化代理模式.
+```
 
 
 

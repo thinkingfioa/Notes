@@ -566,6 +566,91 @@ readObject方法类似与构造器,readObject方法不可以调用可被覆盖�
 当编写readObject方法时,应当认为你正在编写一个公有的构造器.如果使用默认序列化形式,应该考虑后果
 ```
 
+###第77条:对于实例控制,枚举类型优先于readResolve
+```
+第3条中讲述了Singleton模式,给出下面代码.这个类限制了构造器的访问
+```
+```java
+public class Elvis{
+	public static final Elvis INSTANCE = new Elvis();
+    private Elvis(){}
+    
+    public void leaveTheBuilding(){//...}
+}
+```
+Note:
+```
+如果这个类Elvis实现了"Serializable"接口,那么它将不能保证是一个Singleton.无论是使用默认的序列化形式,还是自定义序列化形式(75.
+无论是否提供readObject方法(76),都被无法保证单例.
+```
+```
+readObject方法无论是显示还是默认的,都会返回一个新建的实例.这个实例已经不同于初始化的实例.
+```
+#####readResolve特性
+```
+readResolve特性允许用readObject创建的实例代替另一个实例.
+如果类定义了一个readResolve方法,那么在反序列化之后,就会在新建的对象上调用readResolve方法.然后该方法返回的对象引用将被返回,取代新的对象.
+```
+```java
+//readResolve for instance control - you can do better!
+private Object readResolve(){
+	return INSTANCE;
+}
+```
+Note:
+```
+Elvis类的readResolve方法忽略了被反序列化对象,只返回最初的实例.所以所有的实例域都应该被声明为transient.
+```
+```
+如果依赖readResolve方法进行实例控制,带有对象引用类型的所有实例域则都必须声明为tranisent.否则攻击者可能采取MutalbePeriod攻击(76)
+```
+#######攻击者采用的技术
+```
+[具体的攻击过程,请参靠书本,不在详细诉说]
+```
+#####将可序列化的实例受控的类编写成枚举,是最佳选择
+```
+自Java 1.5以后,readResolve方法就不在是可序列化类中维持实例控制的最佳方法.该方法很脆弱.
+```
+```
+如果将可序列化的实例受控的类编写成枚举,jVM将会保证只有固定数目的类实例
+```
+```java
+//Enum singleton - the preferred approach
+public enum Elvis{
+	INSTANCE;
+    private String [] favoriteSongs = {"Hound Dog", "Heartbreak Hotel"};
+    public void printFavorites(){
+    	System.out.println(Arrays.toString(favoriteSongs));
+    }
+}
+```
+#####readResolve进行实例控制技术
+```
+readResolve方法控制实例技术,相比较Enum枚举要复杂点,但是却是无法被淘汰.因为很多情况下,实例受控的类在编译期间并不知道实例个数,无法使用Enum类型
+```
+#####readResolve方法可访问性的探讨
+```
+1. readResolve方法在一个final类上，应该写成private
+```
+```
+2. readResolve方法在一个非final类上，就必须认真考虑其访问性
+如果是私有的，那么将只会对该类有作用
+如果是包级私有的，那么将会对同一个包的子类有作用
+如果是受保护或公有的，则对所有为覆盖readResolve方法子类都有效果
+```
+```
+如果readResolve方法是受保护或公有的，并且子类没有覆盖，那么在子类进行反序列化时，就会产生一个超类，可能会导致ClassCastException异常。
+```
+#####总结：
+```
+应该尽可能地使用枚举类型来实施实例控制的约束条件
+```
+```
+如果编译器无法做到实例个数的判断，需要提供一个具有readResolve方法的类，并确保该类所有的实例域都为基本类型，或者是transient
+```
+
+
 
 
 

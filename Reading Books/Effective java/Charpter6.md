@@ -741,6 +741,13 @@ Note:
 ```
 
 ###第35条:注解优先于命名模式
+|注解|解释|
+|:---:|:---:|
+|@Retention(RetentionPolicy.RUNTIME)|注解应该在运行时保留|
+|@Target(ElementType.TYPE)|注解适用于类|
+|@Target(ElementType.FIELD)|注解使用域|
+|@Target(ElementType.METHOD)|注解使用方法|
+
 #####命令模式
 ```
 比如JUnit测试框架,原本一定要用test作为测试方法名称的开头.优缺点也不用管了,直接完全废除.

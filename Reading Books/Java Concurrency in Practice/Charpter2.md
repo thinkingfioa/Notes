@@ -1,7 +1,7 @@
 #第2章:线程安全性
 [TOC]
 ```
-要编写线程安全的代码,器核心在于要对状态访问操作进行管理,特别是共享和可变的状态.
+要编写线程安全的代码,其核心在于要对状态访问操作进行管理,特别是共享和可变的状态.
 对象的状态指存储在状态变量(实例域或静态域)
 ```
 
@@ -117,6 +117,39 @@ Java提供Atomic*类,该类是线程安全类,所以保证了线程安全.
 ```
 
 ###2.3 加锁机制
+```
+当servlet添加更多的状态时,使用Atomic*类可能不够
+比如:Servlet将计算结果缓存起来:最近执行因数分解的数值,以及分解结果
+```
+```java
+@NotThreadSafe
+public class UnsafeCachingFactorizer extends GenericServlet implements Servlet {
+    private final AtomicReference<BigInteger> lastNumber
+            = new AtomicReference<BigInteger>();
+    private final AtomicReference<BigInteger[]> lastFactors
+            = new AtomicReference<BigInteger[]>();
+
+    public void service(ServletRequest req, ServletResponse resp) {
+        BigInteger i = extractFromRequest(req);
+        if (i.equals(lastNumber.get()))
+            encodeIntoResponse(resp, lastFactors.get());
+        else {
+            BigInteger[] factors = factor(i);
+            lastNumber.set(i);
+            lastFactors.set(factors);
+            encodeIntoResponse(resp, factors);
+        }
+    }
+}
+```
+Note:
+```
+1. UnsafeCachingFactorizer不是线程安全的,存在竞态关系.
+UnsafeCachingFactorizer需要维护一个不变性条件:lastFactors中的缓存因数之积应该等于lastNumber.
+```
+```
+2. 当某个类涉及多个变量时,如果考虑线程安全,必须考虑多个变量是否之间存在约束性,如果存在约束,一定要小心并发问题.
+```
 
 
 

@@ -223,8 +223,92 @@ Note:
 因为:synchronized修饰,那么同步代码块的锁就是方法调用所在的对象this.所以如果锁不可重入,那么就会死锁无法进行下去.
 ```
 ###2.4 用锁来保护状态
+```
+一种常见的错误认为，只有在写入共享变量时才需要使用同步，然而事实并非如此(3.1)
+```
+```
+一种常见的加锁约定：将所有的可变状态都封装在对象内部，并通过对象的内置锁对所有访问可变状态的代码路径进行同步，
+使得在该对象上不会发生并发访问。
+```
+```
+当某个变量由锁保护时,意味着每次访问这个变量时都需要首先获得锁,这样确保每个时刻只有一个线程访问这个变量.
+```
+```
+即使将类的所有方法都加上synchronized关键字,也并不能保证原子性.还需要额外的加锁机制(4.4)
+```
+```java
+if(!vector.contains(element)){
+	vector.add(element);
+}
+```
+Note:
+```
+如果不存在则添加的操作中仍然存在竞态条件
+```
 
+###2.5 活跃性与性能
+```
+有时使用Synchronized的同步方式,可能会引起严重的性能问题.比如SynchronizedFactorizer类将整个方法service(...)进行同步,
+背离了Servlet框架的初衷,即Servlet需要同时处理多个请求.
+```
+```
+应该尽量将不影响共享状态且执行时间较长的操作从同步代码中分离出去.
+```
+```java
+@ThreadSafe
+public class CachedFactorizer extends GenericServlet implements Servlet {
+    @GuardedBy("this") private BigInteger lastNumber;
+    @GuardedBy("this") private BigInteger[] lastFactors;
+    @GuardedBy("this") private long hits;
+    @GuardedBy("this") private long cacheHits;
 
+    public synchronized long getHits() {
+        return hits;
+    }
+
+    public synchronized double getCacheHitRatio() {
+        return (double) cacheHits / (double) hits;
+    }
+
+    public void service(ServletRequest req, ServletResponse resp) {
+        BigInteger i = extractFromRequest(req);
+        BigInteger[] factors = null;
+        synchronized (this) {
+            ++hits;
+            if (i.equals(lastNumber)) {
+                ++cacheHits;
+                factors = lastFactors.clone();
+            }
+        }
+        if (factors == null) {
+            factors = factor(i);
+            synchronized (this) {
+                lastNumber = i;
+                lastFactors = factors.clone();
+            }
+        }
+        encodeIntoResponse(resp, factors);
+    }
+}
+```
+Note:
+```
+1. 将service方法分成两个独立的同步代码.减小同步代码块的执行时间.
+```
+```
+2. 不再使用AtomicLong类型的命中计数器,而是使用一个long类型的变量.
+对于单个变量上实现的原子操作来说,原子变量很有用,但如果已经使用了同步代码块来构造原子操作,而使用两种不同的同步机制会带来混乱且性能不会提升.
+```
+```
+3. 在执行时间较长的因数分解运算之前要释放锁,这样既确保线程的安全性,也不会过多的影响并发性.
+```
+#####总结:
+```
+使用锁时,应该清楚代码块中实现的功能,以及该代码块所需要的时间.
+```
+```
+无论执行计算密集的操作,还是执行某个可能阻塞的操作,如果持有锁的时间过长,那么都会带来活跃性或性能问题.
+```
 
 
 

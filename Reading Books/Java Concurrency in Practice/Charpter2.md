@@ -148,9 +148,81 @@ Note:
 UnsafeCachingFactorizer需要维护一个不变性条件:lastFactors中的缓存因数之积应该等于lastNumber.
 ```
 ```
-2. 当某个类涉及多个变量时,如果考虑线程安全,必须考虑多个变量是否之间存在约束性,如果存在约束,一定要小心并发问题.
+2. 在使用原子引用情况下，尽管对set方法的每次调用都是原子的，但仍然无法同时更新lastNumber,lastFactors.
+由于每次修改一个变量，那么变量之间的约束性，就被破坏了。
 ```
+```
+3. 当某个类涉及多个变量时,如果考虑线程安全,必须考虑多个变量是否之间存在约束性,如果存在约束,一定要小心并发问题.
+比如：lastNumber, lastFactors
+```
+#####2.3.1 内置锁:
+```
+第三章将会介绍加锁机制以及其他同步机制的另一个重要的方面:可见性
+```
+```
+每个java对象都可作为实现同步的锁,这些锁被称作内置锁
+```
+```
+同步代码块有两种方式:一种是作为锁的对象引用,另一种是作为锁保护的代码块.
+```
+```
+如果每个方法以关键字:synchronized修饰,那么同步代码块的锁就是方法调用所在的对象this.
+```
+#######性能与线程安全
+```
+有时为了线程安全,引入锁,可能导致性能问题.比如下面的代码,并发性特别糟糕
+```
+```java
+@ThreadSafe
+public class SynchronizedFactorizer extends GenericServlet implements Servlet {
+    @GuardedBy("this")
+    private BigInteger lastNumber;
+    @GuardedBy("this")
+    private BigInteger[] lastFactors;
 
+    public synchronized void service(ServletRequest req,
+                                     ServletResponse resp) {
+        BigInteger i = extractFromRequest(req);
+        if (i.equals(lastNumber))
+            encodeIntoResponse(resp, lastFactors);
+        else {
+            BigInteger[] factors = factor(i);
+            lastNumber = i;
+            lastFactors = factors;
+            encodeIntoResponse(resp, factors);
+        }
+    }
+}
+```
+Note:
+```
+在2.5节将会讨论这个并发程序为何并发性低,且如何解决
+```
+#####2.3.2 重入
+```
+内置锁是可以重入的,因此某个线程试图获得一个已经由自己持有的锁,请求就会成功.
+```
+#######关于父类与子类锁重入讨论
+```java
+public class Widget{
+	public synchronized void doSomething(){
+    	//...
+    }
+}
+
+public class LoggingWidget extends Widget{
+	public synchronized void doSomething(){
+    	System.out.println("ppp");
+        super.doSomething();
+    }
+}
+```
+Note:
+```
+需要注意的一点是:doSomething()方法上,关键字synchronized锁住的对象都是子类调用的对象this.
+因为:synchronized修饰,那么同步代码块的锁就是方法调用所在的对象this.所以如果锁不可重入,那么就会死锁无法进行下去.
+```
+###2.4 用锁来保护状态
 
 
 

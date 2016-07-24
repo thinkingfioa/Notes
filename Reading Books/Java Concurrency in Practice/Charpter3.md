@@ -206,6 +206,7 @@ Note:
 ```
 ThisEscape发布EventListener时,也隐含的发布了ThisEscape实例本身,因为这个内部类的实例中包含了对ThisEscape实例的隐含引用(?)
 ```
+
 #####安全的对象构造过程
 ```
 不要在构造过程中使this引用逸出
@@ -239,6 +240,181 @@ public class SafeListener {
         return safe;
     }
 }
+```
+
+### 3.3 线程封闭
+```
+一种避免同步的方式就是不共享数据,如果仅在单线程内访问数据,就不需要同步.这种技术被称为线程封闭.
+```
+#####使用线程封闭的例子
+#######swing中大量使用线程封闭
+```
+Swing的可视化组件和数据模型对象都不是线程安全的,Swing将它们分发到线程中来实现线程安全性.
+```
+#######JDBC中的著名的Connection对象也使用线程封闭技术
+```
+大多数的请求(例如Servlet请求或EJB调用等)都是由单线程采用同步方式来处理,每次从线程池中获得一个Connection对象,
+用来处理请求,用完归还给线程.
+```
+##### 3.3.1 Ad-hoc 线程封闭
+```
+Ad-hoc 线程封闭是指:维护线程封闭性的职责完全由程序来承担.Ad-hoc 线程封闭是非常脆弱的.
+```
+```
+通常决定使用线程封闭技术时,通常是因为要将某个特定的子系统实现为一个单线程子系统.
+```
+####### volatile变量存在一种特殊的线程封闭.
+```
+只要能确保单个线程对共享的volatile变量执行写入操作.那么就可以安全的在这些共享的volatile变量执行"读取-修改-写入"的操作.
+解释:单线程写入,保证了防止发生竞态条件,volatile变量的可见性保证其他线程可以看到最新的值.
+```
+
+##### 3.3.2 栈封闭
+```
+局部变量的固有属性之一就是封闭在执行线程中.它们位于执行线程的栈中,其他线程无法访问这个栈.
+```
+- 举例:
+```java
+public int loadTheArk(Collection<Animal> candidates){
+	SortedSet<Animal> animals;
+    int numPairs = 0;
+    Animal candidate = null;
+    
+    //anaimals 被封闭在线程方法中,不要使它们逸出
+    animals = new TreeSet<Animal> (new SpeciesGenderComparator());
+    anamals.addAll(candidate);
+    for(Animal a : anminals){
+    	if(candidate == null || !candidate.isPotentialMate(a)){
+        	candidate = a;
+        }else{
+        	ark.load(new AnimalPair(candidate, a));
+            ++numPairs;
+            candidate = null;
+        }
+    }
+    return numPairs;
+}
+```
+Note:
+```
+numPairs是基本类型引用,也是属于局部变量,所以,永远线程安全.
+```
+```
+anaimals也是局部变量,但是是引用类型,要注意方式逸出.程序员需要特别小心这种引用类型的局部变量,如果发布引用类型的局部变量,
+会导致对象animals逸出.
+```
+
+##### 3.3.3 ThreadLocal类
+```
+Java中提供一种更规范方法是使用ThreadLocal,这个类能使线程中的某个值与保存值的对象关联起来.
+```
+```
+ThreadLocal提供get与set方法,为使用该变量的每个线程提供一份独立的副本.是一种典型的线程封闭概念.
+```
+#######Connection举例
+```
+为了不必要为每个方法传递一个Connection对象,所以将Connection对象作为全局对象处理.但是JDBC的连接对象不一定是线程安全的,
+所以应该为每个线程保存一个Connection对象,这样符合使用ThreadLocal思想.
+```
+```java
+private static ThreadLocal<Connection> connectionHolder 
+	= new ThreadLocal<Connection>(){
+    	public Connection initialValue(){
+        	return DriverManager.getConnection(DB_URL);
+        }
+    }
+public static Connection getConnection(){
+	return connectionHolder.get();
+}
+```
+Note:
+```
+1. 通过将JDBC的Connection保存到ThreadLocal对象中,这样每个线程都会拥有属于自己的连接.
+```
+```
+2. 某个线程初次调用ThreadLocal.get方法时,会调用initialValue()这个方法.
+```
+#######如何理解ThreadLocal
+```
+可以将ThreadLocal< T >看做:Map<Thread, T> 对象,每次都会根据当前的Thread取到属于它的局部变量.
+```
+#######ThreadLocal几种常用方式
+```
+1. 可能某个操作需要一个临时变量,比如:缓冲区,同时又不希望每次执行都重新分配临时变量,就可以使用这种方式.将缓冲区与Thread绑定,这样即用即取.
+```
+```
+2. 如果将一个单线程应用程序移植到多线程中,可以将所有的全局变量转换为ThreadLocal变量,可以维持线程安全性.
+```
+```
+3. EJB中,J2EE容器需要将一个事务上下文与某个执行的线程关联,也应该使用ThreadLocal.
+```
+#######忠告
+```
+请不要滥用ThreadLocal,例如将所有的全局变量都作为ThreadLocal对象,或者作为一种"隐藏"方法参数的手段.
+ThreadLocal会降低代码的可重用性,在类与类之间多加入了耦合性.
+```
+
+###3.4 不变性
+```
+不可变对象,一定是线程安全的.
+```
+```
+如果一个对象是不可变对象,那么同步和并发问题都将不存在.
+如果某个对象在被创建后其状态就不能被修改,那么这个对象就称为不可变对象.
+```
+##### 不可变对象条件
+```
+1. 对象创建后其状态就不能修改
+```
+```
+2. 对象的所有域都是final类型.
+```
+```
+3. 对象正确创建(在对象的创建期间,this引用没有逸出)
+```
+#####不可变对象举例
+```java
+@Immutable
+public final class ThreeStooges {
+    private final Set<String> stooges = new HashSet<String>();
+
+    public ThreeStooges() {
+        stooges.add("Moe");
+        stooges.add("Larry");
+        stooges.add("Curly");
+    }
+
+    public boolean isStooge(String name) {
+        return stooges.contains(name);
+    }
+
+    public String getStoogeNames() {
+        List<String> stooges = new Vector<String>();
+        stooges.add("Moe");
+        stooges.add("Larry");
+        stooges.add("Curly");
+        return stooges.toString();
+    }
+}
+```
+Note:
+```
+1. 尽管Set<String> stooges是可变的,但是创建后,外部无法对其进行修改
+```
+```
+2. 对象的创建肯定正确,同时域也是fianl.
+```
+#####区别"不可变对象"与"不可变的对象引用"
+```
+其实,不可变对象可以通过将一个保存新状态的实例来"替换"原有的不可变对象.
+```
+##### 3.4.1 Final域
+```
+final类型的域是不能修改的,但是如果final类型修饰的对象是可变的,那么被引用的对象是可以修改的.
+```
+####### final关键字具有特殊的语义
+```
+final域能确保初始化过程的安全性,从而可以不受限制的访问不可变对象,并在共享这些对象时无须同步.
 ```
 
 

@@ -417,4 +417,55 @@ final类型的域是不能修改的,但是如果final类型修饰的对象是可
 final域能确保初始化过程的安全性,从而可以不受限制的访问不可变对象,并在共享这些对象时无须同步.
 ```
 
+##### 3.4.2 示例:使用Volatile类型来发布不可变对象
+```
+基本思路:如果两个变量是需要同步,那么可以采用封装,将这两个变量封装成一个对象,在使用volatile关键字修饰,达到互斥与同步效果.
+也就是说:每当需要对一组相关数据以原子方式执行某个操作时,可以考虑创建一个不可变的类来包含这些数据.
+```
+####### 以前面:UnsafeCachingFactorizer类为例
+```
+对于访问和更新多个相关变量时出现的竞争条件问题,通过将全部变量保存在不可变的对象中消除.
+```
+```java
+@Immutable
+public class OneValueCache {
+    private final BigInteger lastNumber;
+    private final BigInteger[] lastFactors;
+
+    public OneValueCache(BigInteger i,
+                         BigInteger[] factors) {
+        lastNumber = i;
+        lastFactors = Arrays.copyOf(factors, factors.length);
+    }
+
+    public BigInteger[] getFactors(BigInteger i) {
+        if (lastNumber == null || !lastNumber.equals(i))
+            return null;
+        else
+            return Arrays.copyOf(lastFactors, lastFactors.length);
+    }
+}
+```
+```java
+@ThreadSafe
+public class VolatileCachedFactorizer extends GenericServlet implements Servlet {
+    private volatile OneValueCache cache = new OneValueCache(null, null);
+
+    public void service(ServletRequest req, ServletResponse resp) {
+        BigInteger i = extractFromRequest(req);
+        BigInteger[] factors = cache.getFactors(i);
+        if (factors == null) {
+            factors = factor(i);
+            cache = new OneValueCache(i, factors);
+        }
+        encodeIntoResponse(resp, factors);
+    }
+}
+```
+Note:
+```
+将lastNumber,lastFactors封装起来,一个请iuguolai,从cache中取,如果取不到,更行这个volatile的值,取到则返回.
+```
+
+###3.5 安全发布.
 

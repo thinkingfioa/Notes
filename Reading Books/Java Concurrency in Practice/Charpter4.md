@@ -163,4 +163,79 @@ Note:
 ```
 与使用内置锁相比,私有的锁对象可以保证客户代码无法得到锁,但客户代码可以通过公有方法访问锁.
 ```
+
 ##### 4.2.2 示例:车辆追踪
+```
+下面举例,关于java监视器模式的示例:一个用于调度车辆的"车辆追踪器"
+```
+```
+每台车都有一String的对象作为标识,并且拥有相应的坐标(x,y).
+会有一个视图线程用于显示车辆位置,多个更新操作线程执行更新.
+```
+```
+视图线程与执行更新操作的线程将并发的访问数据模型,因此需要并发.
+```
+```java
+public class MonitorVehicleTracker {
+    @GuardedBy("this")
+    private final Map<String, MutablePoint> locations;
+
+    public MonitorVehicleTracker(Map<String, MutablePoint> locations) {
+        this.locations = deepCopy(locations);
+    }
+
+    public synchronized Map<String, MutablePoint> getLocations() {
+        return deepCopy(locations);
+    }
+
+    public synchronized MutablePoint getLocation(String id) {
+        MutablePoint loc = locations.get(id);
+        return loc == null ? null : new MutablePoint(loc);
+    }
+
+    public synchronized void setLocation(String id, int x, int y) {
+        MutablePoint loc = locations.get(id);
+        if (loc == null)
+            throw new IllegalArgumentException("No such ID: " + id);
+        loc.x = x;
+        loc.y = y;
+    }
+
+    private static Map<String, MutablePoint> deepCopy(Map<String, MutablePoint> m) {
+        Map<String, MutablePoint> result = new HashMap<String, MutablePoint>();
+
+        for (String id : m.keySet())
+            result.put(id, new MutablePoint(m.get(id)));
+
+        return Collections.unmodifiableMap(result);
+    }
+}
+
+@NotThreadSafe
+public class MutablePoint {
+    public int x, y;
+
+    public MutablePoint() {
+        x = 0;
+        y = 0;
+    }
+
+    public MutablePoint(MutablePoint p) {
+        this.x = p.x;
+        this.y = p.y;
+    }
+}
+```
+Note:
+```
+1. 尽管MutablePoint是线程安全,但是MutablePoint类封装在MonitorVehicleTracker类中
+```
+```
+2. deepCopy方法,为了保证线程安全,必须返回一个Collections.unmodifiableMap(map),而且,Map中的对象必须是复制的一份.二者,缺一不可.
+```
+```
+3. 实现的方式是通过返回客户代码之前复制可变的数据来维持线程安全.但是,如果车辆容器非常大的情况下可能有极大的性能问题
+性能问题解释:dedpCopy是从一个synchronized方法中调用,因此执行时间较长的复制操作.当有大量车辆需要追踪时,锁保证了每次只有一个线程访问.
+```
+
+### 4.3 线程安全性的委托.

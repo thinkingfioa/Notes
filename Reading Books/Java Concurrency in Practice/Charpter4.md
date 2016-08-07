@@ -238,4 +238,76 @@ Note:
 性能问题解释:dedpCopy是从一个synchronized方法中调用,因此执行时间较长的复制操作.当有大量车辆需要追踪时,锁保证了每次只有一个线程访问.
 ```
 
-### 4.3 线程安全性的委托.
+### 4.3 线程安全性的委托
+```
+Java监视器非常适合:1.从头开始构建一个类; 2.将多个非线程安全的类组合为一个类.
+```
+```
+但如果类中各个组件都已经是线程安全的,我们可能需要视情况而定,看是否需要再增加一个额外的线程安全层.
+```
+##### 4.3.1 示例:基于委托的车辆追踪器
+```
+上面的例子是一个基于Java监视器的车辆追踪器.
+下面将构造一个委托给线程安全类的车辆追踪器.
+```
+####### 使用不可变类Point代替MutablePoint类
+```java
+@Immutable
+public class Point {
+    public final int x, y;
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+```
+Note:
+```
+Point类是不可变类,所以肯定是线程安全的,可以被自由的共享与发布.
+```
+####### DelegatingVehicleTraceker
+```java
+@ThreadSafe
+public class DelegatingVehicleTracker {
+    private final ConcurrentMap<String, Point> locations;
+    private final Map<String, Point> unmodifiableMap;
+
+    public DelegatingVehicleTracker(Map<String, Point> points) {
+        locations = new ConcurrentHashMap<String, Point>(points);
+        unmodifiableMap = Collections.unmodifiableMap(locations);
+    }
+
+    public Map<String, Point> getLocations() {
+        return unmodifiableMap;
+    }
+
+    public Point getLocation(String id) {
+        return locations.get(id);
+    }
+
+    public void setLocation(String id, int x, int y) {
+        if (locations.replace(id, new Point(x, y)) == null)
+            throw new IllegalArgumentException("invalid vehicle name: " + id);
+    }
+}
+```
+Note:
+```
+DelegatingVehicleTracker类使用ConcurrentHashMap类,保证locations并发操作.
+```
+```
+Collections.unmodifiableMap(mapObject),相当于locations的快照.必须使用,如果直接返回locations,那么Map中对象引用可能被修改.
+```
+#######需要说明一点
+```
+方法getLocations()返回的是一个具体对象,线程A调用getLocations()后,线程B更新某个Point,那么线程A是可以看到的,如果不想看大,使用下面的代码
+```
+```java
+    public Map<String, Point> getLocationsAsStatic() {
+        return Collections.unmodifiableMap(
+                new HashMap<String, Point>(locations));
+    }
+```
+
+##### 4.3.2 独立的状态变量

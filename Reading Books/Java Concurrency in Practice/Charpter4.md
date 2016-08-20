@@ -311,3 +311,97 @@ Collections.unmodifiableMap(mapObject),相当于locations的快照.必须使用,
 ```
 
 ##### 4.3.2 独立的状态变量
+```
+只要变量是彼此独立的,就可以将线程安全性委托给多个状态变量.
+```
+#######举例
+```
+下面将给出例子:VisualComponent是一个图形组件,允许客户程序注册监控鼠标和键盘等事件监听器.
+鼠标和键盘监听器都是独立的,所以可以将线程安全性委托给两个线程安全的监听列表
+```
+```java
+public class VisualComponent {
+    private final List<KeyListener> keyListeners
+            = new CopyOnWriteArrayList<KeyListener>();
+    private final List<MouseListener> mouseListeners
+            = new CopyOnWriteArrayList<MouseListener>();
+
+    public void addKeyListener(KeyListener listener) {
+        keyListeners.add(listener);
+    }
+
+    public void addMouseListener(MouseListener listener) {
+        mouseListeners.add(listener);
+    }
+
+    public void removeKeyListener(KeyListener listener) {
+        keyListeners.remove(listener);
+    }
+
+    public void removeMouseListener(MouseListener listener) {
+        mouseListeners.remove(listener);
+    }
+}
+```
+Note:
+```
+CopyOnWriteArrayList类用来保存各个监听器雷彪.它是一个线程安全链表,特别适用于管理监听器列表(5.2.3)
+```
+```
+两个链表是独立的,同时具有线程安全,所以上面类也是线程安全的
+```
+
+##### 4.3.3 当委托失效时
+```
+开发中,大多数组合对象不会像VisualComponent类那样简单,它们的状态与状态之间存在不变性条件.
+比如:第一个值要小于第二个数值-- lower <= upper
+```
+```java
+public class NumberRange {
+    // INVARIANT: lower <= upper
+    private final AtomicInteger lower = new AtomicInteger(0);
+    private final AtomicInteger upper = new AtomicInteger(0);
+
+    public void setLower(int i) {
+        // Warning -- unsafe check-then-act
+        if (i > upper.get())
+            throw new IllegalArgumentException("can't set lower to " + i + " > upper");
+        lower.set(i);
+    }
+
+    public void setUpper(int i) {
+        // Warning -- unsafe check-then-act
+        if (i < lower.get())
+            throw new IllegalArgumentException("can't set upper to " + i + " < lower");
+        upper.set(i);
+    }
+
+    public boolean isInRange(int i) {
+        return (i >= lower.get() && i <= upper.get());
+    }
+}
+```
+Note:
+```
+NumberRange非线程安全.setLower()和setUpper()都是先检查后执行.
+假如:线程A调用setLower(5),线程B调用setUpper(4),在某种执行顺序下,可能通过检查,存入无效状态.
+```
+```
+某些类含有符合操作,可能仅靠委托并不足以实现线程安全性.需要提供自己的加锁机制.
+```
+```
+如果一个类是由多个独立且线程安全的状态变量组成,并且在所有操作中都不包含无效状态转换,
+那么可以将线程安全性委托给底层的状态变量.
+```
+
+##### 4.3.4 发布底层的状态变量
+```
+什么条件下才可以发布这些变量,从而使其他类能修改它们?
+答案是：取决于类中对这些变量施加了哪些不变性条件．
+```
+```
+如果一个状态变量是线程安全的,并且没有任何不变性条件来约束它的值,
+在变量的操作上也不存在任何不允许的状态转换,那么就可以安全地发布这个变量.
+比如:VisualComponent类中的keyListeners,mouseListeners就可以.
+```
+##### 4.3.5 示例:发布状态的车辆追踪器.

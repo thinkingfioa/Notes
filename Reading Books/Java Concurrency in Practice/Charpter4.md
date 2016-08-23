@@ -405,3 +405,164 @@ NumberRange非线程安全.setLower()和setUpper()都是先检查后执行.
 比如:VisualComponent类中的keyListeners,mouseListeners就可以.
 ```
 ##### 4.3.5 示例:发布状态的车辆追踪器.
+```
+再举一个例子:使用可变且线程安全的Point类,并在这个版本中发布底层的可变状态.
+```
+```java
+@ThreadSafe
+public class SafePoint {
+    @GuardedBy("this")
+    private int x, y;
+
+    private SafePoint(int[] a) {
+        this(a[0], a[1]);
+    }
+
+    public SafePoint(SafePoint p) {
+        this(p.get());
+    }
+
+    public SafePoint(int x, int y) {
+        this.set(x, y);
+    }
+
+    public synchronized int[] get() {
+        return new int[]{x, y};
+    }
+
+    public synchronized void set(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+```
+Note:
+```
+不能分别提供x和y的get方法.这样会产生非线程安全.
+```
+```java
+@ThreadSafe
+public class PublishingVehicleTracker {
+    private final Map<String, SafePoint> locations;
+    private final Map<String, SafePoint> unmodifiableMap;
+
+    public PublishingVehicleTracker(Map<String, SafePoint> locations) {
+        this.locations = new ConcurrentHashMap<String, SafePoint>(locations);
+        this.unmodifiableMap = Collections.unmodifiableMap(this.locations);
+    }
+
+    public Map<String, SafePoint> getLocations() {
+        return unmodifiableMap;
+    }
+
+    public SafePoint getLocation(String id) {
+        return locations.get(id);
+    }
+
+    public void setLocation(String id, int x, int y) {
+        if (!locations.containsKey(id))
+            throw new IllegalArgumentException("invalid vehicle name: " + id);
+        locations.get(id).set(x, y);
+    }
+}
+```
+Note:
+```
+允许修改SafePointer,但修改是可以保证原子性的.所以没有问题.
+```
+
+### 4.4 在现有的线程安全类中添加功能
+```
+Java类库中包含了许多有用的"基础模块",应该优先选择重用现有的类.
+但往往现有的类只能支持大部分的操作,此时就需要在不破坏线程安全性的情况下添加一个新的操作.
+```
+##### 举例
+```
+一种方法是扩展需要添加功能的类,比如vector
+```
+```
+"若没有则添加"是一个非常典型的需要线程保护的操作.
+```
+```java
+@ThreadSafe
+public class BetterVector<E> extends Vector<E> {
+    // When extending a serializable class, you should redefine serialVersionUID
+    static final long serialVersionUID = -3963416950630760754L;
+
+    public synchronized boolean putIfAbsent(E x) {
+        boolean absent = !contains(x);
+        if (absent)
+            add(x);
+        return absent;
+    }
+}
+```
+Note:
+```
+这种方法非常脆弱,因为同步策略分布到不同的文件维护,当底层发生修改,使用不通的锁,那就gg了.
+```
+
+##### 4.4.1 客户端加锁机制
+```
+扩展类的功能,但并不是扩展类本身,而是将扩展代码放入一个辅助类中.
+```
+```
+下面将举例"若没有则添加"操作的辅助类.但代码是错误的
+```
+```java
+@NotThreadSafe
+class BadListHelper<E> {
+    public List<E> list = Collections.synchronizedList(new ArrayList<E>());
+
+    public synchronized boolean putIfAbsent(E x) {
+        boolean absent = !list.contains(x);
+        if (absent)
+            list.add(x);
+        return absent;
+    }
+}
+```
+Note:
+```
+因为锁的对象并不是BadListHelper<E>,使用不通的锁,所以synchronized是没有用处的.
+但是上面举例的类BetterVector是有效的,因为存在锁具有对象性.
+```
+```java
+@ThreadSafe
+class GoodListHelper<E> {
+    public List<E> list = Collections.synchronizedList(new ArrayList<E>());
+
+    public boolean putIfAbsent(E x) {
+        synchronized (list) {
+            boolean absent = !list.contains(x);
+            if (absent)
+                list.add(x);
+            return absent;
+        }
+    }
+}
+```
+Note:
+```
+这个可以保证线程安全.但是在客户端加锁,是非常脆弱的,因为类C的加锁代码放到与C完全无关的类中.
+使用时,非常不友好,难以维护.
+```
+
+##### 4.4.2 组合
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

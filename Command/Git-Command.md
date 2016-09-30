@@ -70,6 +70,15 @@ $	git merge origin/master
 ```
 2. git commit -m "desription"
 ```
+##### git的push使用
+```
+git push origin local:remote
+```
+##### git的pull使用
+```
+git pull origin remote:local
+```
+
 #####git对commit撤销
 ```
 1. 查看commit的id

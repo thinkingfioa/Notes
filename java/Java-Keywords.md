@@ -15,7 +15,7 @@
 #######static修饰的变量---父子(interface : Father,class : Son)关系
 ```
 1. 如果是static与上面的(class : Father,Son)是一样的
-2. 注意:interface是不能有static修饰的方法,即使是没有实现也不行
+2. 注意:interface是不能有static修饰的方法,即使是没有实现也不行(接口什么实现都不能写)
 ```
 
 #####**default**关键字

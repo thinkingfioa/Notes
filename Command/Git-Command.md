@@ -152,3 +152,9 @@ $	git commit -m "description information"
 ```
 $	git push -u origin master
 ```
+
+##### 远程回滚方法
+```
+1. 先运行命令,git reset --hard commid_id, 回到某个commit_id上
+2. 运行命令: git push -f远程强行回滚
+```

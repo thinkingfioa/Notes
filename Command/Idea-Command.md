@@ -14,6 +14,9 @@ idea 使用手册
 |Command-Delete|删除当前行或选定的一行|
 |Command-Shift-+|展开所有的代码块|
 |Comand-Shift--|折叠所有的代码块|
+|Control+Return|生成set/get方法|
+|Command+/|注释|
+|Alt+Return|优化import|
 
 ##### Search/Replace(查询／替换）
 |快捷键|作用|
@@ -41,7 +44,14 @@ idea 使用手册
 |:---:|:---:|
 |Command-Alt-B|跳转进入方法实现出|
 |Command-B|跳转进入方法实现出|
+|Command-Alt-left|回退|
 
+##### svn使用
+|快捷键|作用|
+|:---:|:---:|
+|svn commit -m| 提交代码|
+|svn checkout url|切出分支|
+|svn update|更新代码|
 
 
 

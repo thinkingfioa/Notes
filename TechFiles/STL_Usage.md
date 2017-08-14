@@ -66,6 +66,7 @@
 ##### copy
 
 ##### swap
+##### count
 
 ##### replace
 ##### fill

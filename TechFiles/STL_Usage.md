@@ -88,8 +88,61 @@ for (it=myvector.begin(); it<myvector.end(); it++){
 ```
 
 ### set
+```
+C++中的Set是一个有序集合
+```
 ##### insert
+```cpp
+  std::set<int> myset;
+  std::set<int>::iterator it;
+  std::pair<std::set<int>::iterator,bool> ret;
+
+  // set some initial values:
+  for (int i=1; i<=5; ++i) myset.insert(i*10);   
+
+  //执行前: 10, 20, 30, 40, 50
+  ret = myset.insert(20);  // no new element inserted
+  //执行后: 10, 20, 30, 40, 50
+
+  if (ret.second==false) it=ret.first;  // "it" now points to element 20
+
+  //执行前: 10, 20, 30, 40, 50
+  myset.insert (it,25);                 // max efficiency inserting
+  myset.insert (it,24);                 // max efficiency inserting
+  myset.insert (it,26);                 // no max efficiency inserting
+  //执行后: 10, 20, 24, 25, 26, 30, 40, 50
+  
+  //执行前: 10, 20, 24, 25, 26, 30, 40, 50
+  int myints[]= {5,10,15};              // 10 already in set, not inserted
+  myset.insert (myints,myints+3);
+  //执行后: 5, 10, 15, 20, 24, 25, 26, 30, 40, 50
+```
 ##### erase
+```cpp
+
+```
+  std::set<int> myset;
+  std::set<int>::iterator it;
+
+  // insert some values:
+  for (int i=1; i<10; i++) myset.insert(i*10);  // 10 20 30 40 50 60 70 80 90
+
+  it = myset.begin();
+  ++it;                                         // "it" points now to 20
+  // 执行前: 10, 20, 30, 40, 50, 60, 70, 80, 90; (*it) = 20
+  myset.erase (it);
+  //执行后: 10, 30, 40, 50, 60, 70, 80, 90; 
+  
+  //执行前: 10, 30, 40, 50, 60, 70, 80, 90;
+  myset.erase (40);
+  //执行后: 10, 30, 50, 60, 70, 80, 90; 
+  
+  it = myset.find (60);
+  //执行前: 10, 30, 50, 60, 70, 80, 90; 
+  myset.erase (it, myset.end());
+  //执行后: 10, 30, 50;
+```
+
 ##### swap
 ##### find
 

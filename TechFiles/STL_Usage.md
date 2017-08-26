@@ -365,21 +365,154 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
 
 ### deque
 ```
-双向队列212
+双向队列
 ```
+
 ##### front
-```cpp
 ```
+返回队首
+```
+```cpp
+  std::deque<int> mydeque;
+
+  mydeque.push_front(77);
+  mydeque.push_back(20);
+  //执行前: 77, 20
+  mydeque.front() -= mydeque.back();
+  //执行后: 57, 20
+```
+
 ##### back
+```
+双向队列的尾部
+```
+```cpp
+  std::deque<int> mydeque;
+
+  mydeque.push_back(10);
+
+  while (mydeque.back() != 0)
+    mydeque.push_back ( mydeque.back() -1 );
+
+```
+
 ##### push_back
+```cpp
+  std::deque<int> mydeque;
+  //执行前: []
+  mydeque.push_back(1);
+  //执行后: [1]
+  
+  //执行前: [1]
+  mydeque.push_back(2);
+  //执行后: [1,2]
+```
+
 ##### push_front
+```cpp
+  std::deque<int> mydeque (2,100);     // two ints with a value of 100
+  //执行前: 100, 100
+  mydeque.push_front (200);
+  //执行后: 200, 100, 100
+  
+  //执行前: 200, 100, 100
+  mydeque.push_front (300);
+  //执行前: 300, 200, 100, 100
+```
+
 ##### pop_back
+```cpp
+  //执行前: 
+  mydeque.push_back (10);
+  mydeque.push_back (20);
+  mydeque.push_back (30);
+  //执行后: 10, 20, 30
+  
+  //执行前: 10, 20, 30
+  mydeque.pop_back(); 
+  //执行后: 10, 20
+```
+
 ##### pop_front
+```cpp
+  //执行前: 
+  mydeque.push_back (100);
+  mydeque.push_back (200);
+  mydeque.push_back (300);
+  //执行后: 100, 200, 300
+  
+  //执行前: 100, 200, 300
+  mydeque.pop_front();
+  //执行后: 200, 300
+```
 ##### insert
+```cpp
+  std::deque<int> mydeque;
+
+  // set some initial values:
+  for (int i=1; i<6; i++) mydeque.push_back(i); // 1 2 3 4 5
+
+  std::deque<int>::iterator it = mydeque.begin();
+  ++it;
+  
+  //执行前: 1, 2, 3, 4, 5
+  it = mydeque.insert (it,10); 
+  //执行后: 1, 10, 2, 3, 4, 5
+  // "it" now points to the newly inserted 10
+
+  //执行前: 1, 10, 2, 3, 4, 5
+  mydeque.insert (it,2,20);                     // 1 20 20 10 2 3 4 5
+  //执行后: 1, 20, 20, 10, 2, 3, 4, 5
+  // "it" no longer valid!
+
+  it = mydeque.begin()+2;
+
+  //执行前: 1, 20, 20, 10, 2, 3, 4, 5
+  std::vector<int> myvector (2,30);
+  mydeque.insert (it,myvector.begin(),myvector.end());
+  //执行后: 1, 20, 30, 30, 20, 10, 2, 3, 4, 5
+```
 ##### erase
+```cpp
+  // set some values (from 1 to 10)
+  for (int i=1; i<=10; i++) mydeque.push_back(i);
+
+  // erase the 6th element
+  //执行前: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+  mydeque.erase (mydeque.begin()+5);
+  //执行后: 1, 2, 3, 4, 5, 7, 8, 9, 10
+  
+  // erase the first 3 elements:
+  //执行前: 1, 2, 3, 4, 5, 7, 8, 9, 10
+  mydeque.erase (mydeque.begin(),mydeque.begin()+3);
+  //执行后: 4, 5, 7, 8, 9, 10
+
+```
 ##### swap
+```cpp
+  unsigned int i;
+  std::deque<int> foo (3,100);   // three ints with a value of 100
+  std::deque<int> bar (5,200);   // five ints with a value of 200
+  
+  //执行前: foo [100, 100, 100]
+  //       bar [200, 200, 200, 200, 200]
+  foo.swap(bar);
+  //执行后: foo [200, 200, 200, 200, 200]
+  //       bar [100, 100, 100]
+```
 
 ##### 遍历
+```cpp
+for (std::deque<int>::iterator it = mydeque.begin(); it!=mydeque.end(); ++it) {
+  std::cout << ' ' << *it;
+}
+```
+```cpp
+  while (!mydeque.empty()) {
+    sum+=mydeque.back();
+    mydeque.pop_back(); 
+  }
+```
 
 ### algorithm
 

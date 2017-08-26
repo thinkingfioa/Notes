@@ -368,6 +368,8 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
 双向队列
 ```
 ##### front
+```cpp
+```
 ##### back
 ##### push_back
 ##### push_front

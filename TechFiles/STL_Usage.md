@@ -197,15 +197,61 @@ C++中的Set是一个有序集合
 ### stack
 
 ##### top
+```cpp
+  std::stack<int> mystack;
+  mystack.push(10);
+  mystack.push(20);
+
+  mystack.top() -= 5; //mystack.top() 的值为20
+```
+
 ##### push
+```cpp
+  std::stack<int> mystack;
+
+  for (int i=0; i<5; ++i) mystack.push(i);
+```
+
 ##### pop
+```cpp
+弹出栈的最上面
+```
+
 ##### swap
+```cpp
+  std::stack<int> foo,bar;
+  foo.push (10); foo.push(20); foo.push(30);
+  bar.push (111); bar.push(222);
+  // 执行前: foo [10, 20, 30]
+  //        bar [111, 222]
+  foo.swap(bar);
+  // 执行后: foo [111, 222]
+  //        bar [10, 20, 30]
+
+```
 
 ##### 遍历
+```cpp
+  std::cout << "Popping out elements...";
+  while (!mystack.empty())
+  {
+     std::cout << ' ' << mystack.top();
+     mystack.pop();
+  }
+  std::cout << '\n';
+```
 
 ### map
-
+```
+c++
+```
 ##### insert
+```cpp
+  std::map<char,int> mymap;
+
+  // first insert function version (single parameter):
+  mymap.insert ( std::pair<char,int>('a',100) );
+```
 ##### erase
 ##### swap
 

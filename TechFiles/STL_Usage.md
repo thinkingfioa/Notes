@@ -365,7 +365,7 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
 
 ### deque
 ```
-双向队列2
+双向队列21
 ```
 ##### front
 ```cpp

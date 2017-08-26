@@ -8,7 +8,7 @@
 ```
 
 ### 参考文档
-```makefile
+```
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.0)
 # 项目名字
 PROJECT (项目名字)
@@ -38,6 +38,7 @@ SET(C_WS ~/Documents/c_ws)
 # SET(CXX_COMMON_LIB ${C_WS}/common/build/macOS/lib)
 
 # set my project here
+# 执行脚本
 SET(MYEXE run_test)
 SET(PROJECT_SOURCE_DIR ./src)
 SET(SRC_LIST 
@@ -53,6 +54,7 @@ SET(SRC_LIST
 SET(MAIN_FILE 
 	main.cpp
 )
+# ppnp是目标库
 ADD_LIBRARY(ppnp STATIC ${SRC_LIST}) # 静态库
 #ADD_LIBRARY(ppnp SHARED ${SRC_LIST}) # 动态库
 
@@ -84,12 +86,10 @@ SET(EXECUTABLE_OUTPUT_PATH .)
 
 TARGET_LINK_LIBRARIES(
 	${MYEXE}
-	ppnp
+	ppnp #换成上面的
 	# ${CYK_TOOLS_LIBS}
 	${ARMADILLO_LIBRARIES}
 	${OpenCV_LIBS}
 	${Boost_LIBRARIES}
 )
-
-
 ```

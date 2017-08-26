@@ -80,7 +80,7 @@ myVector.erase(myVector.begin(), myVector.begin() + 3);
   //       bar: [100, 100, 100]
 ```
 ##### 遍历
-1. 迭代器遍历
+###### 迭代器遍历
 ```cpp
 for (it=myvector.begin(); it<myvector.end(); it++){
 	std::cout << ' ' << *it;
@@ -119,8 +119,6 @@ C++中的Set是一个有序集合
 ```
 ##### erase
 ```cpp
-
-```
   std::set<int> myset;
   std::set<int>::iterator it;
 
@@ -309,12 +307,61 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
 ### queue
 
 ##### push
+```cpp
+  std::queue<int> myqueue;
+  myqueue.push (myint);
+```
+
 ##### pop
+```
+弹出最后一个数。
+```
+
 ##### swap
+```cpp
+  std::queue<int> foo,bar;
+  foo.push (10); foo.push(20); foo.push(30);
+  bar.push (111); bar.push(222);
+  // 执行前: foo[10, 20, 30]
+  //        bar[111, 222]
+  foo.swap(bar);
+  // 执行后: foo[111, 222]
+  //        bar[10, 20, 30]
+```
+
 ##### back
+```
+队列的最后一位
+```
+```cpp
+  myqueue.push(12);
+  myqueue.push(75);   // this is now the back
+  //执行前: 12, 75
+  myqueue.back() -= myqueue.front();
+  //执行后: 12, 63
+```
+
 ##### front
+```
+队列的队首
+```
+```cpp
+  myqueue.push(77);
+  myqueue.push(16);
+  //执行前: 77, 16
+  myqueue.front() -= myqueue.back();    // 77-16=61
+  //执行后: 61, 16
+```
 
 ##### 遍历
+```cpp
+  std::cout << "myqueue contains: ";
+  while (!myqueue.empty())
+  {
+    std::cout << ' ' << myqueue.front();
+    myqueue.pop();
+  }
+```
 
 ### deque
 

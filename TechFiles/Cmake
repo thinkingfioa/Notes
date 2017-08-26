@@ -1,0 +1,95 @@
+# Cmake使用
+
+### 使用
+```
+1. 进入项目的build目录下
+2. cmake .. (生成makefile)
+3. make ( 生成可执行文件）
+```
+
+### 参考文档
+```makefile
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.0)
+# 项目名字
+PROJECT (项目名字)
+
+# ADD_SUBDIRECTORY(src)
+
+# compile options
+# SET(CMAKE_C_COMPILER g++)
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+elseif(COMPILER_SUPPORTS_CXX0X)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+else()
+    message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
+
+SET(OPT "-framework Accelerate -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPT}")
+
+# my own work space
+SET(C_WS ~/Documents/c_ws)
+# SET(CXX_COMMON ${C_WS}/common)
+# SET(CXX_COMMON_LIB ${C_WS}/common/build/macOS/lib)
+
+# set my project here
+SET(MYEXE run_test)
+SET(PROJECT_SOURCE_DIR ./src)
+SET(SRC_LIST 
+	${PROJECT_SOURCE_DIR}/ppnp_utils.cpp
+	${PROJECT_SOURCE_DIR}/graph_search.cpp
+	${PROJECT_SOURCE_DIR}/stage_one.cpp
+	${PROJECT_SOURCE_DIR}/jni_alogrith_invoke.cpp
+	${PROJECT_SOURCE_DIR}/algorithm2.cpp
+	# ${PROJECT_SOURCE_DIR}/OCR_cainiao_core.cpp
+	# ${PROJECT_SOURCE_DIR}/cykFerns.cpp
+	# ${PROJECT_SOURCE_DIR}/SLIC.cpp
+)
+SET(MAIN_FILE 
+	main.cpp
+)
+ADD_LIBRARY(ppnp STATIC ${SRC_LIST}) # 静态库
+#ADD_LIBRARY(ppnp SHARED ${SRC_LIST}) # 动态库
+
+# ======= for packages =======
+# FIND_PACKAGE(OpenCV REQUIRED core imgproc highgui objdetect) # generate OpenCV_LIBS
+# FIND_PACKAGE(Boost REQUIRED) # generate boost
+# FIND_PACKAGE(OpenCV REQUIRED) # generate OpenCV_LIBS
+# FIND_PACKAGE(Boost REQUIRED system filesystem thread) # generate boost
+# FIND_PACKAGE(Armadillo REQUIRED) # generate boost
+# SET(CYK_TOOLS_LIBS libCYK_TOOLS.a) # my own libs
+# SET(CYK_TOOLS_LIBS libCYK_TOOLS.dylib) # my own libs
+
+# ======= for input dirs =======
+INCLUDE_DIRECTORIES(
+	${CXX_COMMON}
+	./include
+)
+LINK_DIRECTORIES(
+	${CXX_COMMON_LIB}
+)
+
+# ======= for output dirs =======
+# executable things
+ADD_EXECUTABLE(${MYEXE} ${MAIN_FILE})
+
+# SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+SET(EXECUTABLE_OUTPUT_PATH .)
+# SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+
+TARGET_LINK_LIBRARIES(
+	${MYEXE}
+	ppnp
+	# ${CYK_TOOLS_LIBS}
+	${ARMADILLO_LIBRARIES}
+	${OpenCV_LIBS}
+	${Boost_LIBRARIES}
+)
+
+
+```

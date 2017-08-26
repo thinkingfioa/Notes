@@ -243,8 +243,9 @@ C++中的Set是一个有序集合
 
 ### map
 ```
-c++
+c++ 中的map是默认按照key的排序。所以每次插入都会做调整。
 ```
+
 ##### insert
 ```cpp
   std::map<char,int> mymap;
@@ -252,10 +253,58 @@ c++
   // first insert function version (single parameter):
   mymap.insert ( std::pair<char,int>('a',100) );
 ```
+
 ##### erase
+```cpp
+  std::map<char,int> mymap;
+  std::map<char,int>::iterator it;
+
+  // insert some values:
+  mymap['a']=10;
+  mymap['b']=20;
+  mymap['c']=30;
+  mymap['d']=40;
+  mymap['e']=50;
+  mymap['f']=60;
+
+  it=mymap.find('b');
+  //执行前: a->10, b->20, c->30, d->40, e->50, f->60
+  mymap.erase (it);                   // erasing by iterator
+  //执行后: a->10, c->30, d->40, e->50, f->60
+
+  //执行前: a->10, c->30, d->40, e->50, f->60
+  mymap.erase ('c');                  // erasing by key
+  //执行后: a->10, d->40, e->50, f->60
+  
+  it=mymap.find ('e');
+  //执行前: a->10, d->40, e->50, f->60
+  mymap.erase ( it, mymap.end() );    // erasing by range
+  //执行后: a->10, d->40
+```
+
 ##### swap
+```cpp
+  std::map<char,int> foo,bar;
+
+  foo['x']=100;
+  foo['y']=200;
+
+  bar['a']=11;
+  bar['b']=22;
+  bar['c']=33;
+  // 执行前: foo [x->100, y->200]
+  //        bar [a->11, b->22, c->33]
+  foo.swap(bar);
+  // 执行前: foo [a->11, b->22, c->33]
+  //        bar [x->100, y->200]
+```
 
 ##### 遍历
+```cpp
+for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
+    std::cout << it->first << " => " << it->second << '\n';
+}
+```
 
 ### queue
 

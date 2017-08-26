@@ -144,9 +144,55 @@ C++中的Set是一个有序集合
 ```
 
 ##### swap
-##### find
+```cpp
+  int myints[]={12,75,10,32,20,25};
+  std::set<int> first (myints,myints+3);     // 10,12,75
+  std::set<int> second (myints+3,myints+6);  // 20,25,32
+  //执行前: first [10, 12, 75]
+  //        second [20, 25, 32]
+  first.swap(second);
+  //执行后: first [20, 25, 32]
+  //       second [10, 12, 75] 
+```
 
+##### find
+```cpp
+  std::set<int> myset;
+  std::set<int>::iterator it;
+
+  // set some initial values:
+  for (int i=1; i<=5; i++) myset.insert(i*10);    // set: 10 20 30 40 50
+
+  // 执行前: 10, 20, 30, 40, 50
+  it=myset.find(20);
+  myset.erase (it);
+  // 执行后: 10, 30, 40, 50
+```
+
+##### count
+```
+由于set集合不重复，所以count(val)返回的结果只有0或者1.
+```
+```cpp
+  std::set<int> myset;
+
+  // set some initial values:
+  for (int i=1; i<5; ++i) myset.insert(i*3);    // set: 3 6 9 12
+
+  //返回结果是: 1
+  myset.count(3);
+  //返回结果是: 0
+  myset.count(5);
+```
 ##### 遍历
+```cpp
+  int myints[] = {75,23,65,42,13};
+  std::set<int> myset (myints,myints+5); //13, 23, 42, 65, 75
+
+  for (std::set<int>::iterator it=myset.begin(); it!=myset.end(); ++it){
+    std::cout << ' ' << *it;
+  }
+```
 
 ### stack
 

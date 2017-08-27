@@ -1,5 +1,7 @@
 # 单纯形法
-
+```
+单纯形法是一种算法，主要解决线性规划问题。通俗的说：在一个凸可行域中，利用单纯形法，找到各个关键点。最优解就是这些关键点的其中一个(或者是一个平面）。
+```
 ### 基础概念
 ```
 单纯形法，仅适用于线性规划，线性规划必须是一种凸优化。
@@ -24,14 +26,35 @@
 要求必须是凸形域
 
 ##### 线性规划标准型
-![]()
+![](https://github.com/thinkingfioa/Notes/blob/master/Algorithm/pictures/simplex-1.png)
 
 ##### 如何转化为标准型
 - 1. 目标函数极小化，即：minz=cx, 令w=-z ,则maxw=-cx
 - 2. 约束条件为不等式:
  - 约束条件为=<不等式，则在约束条件的左端加上一个非负的松弛变量；
  - 约束条件为>=不等式，则在约束条件的左端减去一个非负的松弛变量
-- 3.
+- 3.![](https://github.com/thinkingfioa/Notes/blob/master/Algorithm/pictures/simplex-2.png)
 
+### 举例: 二维平面几何。
+##### 线性规划的一般形式
+![](https://github.com/thinkingfioa/Notes/blob/master/Algorithm/pictures/Simplex3.png)
+##### 线性规划的可行域
+```
+蓝色部分，就是可行域。我们很容易发现，可行域是凸形域。所以是一个典型的线性规划问题。
+上过高中的同学大部分都知道，最优解就是在可行域的顶点。接下来，单纯形法就是利用矩阵方式找到这些可行域的顶点。
+```
+![](https://github.com/thinkingfioa/Notes/blob/master/Algorithm/pictures/Simplex4.png)
+##### 转化为标准型线性规划问题
+![](https://github.com/thinkingfioa/Notes/blob/master/Algorithm/pictures/Simplex5.png)
 
-### 算法角度思考单纯形法
+### 单纯形法
+```
+IBM提供了基本库包，可以直接调用。
+单纯形法是一个不断迭代的算法，关注下面几点:
+1. 如何判断当前解为最优解？
+2. 如何选进基变量?
+3. 如何选出基变量?
+```
+
+### 参考文档:
+http://blog.csdn.net/wayne508/article/details/16617801

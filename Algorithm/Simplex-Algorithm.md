@@ -50,11 +50,22 @@
 ### 单纯形法
 ```
 IBM提供了基本库包，可以直接调用。
-单纯形法是一个不断迭代的算法，关注下面几点:
+单纯形法是一个不断迭代的算法，找到可行域中的顶点，得到最优解。
+关注下面几点:
 1. 如何判断当前解为最优解？
 2. 如何选进基变量?
 3. 如何选出基变量?
 ```
+
+##### 判断当前最优解
+如果找到一个基可行解,对非基变量xj对应的检验数![]((https://github.com/thinkingfioa/Notes/blob/master/Algorithm/pictures/Simplex6.png)都是<=0，那么找到最优解。如果出现检验数=0情况，说明找到解是对应于一个平面可行域。
+![]((https://github.com/thinkingfioa/Notes/blob/master/Algorithm/pictures/Simplex7.png)
+##### 进基变量
+从一个非基变量 -> 基变量.挑选原则:![]((https://github.com/thinkingfioa/Notes/blob/master/Algorithm/pictures/Simplex8.png)
+##### 出基变量
+从一个出基变量 -> 非基变量.![]((https://github.com/thinkingfioa/Notes/blob/master/Algorithm/pictures/Simplex9.png)
+
+##### 具体思路
 
 ### 参考文档:
 http://blog.csdn.net/wayne508/article/details/16617801

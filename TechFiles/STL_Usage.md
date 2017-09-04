@@ -89,7 +89,7 @@ for (it=myvector.begin(); it<myvector.end(); it++){
 
 ### set
 ```
-C++中的Set是一个有序集合
+C++中的Set是一个有序-去重集合
 ```
 ##### insert
 ```cpp
@@ -127,7 +127,7 @@ C++中的Set是一个有序集合
 
   it = myset.begin();
   ++it;                                         // "it" points now to 20
-  // 执行前: 10, 20, 30, 40, 50, 60, 70, 80, 90; (*it) = 20
+  // 执行前: 10, 20, 30, 40, 50, 60, 70, 80, 90; //(*it) = 20
   myset.erase (it);
   //执行后: 10, 30, 40, 50, 60, 70, 80, 90; 
   
@@ -517,23 +517,249 @@ for (std::deque<int>::iterator it = mydeque.begin(); it!=mydeque.end(); ++it) {
 ### algorithm
 
 ##### find
+```cpp
+  //数组中查询
+  int myints[] = { 10, 20, 30, 40 };
+  int * p;
+
+  p = std::find (myints, myints+4, 30);
+  if (p != myints+4)
+    //输出: 30
+  else
+    std::cout << "Element not found in myints\n";
+
+  // vector中查询
+  std::vector<int> myvector (myints,myints+4);
+  std::vector<int>::iterator it;
+
+  it = find (myvector.begin(), myvector.end(), 30);
+  if (it != myvector.end())
+    //输出: 30
+  else
+    std::cout << "Element not found in myvector\n";
+```
 
 ##### copy
+```cpp
+  int myints[]={10,20,30,40,50,60,70};
+  std::vector<int> myvector (7);
+  //执行前: myvector: 
+  std::copy ( myints, myints+7, myvector.begin() );
+  //执行前: myvector: 10, 20, 30, 40, 50, 60, 70
+```
 
 ##### swap
+```cpp
+  int x=10, y=20;                              // x:10 y:20
+  //执行前: x:10, y:20
+  std::swap(x,y);                              // x:20 y:10
+  //执行后: x:20, y:10
+
+
+  std::vector<int> foo (4,x), bar (6,y);       // foo:4x20 bar:6x10
+  
+  //执行前: foo[20, 20, 20, 20]
+  //       bar[10, 10, 10, 10]
+  std::swap(foo,bar);                          // foo:6x10 bar:4x20
+  //执行前: foo[20, 20, 20, 20]
+  //       bar[10, 10, 10, 10]
+```
 ##### count
+```cpp
+  int myints[] = {10,20,30,30,20,10,10,20};   // 8 elements
+  //记录数组myints中，10的个数
+  int mycount = std::count (myints, myints+8, 10);
+  //输出结果 mycount = 3
+
+  std::vector<int> myvector (myints, myints+8);
+  //记录数组myvector中，20的个数
+  mycount = std::count (myvector.begin(), myvector.end(), 20);
+  //记录数组myvector中，20的个数
+
+```
 
 ##### replace
-##### fill
-##### reverse
-##### sort
-##### merge
-##### min
-##### max
+```cpp
+int myints[] = { 10, 20, 30, 30, 20, 10, 10, 20 };
+//执行前: myvector: []
+std::vector<int> myvector (myints, myints+8);            
+//执行后: myvector: 10, 20, 30, 30, 20, 10, 10, 20
 
-##### 二叉搜索
+//执行前: myvector: 10, 20, 30, 30, 20, 10, 10, 20
+std::replace (myvector.begin(), myvector.end(), 20, 99); 
+//执行前: myvector: 10, 99, 30, 30, 99, 10, 10, 99
+```
+##### fill
+```cpp
+//执行前 myvector: []
+std::vector<int> myvector (8);                      
+//执行后 myvector: 0,0,0,0,0,0,0,0
+
+//执行前 myvector: 0,0,0,0,0,0,0,0
+std::fill (myvector.begin(),myvector.begin()+4,5);   
+//执行后 myvector: 5,5,5,5,0,0,0,0
+//执行后 myvector: 5,5,5,5,0,0,0,0
+  std::fill (myvector.begin()+3,myvector.end()-2,8); 
+//执行后 myvector: 5,5,5,8,8,8,0,0
+```
+##### reverse
+```cpp
+std::vector<int> myvector;
+for (int i=1; i<10; ++i) myvector.push_back(i);   // 1 2 3 4 5 6 7 8 9
+
+//执行前: 1,2,3,4,5,6,7,8,9
+std::reverse(myvector.begin(),myvector.end());    // 9 8 7 6 5 4 3 2 1
+//执行后: 9,8,7,6,5,4,3,2,1
+```
+##### sort
+```cpp
+//升序
+bool myfunction (int i,int j) { return (i<j); }
+
+//升序
+struct myclass {
+  bool operator() (int i,int j) { return (i<j);}
+} myobject;
+
+int main () {
+  int myints[] = {32,71,12,45,26,80,53,33};
+  //执行前: myvector: []
+  std::vector<int> myvector (myints, myints+8);             
+  //执行后: myvector: 32,71,12,45,26,80,53,33
+  
+  //缺省的排序是升序(<)
+  //执行前: 32,71,12,45,26,80,53,33
+  std::sort (myvector.begin(), myvector.begin()+4);          
+  //执行后: 12,32,45,71,26,80,53,33
+
+  //执行前: 12,32,45,71,26,80,53,33 using function as comp
+  std::sort (myvector.begin()+4, myvector.end(), myfunction); 
+  //执行后: 12,32,45,71,26,33,53,80
+
+  // using object as comp
+  //执行后: 12,32,45,71,26,33,53,80
+  std::sort (myvector.begin(), myvector.end(), myobject);   
+  //执行后: 12,26,32,33,45,53,71,80
+}
+```
+##### merge
+```
+将两个有序的组合sort1[], sort2[]。归并成一个新的有序组合。
+```
+```cpp
+  int first[] = {5,10,15,20,25};
+  int second[] = {50,40,30,20,10};
+  std::vector<int> v(10);
+
+  std::sort (first,first+5);
+  std::sort (second,second+5);
+  //执行前: first: 5,10,15,20,25
+  //       second: 10,20,30,40,50
+  //       v:[]
+  std::merge (first,first+5,second,second+5,v.begin());
+  //执行后: first: 5,10,15,20,25
+  //       second: 10,20,30,40,50
+  //       v:5,10,10,15,20,20,25,30,40,50
+```
+##### min
+```cpp
+  //输出: 1
+  std::cout << "min(1,2)==" << std::min(1,2) << '\n'  
+  //输出: 1
+  std::cout << "min(2,1)==" << std::min(2,1) << '\n';
+  //输出: 'a'
+  std::cout << "min('a','z')==" << std::min('a','z') << '\n';
+  //输出: 2.72
+  std::cout << "min(3.14,2.72)==" << std::min(3.14,2.72) << '\n';
+```
+##### max
+```cpp
+  //输出: 2
+  std::cout << "max(1,2)==" << std::max(1,2) << '\n'  
+  //输出: 2
+  std::cout << "max(2,1)==" << std::max(2,1) << '\n';
+  //输出: 'z'
+  std::cout << "max('a','z')==" << std::max('a','z') << '\n';
+  //输出: 3.14
+  std::cout << "max(3.14,2.72)==" << std::max(3.14,2.72) << '\n';
+```
+##### 二分查找
+```
+lower_bound(val), 返回容器中第一个值 >= val的元素的iterator位置
+```
+```
+upper_bound(val): 返回容器中第一个值 > val的元素的iterator位置。
+```
 
 ##### 堆排序
+```
+std::make_heap将[start, end)范围进行堆排序，默认使用less<int>, 即最大元素放在第一个。
+
+std::pop_heap将front（即第一个最大元素）移动到end的前部，同时将剩下的元素重新构造成(堆排序)一个新的heap。
+
+std::push_heap对刚插入的（尾部）元素做堆排序。
+
+std::sort_heap将一个堆做排序,最终成为一个有序的系列，可以看到sort_heap时，必须先是一个堆（两个特性：1、最大元素在第一个 2、添加或者删除元素以对数时间），因此必须先做一次make_heap.
+```
+```cpp
+//升序。左a右b，当a>b的时候，双方交换位置，
+bool inc_cmp(int a,int b){ return a > b; }
+
+//降序
+bool des_cmp(int a, int b){ return a < b; }
+
+int num[10]={3, 1, 2, 5, 6, 4};
+
+int main()
+{   
+    //默认建立一个大根堆。
+    make_heap(num, num+6);
+    //小根堆: make_heap(num, num+6, inc_cmp);
+}
+```
+```cpp
+  vector<int> ivec;  
+  for(int i=3;i<=7;++i)  
+      ivec.push_back(i);  
+  for(int i=5;i<=9;++i)  
+      ivec.push_back(i);  
+  for(int i=1;i<=4;++i)  
+      ivec.push_back(i);  
+  //执行前: 3,4,5,6,7,5,6,7,8,9,1,2,3,4 
+  make_heap(ivec.begin(),ivec.end());//做最大堆排序，其实还在vector容器内  
+  //执行后: 9,8,6,7,7,5,5,3,6,4,1,2,3,4 
+  
+  //执行前: 9,8,6,7,7,5,5,3,6,4,1,2,3,4 
+  pop_heap(ivec.begin(),ivec.end());//删除最大堆，其实是把数据放到最后了！  
+  //执行后: 8,7,6,7,4,5,5,3,6,4,1,2,3,9 
+  
+  //执行前: 8,7,6,7,4,5,5,3,6,4,1,2,3,9 
+  ivec.pop_back();  
+  //执行后: 8,7,6,7,4,5,5,3,6,4,1,2,3
+  
+  //执行前: 8,7,6,7,4,5,5,3,6,4,1,2,3
+  pop_heap(ivec.begin(),ivec.end());//删除最大堆，其实是把数据放到最后了！
+  //执行后: 7,7,6,6,4,5,5,3,3,4,1,2,8 
+
+  //执行前: 7,7,6,6,4,5,5,3,3,4,1,2,8 
+  ivec.pop_back();  
+  //执行后: 7,7,6,6,4,5,5,3,3,4,1,2
+ 
+  //执行前: 7,7,6,6,4,5,5,3,3,4,1,2
+  ivec.push_back(15);  
+  //执行后: 7,7,6,6,4,5,5,3,3,4,1,2,15 
+  
+  //执行前: 7,7,6,6,4,5,5,3,3,4,1,2,15 
+  //放入最大堆，其实是把新加入的数据，按照堆排加入堆内  
+  push_heap(ivec.begin(),ivec.end());
+  //执行后: 15,7,7,6,4,6,5,3,3,4,1,2,5 
+
+  //执行前: 15,7,7,6,4,6,5,3,3,4,1,2,5   
+  sort_heap(ivec.begin(),ivec.end());//把堆排顺序，还原成一般的排序算法  
+  //执行后: 1 2 3 3 4 4 5 5 6 6 7 7 15 
+```
+
+##### 归并排序
 
 
 

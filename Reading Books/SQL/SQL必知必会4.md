@@ -108,14 +108,38 @@ IN操作符的优点
 
 1. IN操作符一般比一组OR操作符更快
 2. IN最大的优点是：可以包含其他SELECT语句，能够动态的建立WHERE子句。
+
+##### 5.3 NOT操作符
+Not操作符用作否定其后所跟的任何条件。
+
+-  select * from products where Not vend_id = 1001 and prod_name = 'Safe';
+
+|prod_id|vend_id|prod_name|prod_price|prod_desc|
+|:---:|:---:|:---:|:---:|:---:|
+|SAFE|1003|Safe|50.00|Safe with combination lock|
+注：Not在这里只能作用与vend_id. 
+
+### 第6课 使用通配符进行过滤
+
+##### 6.1.1 百分号(%)通配符
+在搜索串中，%表示任何字符出现任意次数。代表搜索模式中给定位置0个，1个，多个字符。排除匹配NULL的行。
+
+- select prod_id, prod_name from products where prod_name like 'Jet%';
  
+##### 6.1.2 下划线(_)通配符
+在搜索串中，下划线(_)只匹配单个字符，而不是多个字符。只能是一个字符。
+
+- select prod_id, prod_name from products where prod_name like 'JetPack _000';
  
- 
- 
- 
- 
- 
- 
+##### 6.1.3 方括号([])通配符
+只有微软的Access和SQL server支持。
+
+##### 6.2 使用通配符的技巧
+1. 要知道，使用通配符可能比其他的搜索耗费更长的时间，对数据库的压力更大。
+2. 不要过度使用通配符，在其他操作符能达到效果的情况下，尽量不要使用通配符。
+3. 尽量不要把通配符放在搜索模式的开始处，把通配符置于开始处，搜索起来最慢的。
+
+### 第7课 创建计算字段
  
  
  

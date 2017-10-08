@@ -20,12 +20,13 @@ select distinct vend_id from products;
 ```
 注:
 1. distinct关键字作用于作用于其后的所有的列，不仅仅是其后的一列。
-2. 如：select distinct vend_id,prod_price from products;那么这两列vend_id, prod_price都同，就会合并。
+2. 如：select distinct vend_id,prod_price from products;那么这两列vend_id, prod_price都同，才会合并。
 ```
 
 ##### 2.6 限制结果
 - select prod_name from products limit 5; 返回结果只有5行。
 - select prod_name from products limit 5 offset 5; 返6,7,8,9,10这5行数据。
+
 ```
 注:
 1. 第一个被检索的行是第0行，而不是第1行。因此，LIMIT 1 OFFSET 1会检索第2行，而不是第1行.
@@ -140,6 +141,37 @@ Not操作符用作否定其后所跟的任何条件。
 3. 尽量不要把通配符放在搜索模式的开始处，把通配符置于开始处，搜索起来最慢的。
 
 ### 第7课 创建计算字段
- 
+
+##### 7.1 计算字段
+计算字段是运行时在SELECT语句内创建的。不同于数据库中表的列
+
+##### 7.2 拼接字段
+将表中的列数据，拼接到一起。将值联结在一起(将一个值附加到另一个值), 构成单个值。如：prod_name(prod_price).
+
+```
+拼接的操作符:
+1. Access和SQL Server使用+号
+2. DB2、Oracle、PostgreSQL、SQLite和Open Office Base使用||
+3. MySQL和MariaDB中，必须使用特殊的函数。eg: concat(prod_name, '(', prod_price, ')')
+```
+```
+Trim函数
+1. RTRIM(String)函数去掉字符串右边的空格。
+2. LTRIM(String)函数去掉字符串左边的空格。
+3. TRIM(String)函数去掉字符串左边和右边空格。
+```
+```
+As别名。重新为列起一个新的名字。
+1.  select concat(prod_name, '(', vend_id, ')') as price_info from products;
+```
+
+##### 7.3 执行算术计算
+算术运算符：加，减，乘，除
+
+```
+计算商品共卖出多少钱
+1. select prod_id, quantity, item_price, quantity * item_price as expanded_price from orderitems where order_num = 20005;
+```
+
  
  

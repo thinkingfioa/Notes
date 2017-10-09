@@ -218,12 +218,38 @@ SOUNDEX()函数是一种和根据读音相同来比较的
 
 ### 第9课 汇总数据
 
+##### 9.1 聚集函数
 
+|函数|说明|
+|:---:|:---:||AVG()|返回某列的平均值||COUNT()|返回某列的行数||MAX()|返回某列的最大值||MIN()|返回某列的最小值||SUM()|返回某列值之和|
+##### 9.1.1  AVG()函数
+AVG函数计算表中列的平均值。AVG()只能用来确定特定数值列的平均值.AVG函数忽略列值为NULL的行。
 
+- select avg(prod_price) as avg_price from products;
 
+##### 9.1.2 COUNT()函数
+```
+COUNT函数有两种实现方式:
+1. 使用count(*)，对表中行的数目进行计数。无论是空值(NULL)或非空值。
+2. 使用count(columnName)对表特定列具有值进行计数，忽略NULL值。
+3. select count(vend_state) from vendors;语句忽略NULL值。
+```
 
+##### 9.1.3 MAX()函数
+MAX()返回指定列中的最大值。
 
+- select max(prod_price) as max_price from products;
 
+##### 9.1.4 MIN()函数
+MIN()的功能正好与MAX()功能相反，它返回指定列的最小值。
+
+##### 9.1.5 SUM()函数
+SUM()用来返回指定列值的和(总计)。
+
+- select sum(item_price) as sum_price from orderitems where order_num = 20005;
+- select sum(item_price*quantity) as total_price from orderitems where order_num = 20005;
+
+注: 利用标准的算术运算符，所有的聚集函数都可以执行多个列上的计算。
 
  
  

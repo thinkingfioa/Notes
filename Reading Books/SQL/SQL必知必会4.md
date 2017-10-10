@@ -353,6 +353,17 @@ from Customers order by cust_name;
 
 ### 第12课 联结表
 
+##### 12.1.1 关系表关系表的设计就是把信息分成多个表，一类数据一个表。各个表通过共同的值进行关联。
 
+##### 12.2 创建联结
+```
+当from子句后接多个表时候，表示联结产生了。select子句后面所接的字段，分别来自于两个表中。
+1. select vend_name, prod_name, vend_city, vendors.vend_id from vendors, products where vendors.vend_id = products.vend_id;
+
+如果没有Where子句，那么返回结果就是笛卡尔积。
+```
+
+##### 12.2.3 联结多个表
+select prod_name, vend_name, prod_price, quantity from OrderItems, Products, Vendorswhere Products.vend_id = Vendors.vend_idAND OrderItems.prod_id = Products.prod_idAND order_num = 20007;
 
 

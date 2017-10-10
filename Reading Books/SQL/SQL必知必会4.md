@@ -251,5 +251,108 @@ SUM()用来返回指定列值的和(总计)。
 
 注: 利用标准的算术运算符，所有的聚集函数都可以执行多个列上的计算。
 
- 
- 
+##### 9.2 聚集不同的值
+使用关键字: DISTINCT关键字，过滤相同的值。
+
+- select avg(distinct prod_price) as avg_price from products where vend_id = 'DLL01';
+
+##### 9.3 组合聚集函数
+select 语句可以根据需要包含多个聚集函数。
+
+- select count(*) as num_items, min(prod_price) as min_price, max(prod_price) as max_price, sum(prod_price) as sum_price from products;
+
+### 第10课 分组数据
+将数据分组，使用Order by子句和Having子句。
+
+##### 10.1 数据分组
+目前为止的所有计算都是在表的所有数据或匹配特定的WHERE子句的数据上进行的。没有对应的分组概念。
+
+- select count(*) as num_prods from products where vend_id = 'DLL01';
+
+如果查询每个供应商提供的商品数，怎么查？答：需要使用分组，Order by子句和Having子句
+
+##### 10.2 创建分组
+分组是使用select语句的Group by实现的。
+
+- select vend_id, count(*) num_prods from products group by vend_id;
+
+使用group by子句分组数据，然后对每个组而不是整个结果集进行聚集。
+
+```
+使用GROUP BY子句前，需要了解一些重要的规定:
+1. GROUP BY子句可以包含任意数目的列，因而可以对分组进行嵌套，更细致的进行分组。
+2. GROUP BY子句嵌套了分组，数据将在最后指定的分组上进行汇总。
+3. GROUP BY子句中列出的每一列必须是检索列或有效的表达式。如果在SELECT中使用表达式，则必须在GROUP BY子句中指定相同的表达式。不能使用别名。
+4. 大多数SQL实现不允许GROUP BY列带有长度可变的数据类型。
+5. 除聚集计算语句外，SELECT语句中的每一列都必须在GROUP BY子句中给出。
+6. 如果分组列中包含具有NULL值的行，则NULL将作为一个分组返回。如果列中有多行NULL值，它们将分为一组。
+7. GROUP BY子句必须出现在WHERE子句之后，Order by子句之前。
+```
+
+##### 10.3 过滤分组
+Group by新建分组，使用Having子句过滤分组。如：查询至少有两个订单的顾客。
+
+```
+Where 子句和Having 子句的区别:
+1. Where子句过滤的是行，而Having子句过滤的是分组。
+2. Having子句可以替代Where子句，但是不建议这样做。
+```
+
+- select vend_id, count(*) as num_prods from products where prod_price >= 4 group by vend_id having count(*) > 2;
+
+分析：首先，where语句先选出价格大于4的商品，然后按照vend_id来进行分组，再对分组进行过滤。
+
+##### 10.4 分组和排序
+|Order by|Group by|
+|:---:|:---:|
+|对产生的输出排序|对行分组，但输出可能不是分组的顺序|
+|任意列都可以使用|只可能使用选择列或表达式列，而且必须使用每个选择列表达式|
+|不一定需要|如果与聚集函数一起使用列(或表达式)，则必须使用|
+
+一般使用GROUP BY子句后，也应该使用ORDER BY子句。
+
+##### 10.5 Select子句的顺序
+|子句|说明|是否必须使用|
+|:---:|:---:|:---:
+|SELECT|要返回的列或表达式|是|
+|FROM|从中检索数据的表|仅在从表选择数据时使用|
+|WHERE|行级过滤|否|
+|GROUP BY|分组说明|仅在按组计算聚集时使用|
+|HAVING|组级过滤|否|
+|ORDER BY|输出排序顺序|否|
+
+### 第11课 使用子查询
+
+##### 11.2 利用子查询进行过滤
+```
+假如需要列出订购物品RGAN01的所有顾客，应该怎样检索?
+1. 从订单详情表(OrderItems)中查询订购物品GRANO1的所有订单编号。
+2. 根据订单编号，从表(Orders)中查询顾客ID
+3. 根据顾客ID，从表(Customers)查询顾客信息。
+
+select cust_name, cust_contact from customers
+   where cust_id IN (select cust_id from Order
+         where order_num IN (select order_num from OrderItems
+                              where prod_id = 'GRANO1'));
+```
+
+作为子查询的Select语句只能查询单个列。企图查询多个列，是错误的。
+
+##### 11.3 作为计算字段使用子查询
+```
+假如需要显示Customers表中每个顾客的订单总数，应该怎样写？
+1. 从Customers表中检索顾客列表。
+2. 对于检索的每个顾客，统计在Orders表中的数目。
+
+select cust_name, cust_state,
+    (select count(*) from Orders 
+          where Orders.cust_id = Customers.cust_id) AS orders
+from Customers order by cust_name;
+该子查询检索到每个顾客执行一次。
+```
+
+### 第12课 联结表
+
+
+
+

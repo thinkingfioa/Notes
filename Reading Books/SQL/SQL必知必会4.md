@@ -366,4 +366,156 @@ from Customers order by cust_name;
 ##### 12.2.3 联结多个表
 select prod_name, vend_name, prod_price, quantity from OrderItems, Products, Vendorswhere Products.vend_id = Vendors.vend_idAND OrderItems.prod_id = Products.prod_idAND order_num = 20007;
 
+### 第13课 创建高级联结
+
+##### 13.1 使用表别名
+```
+使用表别名优点:
+1. 缩短SQL语句
+2. 允许在一条select语句中多次使用相同的表
+select cust_name, cust_contact from Customers AS C, Orders AS O, OrderItems AS OIwhere C.cust_id = O.cust_id and OI.order_num = O.order_num and prod_id = 'RGAN01'
+```
+
+##### 13.2 使用不同类型的联结
+四种联结: 1. 内联结或等值联结, 2. 自联结(self-join), 3. 自然联结(natural join), 4. 外联结(outer join)。
+
+##### 13.2.1 自联结
+问：查询与Y Lee同一公司的所有顾客。
+
+```
+1. 使用子查询
+- select cust_name, cust_address from customers where cust_name = (select cust_name from customers where cust_contact = 'Y Lee')
+```
+
+```
+2. 使用自联结
+- select C1.cust_name, C2.cust_address from customers as C1, customers as C2 where C1.cust_name = C2.cust_name and C1.cust_contact = 'Y Lee'
+```
+
+```
+用自联结而不用子查询:
+1. 但许多DBMS处理联结远比处理子查询快得多。
+```
+
+##### 13.2.2 自然联结
+
+##### 13.2.3 外联结
+```
+许多联结将一个表中的行和另一个表中的行相关联，但有时候需要包含没有关联行的那些行。如，以下工作:
+1. 对每个顾客订单进行计数，包括至今尚未下订单的顾客。
+2. 列出所有产品以及订购数量，包括没人订购的产品。
+
+上述举例，包括了那些相关表中没有关联的行。这种联结称为外联结。
+```
+
+```
+检索所有顾客及其订单
+1. 内联结(inner join): 
+select Customers.cust_id, Orders.order_num from Customers inner join Orders on Customers.cust_id = Orders.cust_id;
+2. 外联结(left outer join):
+select Customers.cust_id, Orders.order_num from Customers left outer join Orders
+on Customers.cust_id = Orders.cust_id;
+外联结的使用的是left outer join是从左边的表(Customers)中选择行，所以如果右表没有对应的id则补充。要注意on后面的表Customers和Orders顺序。
+3. 外联结(right outer join)
+select Customers.cust_id, Orders.order_num from Customers right outer join Orders on Orders.cust_id = Customers.cust_id;
+4. 全外联结(full outer join)
+select Customers.cust_id, Orders.order_num from Orders full out join Customers
+on Orders.cust_id = Customers.cust_id;
+两个表的行的最大集合。
+```
+
+##### 13.3 使用带聚集函数的联结
+```
+检索所有顾客及每个顾客所下的订单数
+1. select Customers.cust_id, count(Orders.order_num) AS num_ord
+from Customers inner join Orders on Customers.cust_id = Orders.cust_id
+group by Customers.cust_id;
+```
+
+#### 13.4 使用联结和联结条件
+```
+联结和联结的使用要点:
+1. 注意使用的联结类型。有内联结，外联结等
+2. 联结语法每个DBMS可能不一样。
+3. 保证使用正确的联结条件，否则返回不正确的数据。
+4. 应该总是使用联结条件，否则会得到笛卡尔积。
+5. 在一个联结中可以包含多个表，甚至可以对每个联结采用不同的联结类型。虽然这样做是合法的，一般也很有用，但应该在一起测试它们 前分别测试每个联结。这会使故障排除更为简单。
+```
+
+### 第14课 组合查询
+利用UNION操作符将多条Select语句合成一个结果集。
+
+##### 14.1 组合查询
+SQL 允许执行多条查询语句(多条Select语句)，并将结果作为一个查询结果集返回。
+
+```
+主要有两种情况需要使用组合查询:
+1. 在一个查询中，从不同的表返回结构数据。
+2. 对一个表执行多个查询，按一个查询返回数据。
+
+注：一般多个Where子句的Select语句都可以作为一个组合查询。也就是说将Where子句拆分开来。
+```
+
+##### 14.2 创建组合查询
+用操作符UNION操作符组合多条Select语句，将他们的结果组合成一个结果集。
+
+##### 14.2.1 使用UNION操作符
+```
+查询Illinois、Indiana和Michigan等美国几个州的所有顾客的报表，和不管位于哪个州的所有的Fun4All
+1. 使用UNION操作符查询。
+select cust_name, cust_contact, cust_email from Customers
+where cust_state in ('Illinois','Indiana','Michigan')
+UNION
+select cust_name, cust_contact, cust_email from Customers
+where cust_name = 'Fun4All';
+
+2. 使用Where子句
+select cust_name, cust_contact, cust_email from Customers
+where cust_state in ('Illinois','Indiana','Michigan') or cust_name = 'Fun4All'
+```
+
+```
+Union和Where子句比较:
+1. 对于较复杂的过滤条件，或者从多个表(而不是一个表)中检索数据的情形，使用UNION可能会使处理更简单。
+2. 多数DBMS使用内部查询优化程序，使用Union关键字会在内部组合它们，所以性能几乎无差别。但使用Union操作符也请注意下性能问题。
+```
+
+##### 14.2.2 UNION规则
+```
+Union非常好用，但使用组合前请注意下以下规则：
+1. UNION必须由两条或两条以上的SELECT语句组成，语句之间用关键字UNION分隔。
+2. UNION每次查询必须包含相同的列，表达式，聚集函数。(各个列不需要以相同的次序列出)。
+3. 列数据类型必须兼容:类型不必完全相同，但必须是DBMS可以隐含转换的类型。
+```
+
+##### 14.2.3 包含或取消重复的行
+UNION从查询结果集中自动去除了重复的行。
+
+```
+使用关键字:Union All的会返回所有的匹配行。
+Union All操作符是Where不能替代的。
+```
+
+##### 14.2.4 对组合查询结果排序
+用Union组合查询时，只能使用一条Order by子句，它必须位于最后一条Select语句。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

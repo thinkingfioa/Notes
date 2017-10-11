@@ -508,19 +508,51 @@ order by cust_id;
 
 注意：union组合查询中order by子句的列必须在select后面有。且order by必须在语句最后，对整个结果集进行排序。
 
+### 第15课 插入数据
+利用SQL的INSERT语句将数据插入表中。
 
+##### 15.1.1 插入完整的行
+```
+使用insert语句时，请在表名括号内明确给定列名。
+1. insert into Customers(cust_id,cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country, cust_contact, cust_email)VALUES
+('1000000006','Toy Land','123 Any Street','New York','NY','11111','USA',NULL, NULL);
+```
 
+##### 15.1.3 插入检索出的数据
+将Select语句的查询结果插入到表中。顾名思义，它是由一条INSERT语句和一条SELECT语句组成的。
 
+```
+insert into 
+Customers(cust_id, cust_contact,cust_email,cust_name,cust_address,cust_city,cust_state,cust_zip,cust_country)select 
+cust_id,cust_contact,cust_email,cust_name,cust_address,cust_city,cust_state,cust_zip,cust_country 
+from CustNew;说明：将select语句查询出来的结果，插入到表Customers中. ```
+```
+注意:
+1. insert 和select不一定要求列名匹配。它使用的是列的位置，因此SELECT中的第一列(不管其列名)将用来填充表列中指定的第一列，第二列将用来填充表列中指定的 第二列。
+2. insert 通常只插入一行。但insert select是个例外，它可以用一条insert插入多行，不管select语句返回对少条语句，都会被插入到表中。
+```
 
+##### 15.2 从一个表复制到另一个表
+select into将数据复制到一个新表中。
 
-
-
-
-
-
-
-
-
+```
+insert select与select into区别:
+1. insert select是导出数据，先select出结果，然后插入到表中。select into是导入数据。
+```
+```
+select * into CustCopy from customers;
+创建一个名为CustCopy的新表。然后将整个customers表内容复制到表CustCopy中。
+```
+```
+Mysql中语法是：
+create table CustCopy AS select * from Customers;
+```
+```
+使用select into注意点:
+1. 任何select选项和子句都可以使用，包括where和order by。
+2. 可利用联结从多个表插入数据(Mysql中未测试通过).
+3. 不管从多少个表中检索数据，数据都只能插入到一个表中。
+```
 
 
 

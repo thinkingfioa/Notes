@@ -499,7 +499,14 @@ Union All操作符是Where不能替代的。
 ##### 14.2.4 对组合查询结果排序
 用Union组合查询时，只能使用一条Order by子句，它必须位于最后一条Select语句。
 
+- select cust_name, cust_contact, cust_id from customers 
+where cust_state in ('MI', 'OH') 
+union 
+select cust_name, cust_contact, cust_id from customers 
+where cust_contact = 'E Fudd' 
+order by cust_id;
 
+注意：union组合查询中order by子句的列必须在select后面有。且order by必须在语句最后，对整个结果集进行排序。
 
 
 

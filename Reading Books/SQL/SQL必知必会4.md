@@ -394,7 +394,7 @@ select cust_name, cust_contact from Customers AS C, Orders AS O, OrderItems AS O
 
 ```
 用自联结而不用子查询:
-1. 但许多DBMS处理联结远比处理子查询快得多。
+1. 许多DBMS处理联结远比处理子查询快得多。
 ```
 
 ##### 13.2.2 自然联结
@@ -492,7 +492,7 @@ Union非常好用，但使用组合前请注意下以下规则：
 UNION从查询结果集中自动去除了重复的行。
 
 ```
-使用关键字:Union All的会返回所有的匹配行。
+使用关键字:Union All的会返回所有的匹配行(不进行去除重复的行)。
 Union All操作符是Where不能替代的。
 ```
 
@@ -553,6 +553,50 @@ create table CustCopy AS select * from Customers;
 2. 可利用联结从多个表插入数据(Mysql中未测试通过).
 3. 不管从多少个表中检索数据，数据都只能插入到一个表中。
 ```
+
+### 第16课 更新和删除数据
+
+##### 16.1 更新数据
+update语句更新表中的数据。
+
+- update Customers set cust_contact = 'Sam Roberts',cust_email = 'sam@toyland.com' where cust_id = '10000006';
+
+注意：update语句可能更新多个值。
+
+##### 16.2 删除数据
+delete语句删除表中的数据。
+
+- delete from Customers where cust_id = '10000006'
+
+```
+删除时外键考虑:
+1. 使用delete语句删除数据时，可能会有外键的影响。比如：我要删除Products表中某个商品，但是该商品cust_id在订单表中有记录，作为订单表的外键。那么删除会失败。
+```
+
+##### 16.3 更新和删除的指导原则
+1. 除非确实删除所有行或更新所有行，否则绝不能不使用where语句。
+2. 保证每个表都要有主键，尽可能像where子句那样使用它。
+3. 在update和delete语句使用where子句前，应该先用select进行测试，保证过滤条件是正确无误的。
+4. 使用强制实施引用完整性的数据库，这样DBMS将不允许删除其数据与其他表相关联的行。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

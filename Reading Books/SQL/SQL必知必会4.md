@@ -579,14 +579,51 @@ delete语句删除表中的数据。
 3. 在update和delete语句使用where子句前，应该先用select进行测试，保证过滤条件是正确无误的。
 4. 使用强制实施引用完整性的数据库，这样DBMS将不允许删除其数据与其他表相关联的行。
 
+### 第17课 创建和操纵表
+该课主要讲解:创建，更改和删除表的基本知识。
 
+##### 17.1.1 表创建基础
+```
+利用create table创建表,必须给出下列信息:
+1. 新表的名字，在关键字create table后给出.
+2. 表列的名字和定义，用逗号隔开。
+3. 有的DBMS还要指定表的位置。
+create table Products(
+prod_id char(10) Not null,vend_id char(10) Not null,prod_name char(254) Not null,prod_price DECIMAL(8,2),prod_desc text(1000), NULL);
+```
 
+##### 17.1.2 使用Null
+创建表的时候，指定表的列为Not null，则表示，以后执行insert语句，该列必须有值，不接受null。
 
+##### 17.1.3 指定默认值
+```
+创建表的时候，可以为表的列提供默认值。
 
+- create table OrderItems(
+order_num INTEGER Not null,order_item INTEGER Not null,prod_id CHAR(10) Not null,quantity INTEGER Not null default 1,item_price DECIMAL(8,2) not null);
+```
 
+##### 17.2 更新表
+```
+使用alter table时，请考虑下列的事:
+1. 理想情况下，不要再表包含数据时对其进行更新。应该在表的设计过程中充分烤炉未来可能。
+2. 所有的DBMS都允许给现有的表增加列，不过对所增加列的数据类型(以及NULL和Default的使用)有所限制.
+3. 许多DBMS不允许删除或更改表中的列.
+```
 
+- alter table Vendors add vend_phone CHAR(20);
 
+```
+复杂的表结构更改一般需要手动删除过程，它涉及以下步骤:1. 用新的列布局创建一个新表;2. 使用INSERT SELECT语句从旧表复制数据到新表。有必要的话，可以使用转换函数和计算字段;3. 检验包含所需数据的新表;4. 重命名旧表(如果确定，可以删除它);5. 用旧表原来的名字重命名新表;6. 根据需要，重新创建触发器、存储过程、索引和外键
+```
 
+##### 17.3 删除表
+- drop table Customers;
+
+注意：删除表不可撤销。请慎重
+
+##### 17.4 重命名表
+每个DBMS对表重命名的支持有所不同，具体要参考具体的DBMS文档.
 
 
 

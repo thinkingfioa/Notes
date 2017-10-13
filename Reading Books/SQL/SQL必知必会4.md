@@ -625,6 +625,82 @@ order_num INTEGER Not null,order_item INTEGER Not null,prod_id CHAR(10) Not nu
 ##### 17.4 重命名表
 每个DBMS对表重命名的支持有所不同，具体要参考具体的DBMS文档.
 
+### 第18课 使用视图
+
+##### 18.1 视图
+视图是虚拟的表。与包含数据的表不一样，视图只包含使用时动态检索数据的查询。
+
+```
+理解视图的最好方法是看例子.
+select cust_name, cust_contact from Customers, Orders, OrderItemswhere Customers.cust_id = Orders.cust_idand OrderItems.order_num = Orders.order_numand prod_id = 'RGAN01';
+该句sql检索订购了某种商品的顾客。任何需要这个数据的人必须理解这些表与表之间的关系。
+
+假如将整个查询包装成一个名为ProductsCustomers的虚拟表。那么sql可以简化为:
+select cust_name, cust_contact from ProductCustomers where prod_id = 'RGANO1';
+
+总结：视图不包含任何的列或数据，包含的是一个查询。
+```
+
+##### 18.1.1 为什么使用视图
+```
+视图的常见使用场景:
+1. 重用SQL语句。
+2. 简化复制的SQL操作。在编写查询后，可以方便的使用它，而不必知道具体的细节。
+3. 使用表的一部分，而不是整个表。
+4. 保护数据。可以授予用户访问表的特定部分，而不是表的全部权限。
+5. 更改数据格式和表示。视图可返回与底层表的表示和格式不同的数据。
+```
+```
+创建视图后，可以用表相同的方式去使用它们。可以对视图执行select操作，过滤和排序数据，将视图联结到其他视图或表等。
+再次强调：视图只是包含了动态检索数据的查询。
+```
+
+##### 18.1.2 视图的规则与限制
+不同的DBMS中视图的限制和规则可能不同，具体请参考文档。
+
+```
+视图的创建和使用的一些最常见的规则和限制：
+1. 与表一样，视图必须唯一命名，名字不能有冲突。2. 对于可以创建的视图数目没有限制。3. 创建视图，必须具有足够的访问权限。4. 视图可以嵌套，即可以利用从其他视图中检索数据的查询来构造视图。所允许的嵌套层数在不同的DBMS中有所不同(嵌套视图可能会严 重降低查询的性能，因此在产品环境中使用之前，应该对其进行全面测试)。5. 许多DBMS禁止在视图查询中使用ORDER BY子句。 
+6. 有些DBMS要求对返回的所有列进行命名，如果列是计算字段，则需要使用别名。
+7. 视图不能索引，也不能有关联的触发器或默认值。 
+8. 有些DBMS把视图作为只读的查询，这表示可以从视图检索数据，但不能将数据写回底层表。
+```
+
+##### 18.2 创建视图
+Create view语句来创建视图。
+
+##### 18.2.1 利用视图简化复杂的联结
+```
+视图最常见的应用：隐藏复杂的SQL
+create view ProductCustomers ASselect cust_name, cust_contact, prod_idfrom Customers, Orders, OrderItemswhere Customers.cust_id = Orders.cust_idAND OrderItems.order_num = Orders.order_num;
+
+然后调用sql查询:
+select cust_name, cust_contact from ProductCustomers where prod_id = 'RGANO1';
+```
+
+##### 18.2.2 用视图重新下格式化检索的数据
+```
+视图另一个常见的应用: 重新格式化检索出的数据
+create view VendorLocations ASselect RTRIM(vend_name) + ' (' + RTRIM(vend_country) + ')'AS vend_title from Vendors;
+
+在单个组合计算列中返回供应商名和位置
+```
+
+##### 18.2.3 用视图过滤不想要的数据
+```
+可以定义一个视图：过滤没有电子邮件地址的顾客
+create view CustomerEMailList ASselect cust_id, cust_name, cust_emailfrom Customers where cust_email is not Null;
+```
+
+##### 18.2.4 使用视图与计算字段
+在简化计算字段的使用上，视图也特别有用。
+```create view OrderItemsExpanded ASselect order_num, prod_id, quantity, item_price, quantity*item_price AS expanded_price
+from OrderItems
+```
+
+
+
+
 
 
 

@@ -698,10 +698,32 @@ create view CustomerEMailList ASselect cust_id, cust_name, cust_emailfrom Cust
 from OrderItems
 ```
 
+##### 第19课 使用存储过程
 
+##### 19.1 存储过程
+```
+1. 通俗的讲，存储过程就是类似于C的一个方法。
+2. 简单的说，存储过程就是为以后使用而保存一条或多条SQL语句。可以将其视为批文件，但它的作用不仅限于批处理。
+```
 
+##### 19.2 为什么使用存储过程
+1. 存储过程有3个优点：简单，安全和高性能。
+2. 多数DBMS的存储过程可能不同，而且存储过程也比较复杂，难于编写。
 
+##### 19.3 执行存储过程
+使用关键字execute来执行存储过程 
 
+```
+EXECUTE AddNewProduct( 'JTS01', 'Stuffed Eiffel Tower', 6.49,'Plush stuffed toy with the text");
+
+AddNewProduct是一个存储过程，将一个新的商品添加到Product表中。但我们发现，最重要的字段prod_id列没有，应为我们想统一化规格化生成对应的prod_id.
+所以，该存储过程需要做以下3件事：
+1. 验证传递的数据，保证所有4个参数都有值;2. 生成用作主键的唯一ID; 
+3. 将新产品插入Products表，在合适的列中存储生成的主键和传递的数据。
+```
+
+##### 19.4 创建存储过程
+创建存储过程，每个DBMS差别很大，具体需要参考DBMS文档。
 
 
 

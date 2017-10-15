@@ -819,4 +819,70 @@ Rollback transaction delete1;
 Begin Transactioninsert into Customers(cust_id, cust_name) values('1000000010', 'Toys Emporium');save transaction StartOrder;insert into Orders(order_num, order_date, cust_id) values(20100,'2001/12/1','1000000010');IF @@ERROR <> 0 Rollback Transaction StartOrder;insert into OrderItems(order_num, order_item, prod_id, quantity, item_price)values(20100, 1, 'BR01', 100, 5.49);IF @@ERROR <> 0 Rollback Transaction StartOrder;insert into OrderItems(order_num, order_item, prod_id, quantity, item_price)values(20100, 2, 'BR03', 100, 10.99);IF @@ERROR <> 0 Rollback Transaction StartOrder;Commit Transaction;
 ```
 
+### 第21课 使用游标
+
+##### 21.1 游标
+SQL检索结果是返回一组称为结果集的行。但是无法从结果集中得到第一行，下一行或前10行的数据。但是大多数Web应用开发人员不使用游标，而是根据自己的需要开发相应的功能。如：利用limit1, 10来实现分页查询， 或使用foreach来实现遍历。
+
+```
+游标的用途:
+有时，需要在检索出来的行中前进或后退一行或多行，就需要使用游标。
+游标(cursor)是一个存储在DBMS服务器上的数据库查询，它不是一条SELECT语句。在存储了游标之后，应用程序可以根据需要滚动或浏览数据集中的数据。
+```
+
+```
+游标在不同的DBMS中的一些共性：
+1. 能够标记游标为只读，使数据能读取，但不能更新和删除。2. 能控制可以执行的定向操作(向前、向后、第一、最后、绝对位置、相对位置等)。3. 能标记某些列为可编辑的，某些列为不可编辑的。4. 规定访问范围，使游标对创建它的特定请求(如存储过程)或对所有请求可访问。5. 指示DBMS对检索出的数据(而不是指出表中活动数据)进行复制，使数据在游标打开和访问期间不变化。
+```
+
+##### 21.2 使用游标
+```
+使用游标的几个明确的步骤:
+1. 在使用游标前，必须定义它。这个过程实际上没有检索数据，它只是定义要使用的SELECT语句和游标。2. 一旦定义，就必须打开游标以供使用。这个过程用前面定义的SELECT语句把数据实际检索出来。3. 对于填有数据的游标，根据需要取检索各行。4. 在结束游标使用时，必须关闭游标，可能的话，释放游标(有赖于具体的DBMS)。
+```
+
+##### 21.2.1 创建游标
+使用Declare语句创建游标。
+
+```
+创建一个游标来检索没有电子邮件地址的所有顾客.
+1. Mysql + SQL Server
+Declare CustCursor Cursor forSelect * from Customers where cust_email is null;
+2. Oracle
+Declare Cursor CustCursor isSelect * From Customers where cust_email is null;
+```
+
+##### 21.2.2 使用游标
+游标的使用场景并不多，该节笔记比较粗糙。
+
+```
+使用OPEN CURSOR语句打开游标
+1. Open Cursor CustCursor;
+```
+
+```
+使用Fetch语句访问游标数据。
+Fetch需要指出检索哪些行，从何处检索他们以及将他们存放于何处。
+Declare Type CustCursor IS ref CursorReturn Customers%ROWTYPE;Declare CustRecord Customers%ROWTYPEBegin	Open CustCursor;	Fetch CustCursor INTO CustRecord;	Close CustCursor;
+End;	
+```
+
+##### 21.2.3 关闭游标
+```
+1. Oracle
+Close CustCursor;
+2. SQL Server
+Close CustCursor
+Deallocate Cursor CustCursor;
+```
+
+
+
+
+
+
+
+
+
+
 

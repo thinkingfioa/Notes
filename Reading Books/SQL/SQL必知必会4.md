@@ -728,6 +728,7 @@ AddNewProduct是一个存储过程，将一个新的商品添加到Product表中
 ### 第20课 管理事务处理
 - 使用事务处理，确保成批的SQL操作要么完全执行，要么完全不执行，来保证数据库的完整性。
 - 事务处理是一种机制，用来管理必须成批执行的SQL操作，保证数据库不可能包括不完整的操作结果。
+- 事务都应该具备ACID特征。所谓ACID是Atomic（原子性），Consistent（一致性），Isolated（隔离性），Durable（持久性）四个词的首字母所写，
 
 ```
 在使用事务时，需要理解几个关键字：
@@ -745,12 +746,77 @@ AddNewProduct是一个存储过程，将一个新的商品添加到Product表中
 ##### 20.2 控制事务处理
 管理事务的关键在于将SQL语句组合成逻辑块，并规定数据何时回退，何时不应该回退。
 
+```
+不同的DBMS实现事务处理的语法不同:
+1. SQL Server
+Begin Transaction
+...
+Commit Transaction
+在这里Begin Transaction和Commit Transaction之间的SQL必须完全执行，或完全不执行。
+2. Mysql
+Start Transaction
+...
+Commit
+3. Oracle
+Set Transaction
+...
+Commit
+```
 
+##### 20.2.1 使用Rollback
+SQL 使用Rollback来回退(撤销)SQL命令
 
+```
+命令：delete from Orders; Rollback;
+使用Delete语句，然后使用Rollback语句撤销。该句能充分说明：在事务处理块中，delete操作(insert操作和update操作)并不是最终的结果。
+```
 
+##### 20.2.2 使用Commit
+在事务处理块中，提交必须时显示提交。
 
+```
+删除订单12345，所以需要同时更新两个数据库表Orders表和OrderItems表。
+1. Mysql中
+Begin Transactiondelete OrderItems where order_num = 12345;
+delete Orders where order_num = 12345;
+Commit Transaction
+2. Oracle中
+Set Transaction
+delete OrderItems where order_num = 12345;
+delete Orders where order_num = 12345;
+Commit;
 
+上面的事务处理块中同时更新两个表中的记录，事务保证了操作的一致性，不可能出现部分删除。
+```
 
+##### 20.2.3 使用保留点
+```
+保留点(savepoint)作用是：支持回退部分事务。
+例如添加一个订单，需要插入顾客信息，插入订单信息，订单详情信息，但当插入订单详情时发生错误，只需要回退到插入订单信息，不需要回退到插入顾客信息。这是就需要回退部分事务。
+保留点使用：在编写事务过程中，需要在事务处理块中的合适位置放置占位符。用于后面的回退。
+```
 
+```
+不同的DBMS的保留点设置不同
+1. Mysql
+Savepoint delete1;
+2. SQL Server
+Save Transaction delete1;
+```
+
+```
+不同的DBMS的回退保留点的方式不同
+1. Mysql
+Rollback to delete1;
+2. SQL Server
+Rollback transaction delete1;
+```
+
+##### 20.3 SQL Server事务举例
+不同的DBMS可能不同，但是总体概念和流程都是相同的。
+
+```
+Begin Transactioninsert into Customers(cust_id, cust_name) values('1000000010', 'Toys Emporium');save transaction StartOrder;insert into Orders(order_num, order_date, cust_id) values(20100,'2001/12/1','1000000010');IF @@ERROR <> 0 Rollback Transaction StartOrder;insert into OrderItems(order_num, order_item, prod_id, quantity, item_price)values(20100, 1, 'BR01', 100, 5.49);IF @@ERROR <> 0 Rollback Transaction StartOrder;insert into OrderItems(order_num, order_item, prod_id, quantity, item_price)values(20100, 2, 'BR03', 100, 10.99);IF @@ERROR <> 0 Rollback Transaction StartOrder;Commit Transaction;
+```
 
 

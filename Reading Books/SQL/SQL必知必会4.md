@@ -876,6 +876,127 @@ Close CustCursor
 Deallocate Cursor CustCursor;
 ```
 
+### 第22课 高级SQL特性
+
+##### 22.1 约束
+1. 约束: 管理如何插入或处理数据库数据的规则。
+2. 引用完整性(referential integrity): 利用键来建立从一个表到另一个表的引用
+
+```
+关系型数据库，需要保证插入数据库的数据和合法性。
+例如：如果Orders表存储订单信息，OrderItems表存储订单详细内容，应该保证OrderItems中引用的任何订单ID都存在于Orders中。类似地，在Orders表中引用的任意顾客必须存在于Customers表中。
+DBMS通过在数据库表上施加约束来实施引用完整性.
+```
+
+##### 22.1.1 主键
+主键是一种特殊的约束，用来某一行的数据是唯一的，而且主键永不改动。
+
+```表中的列只要满足以下条件，可用于主键:1. 任意两行的主键值都不相同。2. 每行都具有一个主键值(即列中不允许NULL值)。3. 包含主键值的列从不修改或更新。
+4. 主键值不能重用。如果从表中删除某一行，其主键值不分配给新行。
+```
+
+```
+主键的创建:
+1. Create Table Create Table Vendors(vend_id		CHAR(10) NOT NULL Primary Key,vend_name 	CHAR(50) NOT NULL,vend_address CHAR(50) NULL,vend_city    CHAR(50) NULL,vend_state   CHAR(5)  NULL,vend_zip     CHAR(10) NULL,vend_country CHAR(50) NULL
+);
+Primary Key声明表的主键列
+2. Alter Table
+Alter Table Vendors 
+Add Constraint Primary Key(vend_id);
+```
+
+##### 22.1.2 外键
+外键是表中的一列，其值必须在另一表的主键列中。
+
+```
+外键是关系数据库描述表和表之间依赖关系
+1. Create Table
+Create Table Orders(
+	order_num		Integer	not null primary key,	order_date	DateTime	not null,	cust_id		char(10)	not null references Customers(cust_id));
+2 Alter Table
+Alter Table OrdersAdd Constraint Foreign key (cust_id) references Customers(cust_id);```
+
+```
+外键的作用:
+1. 能够帮组保证引用完整性。
+2. 防止意外删除记录
+由于顾客表Customers表中主见: cust_id，作为订单表Orders中的外键。所以如果想直接删除顾客表中的记录，必须保证其值已经不被订单表中依赖。
+3. 级联删除
+Mysql支持级联删除特性。解释：如果从顾客表Customers表中删除某个顾客，那么由于顾客表Customers表中的主见cust_id作为了Orders表中的外键依赖，所以订单表Orders中的该顾客的订单也一并删除。
+```
+
+##### 22.1.3 唯一约束
+```
+唯一约束用来保证某一列中的数据是唯一的。它和主键有以下区别:1. 表可包含多个唯一约束，但每个表只允许一个主键。2. 唯一约束列可包含NULL值。3. 唯一约束列可修改或更新。4. 唯一约束列的值可重复使用。5. 与主键不一样，唯一约束不能用来定义外键。
+```
+
+##### 22.1.4 检查约束
+
+```
+检查约束用来保证一列中的数据满足一组指定的条件。检查约束的常见用途:1. 检查最小或最大值。例如，防止0个物品的订单(即使0是合法的数)。 
+2. 指定范围。例如，保证发货日期大于等于今天的日期，但不超过今天起一年后的日期。 
+3. 只允许特定的值。例如，在性别字段中只允许M或F。
+```
+
+```
+对OrderItems表施加了检查约束，保证所有物品的数量大于0:
+CREATE TABLE OrderItems(	order_num		INTEGER	NOT NULL,	order_item	INTEGER	not null, 	prod_id		CHAR(10)	not null,	quantity		INTEGER	not null check (quantity > 0),	item_price	MONEY		not null);
+检查名为gender的列只包含M或F
+Alter Table OrderItems
+Add Constraint Check (gender LIKE '[MF]')
+```
+
+##### 22.2 索引
+索引是利用B+等索引机制，加快查询和排序的速度。
+
+```使用索引需要记住以下内容:1. 索引提高检索操作的性能，但降低了数据插入、修改和删除的性能。因为数据变更需要更新索引。 
+2. 索引数据可能要占用大量的存储空间。 
+3. 并非所有数据都适合做索引。查询量非常大，列的数据非常多，使用使用索引。
+4. 索引用于数据过滤和数据排序。如果你经常以某种特定的顺序排序数据，则该数据可能适合做索引。 
+5. 可以在索引中定义多个列(例如，州加上城市)。这样的索引仅在以州加城市的顺序排序时有用。
+```
+
+```
+所以必须唯一命名:
+Create Index prod_name_index On Products(prod_name);
+```
+
+##### 22.2.1 索引建立的几大原则
+
+```
+1. 选择唯一性索引
+唯一性索引的值是唯一的，能快速的通过该索引来确定某条记录。
+2. 为经常需要排序、分组和联合操作的字段建立索引
+经常需要Order By、Group By、Distinct和Union等操作的字段，排序操作会浪费很多时间。
+3. 为常作为查询条件的字段建立索引
+某个字段经常用来做查询条件，该字段的查询速度会影响整个表的查询速度。使用索引，可以极大加快查询速度。
+4. 尽量使用数据量少的索引
+如果索引的值很长，那么查询的速度会受到影响。例如，对一个CHAR(100)类型的字段进行全文检索需要的时间肯定要比对CHAR(10)类型的字段需要的时间要多。
+5. 尽量使用前缀来索引
+索引字段的值很长，应该采用前缀来索引。
+6. 最左前缀匹配原则，非常重要的原则。
+mysql会一直向右匹配直到遇到范围查询(>、<、between、like)就停止匹配，比如state='yes' and city='wuwei' and price > 3 and name = 'ppp' 如果建立(state, city, price, name)顺序的索引，name的查询是用不到索引的，只能使用部分索引，然后在结果集上面进行排序。如果建立(state, city , ppp, price)的索引则都可以用到，state, city, name的顺序可以任意调整。
+7. =和in可以乱序。
+比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式
+8. 尽量选择区分度高的列作为索引。
+数据量区分度越高，索引的比较成本会小很多。
+9. 删除不再使用或者很少使用的索引
+请定期删除不在使用的索引。
+10. 限制索引的数目
+使用索引需要付出代价，索引会消耗磁盘空间，对数据库记录的更新和删除产生影响。
+11. 索引列不能参与计算。
+坚决不能将某个计算函数作为缩影。如：from_unixtime(create_time) = ’2014-05-29’
+12. 尽量的扩展索引，不要新建索引。 
+比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可
+```
+
+
+
+
+
+
+
+
 
 
 

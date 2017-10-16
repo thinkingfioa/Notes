@@ -962,6 +962,18 @@ Create Index prod_name_index On Products(prod_name);
 ```
 
 ##### 22.2.1 索引建立的几大原则
+```
+组合索引的解释：
+如果创建了(state, city, zip)列作为组合索引，索引中的数据行按照state/city/zip次序排列，
+这意味着，这个索引可以被用于搜索如下所示的数据列组合：
+state, city, zip
+state, city
+state
+
+但是MySQL不能利用这个索引来搜索没有包含在最左前缀的内容。例如，如果你按照city或zip来搜索，
+就不会使用到这个索引。如果你按照state，和zip来搜索，该索引也是不能用于这种组合值的，但是可以利用索引来查找匹配的state从而缩小搜索的范围。
+
+```
 
 ```
 1. 选择唯一性索引
@@ -970,14 +982,18 @@ Create Index prod_name_index On Products(prod_name);
 经常需要Order By、Group By、Distinct和Union等操作的字段，排序操作会浪费很多时间。
 3. 为常作为查询条件的字段建立索引
 某个字段经常用来做查询条件，该字段的查询速度会影响整个表的查询速度。使用索引，可以极大加快查询速度。
-4. 尽量使用数据量少的索引
-如果索引的值很长，那么查询的速度会受到影响。例如，对一个CHAR(100)类型的字段进行全文检索需要的时间肯定要比对CHAR(10)类型的字段需要的时间要多。
-5. 尽量使用前缀来索引
+4. 最左前缀匹配原则，非常重要的原则。
+mysql会一直向右匹配直到遇到范围查询(>、<、between、like)就停止匹配，
+比如state='yes' and city='wuwei' and price > 3 and name = 'ppp' 如果建立(state, city, price, name)顺序的索引，
+name的查询是用不到索引的，只能使用部分索引，然后在结果集上面进行排序。如果建立(state, city , ppp, price)的索引则都可以用到，state, city, name的顺序可以任意调整。
+5. =和in可以乱序。
+比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式。
+但是如果建立索引(a,b,c)，结果where子句是:b =2 and c=3，则索引不起作用。
+6. 尽量使用数据量少的索引
+如果索引的值很长，那么查询的速度会受到影响。
+例如，对一个CHAR(100)类型的字段进行全文检索需要的时间肯定要比对CHAR(10)类型的字段需要的时间要多。
+7. 尽量使用前缀来索引
 索引字段的值很长，应该采用前缀来索引。
-6. 最左前缀匹配原则，非常重要的原则。
-mysql会一直向右匹配直到遇到范围查询(>、<、between、like)就停止匹配，比如state='yes' and city='wuwei' and price > 3 and name = 'ppp' 如果建立(state, city, price, name)顺序的索引，name的查询是用不到索引的，只能使用部分索引，然后在结果集上面进行排序。如果建立(state, city , ppp, price)的索引则都可以用到，state, city, name的顺序可以任意调整。
-7. =和in可以乱序。
-比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式
 8. 尽量选择区分度高的列作为索引。
 数据量区分度越高，索引的比较成本会小很多。
 9. 删除不再使用或者很少使用的索引
@@ -990,11 +1006,34 @@ mysql会一直向右匹配直到遇到范围查询(>、<、between、like)就停
 比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可
 ```
 
+##### 22.3 触发器
 
+```
+触发器是特殊的存储过程，可以在特定的数据库活动发生时自动执行。
+触发器可以与特定表上的Insert, Update或Delete操作(或组合)想关联。
+如：与Orders表上的Insert操作相关联的触发器只在Orders表中插入行时才会执行。
+```
 
+```
+触发器的常见用途:
+1. 保证数据一致。例如，在Insert或Update操作中将所有州名转换为大写。2. 基于某个表的变动在其他表上执行活动。例如，每当更新或删除一行时将审计跟踪记录写入某个日志表。3. 进行额外的验证并根据需要回退数据。例如，保证某个顾客的可用资金不超限定，如果已经超出，则阻塞插入。
+4. 计算计算列的值或更新时间戳。
+```
 
+```
+不同的DBMS的触发器差距很大，请参考具体文档.
+如：创建一个触发器，对所有Insert和Update操作，将Customers表中的cust_state列转换为大写。
+1. SQL Server
+Create Trigger customer_state On CustomersFor Insert, Update AsUpdate Customers Set cust_state = Upper(cust_state)
+2. Oracle
+Create Trigger customer_stateAfter Insert Or UupdateFor Each RowBeginUpdate CustomersSet cust_state = Upper(cust_state)Where Customers.cust_id = :OLD.cust_idend;
+```
 
+##### 22.4 数据库安全
 
+```
+一般对数据保护操作有:1. 对数据库管理功能(创建表、更改或删除已存在的表等)的访问;2. 对特定数据库或表的访问;3. 访问的类型(只读、对特定列的访问等);4. 仅通过视图或存储过程对表进行访问;5. 创建多层次的安全措施，从而允许多种基于登录的访问和控制;6. 限制管理用户账号的能力。
+```
 
 
 

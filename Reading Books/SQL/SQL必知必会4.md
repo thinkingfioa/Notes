@@ -1,5 +1,11 @@
 # SQL必知必会_4
 
+### 前言
+```
+@author 鲁伟林
+在读电子版<<SQL必知必会>> 第4版时，做了下笔记。供以后自己或者其他学习者参考。
+电子版<<SQL必知必会>>和书中使用的数据库和表的源代码，请参看地址：
+```
 ### 第2课 检索数据
 
 ##### 2.3 检索多个列
@@ -97,6 +103,7 @@ select prod_name, prod_price, vend_id from products where vend_id = '1001' OR ve
 | JetPack 2000 |      55.00 |    1005 |
 
 分析：
+
 ```
 OR操作符和AND操作符优先级不同。AND操作符的优先级 > OR操作符的优先级。所以上面的sql变成了:
 select prod_name, prod_price, vend_id from products where vend_id = '1001' OR (vend_id = '1005' and prod_price >= 10 );
@@ -262,14 +269,14 @@ select 语句可以根据需要包含多个聚集函数。
 - select count(*) as num_items, min(prod_price) as min_price, max(prod_price) as max_price, sum(prod_price) as sum_price from products;
 
 ### 第10课 分组数据
-将数据分组，使用Order by子句和Having子句。
+将数据分组，使用Group by子句和Having子句。
 
 ##### 10.1 数据分组
 目前为止的所有计算都是在表的所有数据或匹配特定的WHERE子句的数据上进行的。没有对应的分组概念。
 
 - select count(*) as num_prods from products where vend_id = 'DLL01';
 
-如果查询每个供应商提供的商品数，怎么查？答：需要使用分组，Order by子句和Having子句
+如果查询每个供应商提供的商品数，怎么查？答：需要使用分组，Group by子句和Having子句
 
 ##### 10.2 创建分组
 分组是使用select语句的Group by实现的。
@@ -364,7 +371,7 @@ from Customers order by cust_name;
 ```
 
 ##### 12.2.3 联结多个表
-select prod_name, vend_name, prod_price, quantity from OrderItems, Products, Vendorswhere Products.vend_id = Vendors.vend_idAND OrderItems.prod_id = Products.prod_idAND order_num = 20007;
+select prod_name, vend_name, prod_price, quantity from OrderItems, Products, Vendorswhere Products.vend_id = Vendors.vend_idAnd OrderItems.prod_id = Products.prod_idAnd order_num = 20007;
 
 ### 第13课 创建高级联结
 
@@ -384,12 +391,12 @@ select cust_name, cust_contact from Customers AS C, Orders AS O, OrderItems AS O
 
 ```
 1. 使用子查询
-- select cust_name, cust_address from customers where cust_name = (select cust_name from customers where cust_contact = 'Y Lee')
+select cust_name, cust_address from customers where cust_name = (select cust_name from customers where cust_contact = 'Y Lee')
 ```
 
 ```
 2. 使用自联结
-- select C1.cust_name, C2.cust_address from customers as C1, customers as C2 where C1.cust_name = C2.cust_name and C1.cust_contact = 'Y Lee'
+select C1.cust_name, C2.cust_address from customers as C1, customers as C2 where C1.cust_name = C2.cust_name and C1.cust_contact = 'Y Lee'
 ```
 
 ```
@@ -528,7 +535,7 @@ cust_id,cust_contact,cust_email,cust_name,cust_address,cust_city,cust_state,cust
 from CustNew;说明：将select语句查询出来的结果，插入到表Customers中. ```
 ```
 注意:
-1. insert 和select不一定要求列名匹配。它使用的是列的位置，因此SELECT中的第一列(不管其列名)将用来填充表列中指定的第一列，第二列将用来填充表列中指定的 第二列。
+1. insert 和select不一定要求列名匹配。它使用的是列的位置，因此SELECT中的第一列(不管其列名)将用来填充表列中指定的第一列，第二列将用来填充表列中指定的第二列。
 2. insert 通常只插入一行。但insert select是个例外，它可以用一条insert插入多行，不管select语句返回对少条语句，都会被插入到表中。
 ```
 
@@ -715,7 +722,6 @@ from OrderItems
 
 ```
 EXECUTE AddNewProduct( 'JTS01', 'Stuffed Eiffel Tower', 6.49,'Plush stuffed toy with the text");
-
 AddNewProduct是一个存储过程，将一个新的商品添加到Product表中。但我们发现，最重要的字段prod_id列没有，应为我们想统一化规格化生成对应的prod_id.
 所以，该存储过程需要做以下3件事：
 1. 验证传递的数据，保证所有4个参数都有值;2. 生成用作主键的唯一ID; 

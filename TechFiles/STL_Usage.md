@@ -1,5 +1,11 @@
 # STL 容器文档
 
+```
+@author 鲁伟林
+之前常用的语言是: C++。现在使用的是Java，所以抽空整理下C++集合的使用方法。
+gitHub地址：https://github.com/thinkingfioa/Notes/blob/master/TechFiles/STL_Usage.md
+```
+
 ### vector
 
 ##### push_back

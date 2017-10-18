@@ -129,15 +129,85 @@ print(str * 2); # 输出2遍: Hello World!Hello World!
 print(str + " TEST"); # 输出: Hello World! TEST
 ```
 
+##### Python 列表
+- 列表使用'[]'来标识
+- List(列表)是Python中使用最频繁的数据类型。
+- 列表的切割也可以用到变量 [头下标:尾下标]
+- 加号(+)是字符串连接运算符，星号(*)是重复操作
+- 列表允许更新，如 ：list[2] = 123;
 
+```
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 
+list = [ "runoob", 786 , 2.23, "john", 70.2 ];
+tinylist = [123, "john"];
 
+print(list); #输出: ['runoob', 786, 2.23, 'john', 70.2]
+print(list[0]); #输出: runoob
+print(list[1:3]); #输出: [786, 2.23]
+print(list[2:]); #输出: [2.23, 'john', 70.2]
+print(tinylist *2 ); #输出: [123, 'john', 123, 'john']
+print(list + tinylist); #输出: ['runoob', 786, 2.23, 'john', 70.2, 123, 'john']
+```
 
+##### Python 元组
+- 元组用'()'标识
+- 元组是另一个数据类型，类似于List(列表)
+- 元组不允许二次赋值，相当于只读列表。如：tuple[2] = 1000非法访问
 
+```
+tuply = [ "runoob", 786 , 2.23, "john", 70.2 ];
+tinytuply = [123, "john"];
 
+print(tuply); #输出: ['runoob', 786, 2.23, 'john', 70.2]
+print(tuply[0]); #输出: runoob
+print(tuply[1:3]); #输出: [786, 2.23]
+print(tuply[2:]); #输出: [2.23, 'john', 70.2]
+print(tinytuply *2 ); #输出: [123, 'john', 123, 'john']
+print(tuply + tinytuply); #输出: ['runoob', 786, 2.23, 'john', 70.2, 123, 'john']
+```
 
+##### Python字典
+- 字典用"{ }"标识。
+- 类似于其他语言的：Map
 
+```
+dict = {};
+dict["one"] = "This is one";
+dict[2] = "This is two";
 
+tinydict = {"name": "john", "code":6734, "dept":"sales"};
+
+print(dict["one"]); # 输出: This is one
+print(dict[2]); # 输出: This is two
+print(tinydict); # 输出: {'dept': 'sales', 'code': 6734, 'name': 'john'}
+print(tinydict.keys()); # 输出: ['dept', 'code', 'name']
+print(tinydict.values()); # 输出: ['sales', 6734, 'john']
+```
+
+##### Python数据类型转换
+- int('12', 16),就是说：12是一个16进制的。输出为: 18.
+
+|函数|描述|
+|:---:|:---:|
+|int(x [,base])|将x转换为一个整数|
+|long(x [,base] )|将x转换为一个长整数|
+|float(x)|将x转换到一个浮点数|
+|complex(real [,imag])|创建一个复数|
+|str(x)|将对象 x 转换为字符串|
+|repr(x)|将对象 x 转换为表达式字符串|
+|eval(str)|用来计算在字符串中的有效Python表达式,并返回一个对象|
+|tuple(s)|将序列 s 转换为一个元组|
+|list(s)|将序列 s 转换为一个列表|
+|set(s)|转换为可变集合|
+|dict(d)|创建一个字典。d 必须是一个序列 (key,value)元组。|
+|frozenset(s)|转换为不可变集合|
+|chr(x)|将一个整数转换为一个字符|
+|unichr(x)|将一个整数转换为Unicode字符|
+|ord(x)|将一个字符转换为它的整数值|
+|hex(x)|将一个整数转换为一个十六进制字符串|
+|oct(x)|将一个整数转换为一个八进制字符串|
 
 
 

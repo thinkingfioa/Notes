@@ -35,3 +35,35 @@ print(dict[2]); # 输出: This is two
 print(tinydict); # 输出: {'dept': 'sales', 'code': 6734, 'name': 'john'}
 print(tinydict.keys()); # 输出: ['dept', 'code', 'name']
 print(tinydict.values()); # 输出: ['sales', 6734, 'john']
+
+a = 7;
+b = 2;
+
+list = [1,2,3,4,5];
+
+if(a in list):
+	print("a is in list");
+else:
+	print(" a is not list"); # 输出
+
+if(b in list):
+	print("b is in list"); # 输出
+else:
+	print("b is not list");
+
+
+c = 10;
+d = 7;
+
+
+if(c is d):
+	print("c is d"); # 输出
+else:
+	print("c is not d"); 
+
+d = 10;
+
+if(c is d):
+	print("c is d"); 
+else:
+	print("c is not d"); # 输出

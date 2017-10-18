@@ -3,6 +3,10 @@
 
 str = "Hello World!";
 
+
+
+
+
 print(str); #输出: Hello World!
 print(str[0]); # 输出: H
 print(str[2:5]); # 输出: llo

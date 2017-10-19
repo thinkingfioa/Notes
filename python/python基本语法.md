@@ -335,6 +335,133 @@ print "Good bye!"
 - pass是空语句，为了保证程序结构的完整性。
 - pass不做任何事，一般用作占位符
 
+### Python Number(数字)
+- Python支持: int(有符号整型), long(长整型: 3291930L), float(浮点型), complex(复数: a+bj 或者 complex(a,b).
+- 可以使用del语句删除对象的引用. 如: del var1, var2;
+
+##### Python数据类型转换
+- int('12', 16),就是说：12是一个16进制的。输出为: 18.
+
+|函数|描述|
+|:---:|:---:|
+|int(x [,base])|将x转换为一个整数|
+|long(x [,base] )|将x转换为一个长整数|
+|float(x)|将x转换到一个浮点数|
+|complex(real [,imag])|创建一个复数|
+|str(x)|将对象 x 转换为字符串|
+|repr(x)|将对象 x 转换为表达式字符串|
+|eval(str)|用来计算在字符串中的有效Python表达式,并返回一个对象|
+|tuple(s)|将序列 s 转换为一个元组|
+|list(s)|将序列 s 转换为一个列表|
+|set(s)|转换为可变集合|
+|dict(d)|创建一个字典。d 必须是一个序列 (key,value)元组|
+|frozenset(s)|转换为不可变集合|
+|chr(x)|将一个整数转换为一个字符|
+|unichr(x)|将一个整数转换为Unicode字符|
+|ord(x)|将一个字符转换为它的整数值|
+|hex(x)|将一个整数转换为一个十六进制字符串|
+|oct(x)|将一个整数转换为一个八进制字符串|
+
+##### Python数学函数
+|函数|描述|
+|:---:|:---:|
+|abs(x)|返回数字的绝对值，如abs(-10) 返回 10|
+|cmp(x, y)|如果 x < y 返回 -1, 如果 x == y 返回 0, 如果 x > y 返回 1|
+|exp(x)|返回e的x次幂(ex),如math.exp(1) 返回2.718281828459045|
+|fabs(x)|返回数字的绝对值，如math.fabs(-10) 返回10.0|
+|ceil(x)|返回数字的上入整数，如math.ceil(4.1) 返回 5|
+|floor(x)|返回数字的下舍整数，如math.floor(4.9)返回 4|
+|log(x)|如math.log(math.e)返回1.0,math.log(100,10)返回2.0|
+|log10(x)|返回以10为基数的x的对数，如math.log10(100)返回 2.0|
+|max(x1, x2,...)|返回给定参数的最大值，参数可以为序列。|
+|min(x1, x2,...)|返回给定参数的最小值，参数可以为序列。|
+|modf(x)|返回x的整数部分与小数部分，两部分的数值符号与x相同，整数部分以浮点型表示。|
+|pow(x, y)|x**y 运算后的值。|
+|round(x [,n])|返回浮点数x的四舍五入值，如给出n值，则代表舍入到小数点后的位数。|
+|sqrt(x)|返回数字x的平方根|
+
+##### Python随机数函数
+|函数|描述|
+|:---:|:---:|
+|choice(seq)|从序列的元素中随机挑选一个元素，如random.choice(range(10))，从0到9中随机挑选一个整数|
+|randrange|([start,] stop [,step])从指定范围内，按指定基数递增的集合中获取一个随机数，基数缺省值为1|
+|random()|随机生成下一个实数，它在[0,1)范围内|
+|seed([x])|改变随机数生成器的种子seed|
+|shuffle(list)|将序列的所有元素随机排序|
+|uniform(x, y)|随机生成下一个实数，它在[x,y]范围内|
+
+##### Python数学常量
+|常量|描述|
+|:---:|:---:|
+|pi|数学常量pi(圆周率)|
+|e|数学常量e，e是自然数|
+
+### Python字符串
+##### Python字符串格式化
+|符号|描述|
+|:---:|:---:|
+|%c|格式化字符及其ASCII码|
+|%s|格式化字符串|
+|%d|格式化整数|
+|%u|格式化无符号整型|
+|%o|格式化无符号八进制数|
+|%x|格式化无符号十六进制数|
+|%X|格式化无符号十六进制数（大写）|
+|%f|格式化浮点数字，可指定小数点后的精度|
+|%e|用科学计数法格式化浮点数|
+|%E|作用同%e，用科学计数法格式化浮点数|
+|%g|%f和%e的简写|
+|%G|%f 和 %E 的简写|
+|%p|用十六进制数格式化变量的地址|
+
+##### Python三引号
+- 三引号(""")可以将字符串变成多行，且字符串中可以包括一些特殊字符
+
+##### Python的字符串内建函数
+
+|方法|描述|
+|:---:|:--:|
+|string.capitalize()|把字符串的第一个字符大写|
+|string.center(width)|返回一个原字符串居中,并使用空格填充至长度width的新字符串|
+|string.count(str, beg=0, end=len(string))|返回str在string 里面出现的次数|
+|string.decode(encoding='UTF-8',errors='strict')|以encoding 指定的编码格式解码 string|
+|string.encode(encoding='UTF-8', errors='strict')|以encoding指定的编码格式编码string|
+|string.endswith(obj, beg=0, end=len(string))|检查字符串是否以obj结束,如果在指定的范围内以obj结束，返回 True|
+|string.expandtabs(tabsize=8)|把字符串string中的tab符号转为空格，tab符号默认的空格数是8|
+|string.find(str, beg=0, end=len(string))|检测str是否包含在string中，如果是返回开始的索引值，否则返回-1|
+|string.format()|格式化字符串|
+|string.index(str, beg=0, end=len(string))|跟find()方法一样，只不过如果str不在 string中会报一个异常.|
+|string.isalnum()|如果string 至少有一个字符并且所有字符都是字母或数字则返回 True|
+|string.isalpha()|如果 string 至少有一个字符并且所有字符都是字母则返回 True|
+|string.isdigit()|如果 string 只包含数字则返回 True|
+|string.isnumeric()|如果 string 中只包含数字字符，则返回 True|
+|string.isspace()|如果 string 中只包含空格，则返回 True|
+|string.isupper()|如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True|
+|string.join(seq)|以 string 作为分隔符，将 seq 中所有的元素合并为一个新的字符串|
+|string.ljust(width)|返回一个原字符串左对齐,并使用空格填充至长度 width 的新字符串|
+|string.lower()|转换 string 中所有大写字符为小写.|
+|string.lstrip()|截掉 string 左边的空格|
+|string.rstrip()|删除 string 字符串末尾的空格.|
+|string.strip([obj])|在 string 上执行 lstrip()和 rstrip()|
+|max(str)|返回字符串 str 中最大的字母。|
+|min(str)|返回字符串 str 中最小的字母。|
+|string.partition(str)|有点像 find()和 split()的结合体,从str出现的第一个位置起,把字符 串string分成一个3元素的元组(string_pre_str,str,string_post_str),如果string中不包含str 则 string_pre_str == string.|
+|string.replace(str1, str2,  num=string.count(str1))|把 string 中的 str1 替换成 str2,如果 num 指定，则替换不超过 num 次.|
+|string.rfind(str, beg=0,end=len(string) )|类似于 find()函数，不过是从右边开始查找.|
+|string.rjust(width)|返回一个原字符串右对齐,并使用空格填充至长度 width 的新字符串|
+|string.rpartition(str)|类似于 partition()函数,不过是从右边开始查找.|
+|string.split(str="", num=string.count(str))|以str为分隔符切片string，如果num有指定值，则仅分隔num个子字符串|
+|string.splitlines([keepends])|按照行('\r', '\r\n', \n')分隔，返回一个包含各行作为元素的列表，如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。|
+|string.startswith(obj, beg=0,end=len(string))|检查字符串是否是以 obj 开头，是则返回 True，否则返回 False。如果beg 和 end 指定值，则在指定范围内检查.
+|string.swapcase()|翻转 string 中的大小写|
+|string.upper()|转换 string 中的小写字母为大写|
+|string.zfill(width)|返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0|
+
+
+
+
+
+
 
 
 

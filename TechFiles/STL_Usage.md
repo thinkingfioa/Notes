@@ -4,6 +4,14 @@
 @author 鲁伟林
 之前常用的语言是: C++。现在使用的是Java，所以抽空整理下C++集合的使用方法。
 gitHub地址：https://github.com/thinkingfioa/Notes/blob/master/TechFiles/STL_Usage.md
+主要通过Demo下列容器用法 + 遍历算法:
+1. vector[push_back, pop_back, insert, erase, swap]
+2. set[insert, erase, swap, find, count]
+3. stack[top, push, pop, swap]
+4. queue[push, pop, swap, back, front]
+5. map[insert, erase, swap]
+6. deque[front, back, push_back, push_front, pop_back, pop_front, insert, erase, swap]
+7. Algorithm[find, copy, swap, count, replace, fill, reverse, merge, min, max]
 ```
 
 ### vector
@@ -766,8 +774,83 @@ int main()
 ```
 
 ##### 归并排序
+```
+void mergeSort(vector<int> & nums, int left, int right) {
+	int mid = (left + right)/2;
+	if(left < right) {
+		mergeSort(nums, left, mid);
+		mergeSort(nums, mid+1, right);
+		merge(nums, left, mid, right);
+	}
+}
 
+void merge(vector<int> & nums, int left, int mid, int right) {
+	if(left >= right){
+		return;
+	}
+	vector<int > returnNums;
+	int i = left, j = mid+1;
+	for(; i<=mid && j<=right;) {
+		if(nums[i] < nums[j]){
+			returnNums.push_back(nums[i]);
+			i++;
+		}else {
+			returnNums.push_back(nums[j]);
+			j++;
+		}
+	}
+	while(i<=mid) {
+		returnNums.push_back(nums[i]);
+		i++;
+	} 
+	while(j<=right) {
+		returnNums.push_back(nums[j]);
+		j++;
+	}
+	for(int start = 0; start < returnNums.size();start++) {
+		nums[start+left] = returnNums[start];
+	}
+}
+```
 
+##### 快速排序
+```
+void quickSort(vector<int> & nums, int left, int right) {
+	if(left > right){
+		return;
+	}
+	int m = quickSort0(nums, left, right);
+	quickSort(nums, left, m-1);
+	quickSort(nums, m+1, right);
+}
+
+int quickSort0(vector<int> & nums, int left, int right) {
+	cout<<"left: "<<left<<", right: "<<right<<endl;
+	if(left >= right) {
+		return left;
+	}
+	int pos = left;
+	while(left < right) {
+		while(left < right && nums[right] >= nums[pos]) {
+			right--;
+		}
+		
+		if(left < right) {
+			swap(nums[pos], nums[right]);
+			pos = right;
+		}
+		while(left < right && nums[left] < nums[pos]) {
+			left ++;
+		}
+		if(left <  right) {
+			swap(nums[pos], nums[left]);
+			pos = left;
+		}
+	}
+	
+	return pos;
+}
+```
 
 
 

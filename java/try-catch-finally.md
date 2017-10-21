@@ -1,4 +1,22 @@
 # try-catch-finally
+```
+@author 鲁伟林
+本文主要经过案例分析Java语言中: try-catch-finally中执行流程。
+先给出总结，供自己和文档阅读者参考，后面给出案例代码，进行系统分析，帮组理解。
+gitHub地址: https://github.com/thinkingfioa/Notes/blob/master/java/try-catch-finally.md
+```
+
+### 总结
+对以上所有的例子进行总结
+
+1. finally语句块中有return，由于finally是最后执行，所以肯定return是有效的。
+2. finally块中抛出异常，方法肯定抛出异常
+3. finally语句中无return，修改返回值是无效的。
+ 
+### 如何使用
+1. 尽量不要在finally写return语句，return语句在try-catch中使用。finally无return的修改返回值是无效的。
+2. finally块中避免使用return语句，因为finally块中如果使用return语句，会显示的消化掉try、catch块中的异常信息，屏蔽了错误的发生
+3. finally块中避免再次抛出异常，否则整个包含try语句块的方法回抛出异常，并且会消化掉try、catch块中的异常
 
 ### 案例1 
 ##### 代码
@@ -218,17 +236,4 @@ public class Test {
 输出: 抛出 NullPointerException异常
 ##### 分析
 在finally语句中， 代码:String.valueOf(null)会导致程序抛出NPE异常，程序直接返回出去。
-
-### 总结
-对以上所有的例子进行总结
-
-1. finally语句块中有return，由于finally是最后执行，所以肯定return是有效的。
-2. finally块中抛出异常，方法肯定抛出异常
-3. finally语句中无return，修改返回值是无效的。
- 
-### 如何使用
-1. 尽量不要在finally写return语句，return语句在try-catch中使用。finally无return的修改返回值是无效的。
-2. finally块中避免使用return语句，因为finally块中如果使用return语句，会显示的消化掉try、catch块中的异常信息，屏蔽了错误的发生
-3. finally块中避免再次抛出异常，否则整个包含try语句块的方法回抛出异常，并且会消化掉try、catch块中的异常
-
  

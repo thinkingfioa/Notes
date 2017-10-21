@@ -157,8 +157,8 @@ print(list + tinylist); #输出: ['runoob', 786, 2.23, 'john', 70.2, 123, 'john'
 - 元组不允许二次赋值，相当于只读列表。如：tuple[2] = 1000非法访问
 
 ```
-tuply = [ "runoob", 786 , 2.23, "john", 70.2 ];
-tinytuply = [123, "john"];
+tuply = ("runoob", 786 , 2.23, "john", 70.2 );
+tinytuply = (123, "john");
 
 print(tuply); #输出: ['runoob', 786, 2.23, 'john', 70.2]
 print(tuply[0]); #输出: runoob
@@ -457,10 +457,35 @@ print "Good bye!"
 |string.upper()|转换 string 中的小写字母为大写|
 |string.zfill(width)|返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0|
 
+### Python列表
+- 列表的数据项不需要具有相同的类型
 
+##### 删除列表元素
 
+```
+list = ["thinking", "fioa", 123, 456];
+print list # 输出: ['thinking', 'fioa', 123, 456]
+del list[2]
+print list # 输出: ['thinking', 'fioa', 456]
+```
 
+##### Python列表截取
+|表达式|结果|描述|
+|:---:|:---:|:---:|
+|L[2]|'Taobao'|读取列表中第三个元素|
+|L[-2]|'Runoob'|读取列表中倒数第二个元素|
+|L[1:]|['Runoob', 'Taobao']|从第二个元素开始截取列表|
 
+```
+list2 = ["thinking", "fioa", 123, 456]
+print list2[2]  # 输出 123
+print list2[-3]  # 输出 fioa
+print list2[1:]  # 输出 ['fioa', 123, 456]
+```
+
+### Python元组
+- 元组只有一个元素，需要在元素后面添加逗号。如：tup1 = (50,);
+- 元组不能修改，意味着元组不能删除，更新等更改型操作。
 
 
 

@@ -472,9 +472,9 @@ print list # 输出: ['thinking', 'fioa', 456]
 ##### Python列表截取
 |表达式|结果|描述|
 |:---:|:---:|:---:|
-|L[2]|'Taobao'|读取列表中第三个元素|
-|L[-2]|'Runoob'|读取列表中倒数第二个元素|
-|L[1:]|['Runoob', 'Taobao']|从第二个元素开始截取列表|
+|L[2]|'fioa'|读取列表中第三个元素|
+|L[-2]|123|读取列表中倒数第二个元素|
+|L[1:]|['fioa', 123, 456]|从第二个元素开始截取列表|
 
 ```
 list2 = ["thinking", "fioa", 123, 456]
@@ -486,6 +486,69 @@ print list2[1:]  # 输出 ['fioa', 123, 456]
 ### Python元组
 - 元组只有一个元素，需要在元素后面添加逗号。如：tup1 = (50,);
 - 元组不能修改，意味着元组不能删除，更新等更改型操作。
+
+### Python字典
+
+##### 删除字典元素
+- 能删除单一的元素，也能删除整个字典。还可以清空整个字典。
+- 键必须不可变，所以可以用数字，字符串或元组充当。但是列表不能作为key。
+
+```
+dict = {"Name": "thinking", "age":18, "lover":"ppp"}
+print dict  #输出 {'age': 18, 'Name': 'thinking', 'lover': 'ppp'}
+del dict["lover"]
+print dict  #输出 {'age': 18, 'Name': 'thinking'}
+dict.clear()
+del dict
+```
+
+### Python日期和时间
+- Python提供了time和calendar模块用于格式化时间和日期。
+- 时间间隔是以秒为单位的浮点数。
+
+```
+ticks = time.time()
+print ticks  # 输出：1508668369.94
+```
+
+##### 格式化日期
+- 使用time模块的strftime方法来格式化日期
+
+```
+print time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  # 输出: 2017-10-22 18:36:56
+print time.strftime("%a %b %d %H:%M:%S %Y", time.localtime())  # 输出: Sun Oct 22 18:36:56
+
+# 将格式化转换成时间戳
+a = "Sun Oct 22 18:36:56 2017"
+print time.mktime(time.strptime(a, "%a %b %d %H:%M:%S %Y"))  # 输出: 1508668616.0
+```
+
+##### 获取某月日历
+
+```
+cal = calendar.month(2017, 2)
+'''输出：
+   February 2017
+Mo Tu We Th Fr Sa Su
+       1  2  3  4  5
+ 6  7  8  9 10 11 12
+13 14 15 16 17 18 19
+20 21 22 23 24 25 26
+27 28
+'''
+print cal
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 

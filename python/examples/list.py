@@ -1,6 +1,14 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+dict = {"Name": "thinking", "age":18, "lover":"ppp"}
+print dict  #输出 {'age': 18, 'Name': 'thinking', 'lover': 'ppp'}
+del dict["lover"]
+print dict  #输出 {'age': 18, 'Name': 'thinking'}
+dict.clear()
+del dict
+print "-----------------------------"
+
 list = ["thinking", "fioa", 123, 456]
 print list # 输出: ['thinking', 'fioa', 123, 456]
 del list[2]
@@ -10,8 +18,6 @@ list2 = ["thinking", "fioa", 123, 456]
 print list2[2]  # 输出 123
 print list2[-3]  # 输出 fioa
 print list2[1:]  # 输出 ['fioa', 123, 456]
-
-print "-----------------------------"
 
 list = [ "runoob", 786 , 2.23, "john", 70.2 ];
 tinylist = [123, "john"];

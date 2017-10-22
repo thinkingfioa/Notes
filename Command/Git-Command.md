@@ -1,12 +1,13 @@
-#git
-###配置SSH KEY
+# git使用手册
+### 配置SSH KEY
 ```
 1. $	ssh-keygen -t rsa -C "thinking_fioa@163.com
 ```
 ```
 2. 将~/.ssh/id_rsa.pub的内容复制到github账户上
 ```
-###git使用表格
+
+### git使用表格
 |命令|作用|
 |:---:|:---:|
 |git clone address|复制代码库到本地|
@@ -27,30 +28,36 @@
 |git init|将当前目录初始化为本地仓库|
 |git checkout|丢弃本地修改|
 
-###git命令的使用
+### git命令的使用
 
-#####用户设置(本质:修改home目录下的.gitConfig文件)
+##### 如果发现.gitignore中无效,使用下面的命令
+```
+git rm -r --cached FileOrDirName
+```
+
+##### 用户设置(本质:修改home目录下的.gitConfig文件)
 ```
 $	git config --global user.name "thinkingfioa"
 $	git config --global user.email "thinking_fioa@163.com"
 ```
 
-#####从版本库中删除文件
+##### 从版本库中删除文件
 ```
 $	git rm test.txt
 $	git commit -m "remove test.txt"
 ```
 
-#####误删文件,但版本库中还有,可以恢复
+##### 误删文件,但版本库中还有,可以恢复
 ```
 $	git checkout -- < filename >
 ```
 
-#####丢弃本地修改,回到本地库版本
+##### 丢弃本地修改,回到本地库版本
 ```
 $	git checkout -- < filename >
 ```
-#####查看本机库与远程库之间区别
+ 
+##### 查看本机库与远程库之间区别
 ```
 1. 取回本地
 $	git fetch origin
@@ -63,23 +70,26 @@ $	git diff master(local) origin/master
 3. merge
 $	git merge origin/master
 ```
-#####对修改文件进行提交
+
+##### 对修改文件进行提交
 ```
 1. git add fileName
 ```
 ```
 2. git commit -m "desription"
 ```
+
 ##### git的push使用
 ```
 git push origin local:remote
 ```
+
 ##### git的pull使用
 ```
 git pull origin remote:local
 ```
 
-#####git对commit撤销
+##### git对commit撤销
 ```
 1. 查看commit的id
 $	git log
@@ -88,7 +98,8 @@ $	git log
 2. 撤销commit
 $	git reset --hard commid_id
 ```
-#####将本地目录文件上传远程仓库
+
+##### 将本地目录文件上传远程仓库
 ```
 Note:将本地目录文件上传全新远程仓库
 git init
@@ -104,51 +115,57 @@ git remote add origin git@github.com:thinkingfioa/gitExam.git
 git push -u origin master
 ```
 
-#####git 分支
-
-#######查看分支
+##### 查看分支
 ```
 $	git branch
 ```
 
-#######创建一个新的分支
+##### 创建一个新的分支
 ```
 $	git branch newbranchname
 ```
 
-####### 切换分支
+##### 切换分支
 ```
 $	git checkout newbranchname
 ```
-####### 创建+切换分支
+
+##### 创建+切换分支
 ```
 $	git checkout -b newbranchname
 ```
-####### 合并分支到当前分支
+
+##### 合并分支到当前分支
 ```
 $	git merge branchname
 ```
-#######删除分支
+
+#####删除分支
 ```
 $	git branch -d branchname
 ```
-#####回滚
+
+##### 回滚
 ```
 git reset HEAD filename
 ```
-#####拷贝仓库到本地
+
+##### 拷贝仓库到本地
 ```
 $	git colne git@github.com:thinkingfioa@RepositoryName
 ```
-#####添加文件到代码库中
+
+##### 添加文件到代码库中
 ```
 $	git add fileName
 ```
-#####提交更改
+
+##### 提交更改
 ```
 $	git commit -m "description information"
 ```
-#####将本地的commit信息,推送到github代码仓库
+
+##### 将本地的commit信息,推送到github代码仓库
 ```
 $	git push -u origin master
 ```
@@ -157,4 +174,14 @@ $	git push -u origin master
 ```
 1. 先运行命令,git reset --hard commid_id, 回到某个commit_id上
 2. 运行命令: git push -f远程强行回滚
+```
+
+##### 常用的.gitignore文件共享
+```
+*.class
+*/.idea/
+.idea/
+/.DS_Store
+*.iml
+/target/
 ```

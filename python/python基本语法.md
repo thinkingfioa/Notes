@@ -539,14 +539,69 @@ Mo Tu We Th Fr Sa Su
 print cal
 ```
 
+### Python函数
+
+##### 定义一个函数
+- 函数代码块以def关键字开头，后接函数标识符号名称和圆括号()
+- 任何**传入参数和自变量**必须放在圆括号中间。圆括号之间可以用于定义参数
+- 函数的第一行语句可以选择性地使用文档字符串(用于存放函数说明)
+- 函数内容以冒号起始，并且缩进
+- **return [表达式]** 结束函数，选择性地返回一个值给调用方。不带表达式的return相当于返回 None
+
+```
+def functionname(parameters):
+    """函数说明"""
+    function_suite
+    return [expression]
+    
+```
+
+##### 函数调用
+```
+def printme(str):
+    """打印任何传入的字符串"""
+    print str
+    return
 
 
+printme("thinking")  # 输出：thinking
+printme("fioa")  # 输出：fioa
+```
+
+##### 参数传递
+在Python中，string，tuples和numbers是不可更改的对象，而list, dict等则是可修改的对象.
+
+- 不可变类型：变量赋值 a=5 后再赋值 a=10，这里实际是新生成一个int值的对象10，再让a指向它，5就被丢弃。
+- 可变类型：变量赋值 la=[1,2,3,4]后再赋值la[2]=5则是将list la的第三个元素更改了。
+
+python函数的参数传递:
+
+- 不可变类型：类似于c++的值传递，如整数，字符串，元组。如fun(a)，传递的只是a的值。如果在函数内部修改了a的值，对传入的值没有任何影响.
+- 可变类型：类似C++的引用传递，如列表。如fun(la)传入，函数内部修改了la，对传入的值有影响。
+
+##### python传不可变对象实例
+```
+def changeint(a):
+    a = 10
 
 
+b = 2
+changeint(b)
+print b  # 结果: 2
+```
 
+##### python传可变对象实例
+```
+def changelist(mylist):
+    mylist.append("thinking")
+    return
+    
 
-
-
+mylist = [1, 2, 3]
+print mylist  # 输出：[1, 2, 3]
+changelist(mylist)
+print mylist  # 输出：[1, 2, 3, 'thinking']
+```
 
 
 

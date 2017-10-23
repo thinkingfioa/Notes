@@ -748,12 +748,86 @@ sumtwonumber(100, 200)  # 输出: 300
 print "全局变量: ", total  # 输出: 全局变量: 1
 ```
 
+--- 
+
+### 模块
+- Python模块(Module)，是一个Python文件，以.py结尾
+
+```
+support.py是：
+def print_func(var):
+    print "Hello ", var
+    return
 
 
+test.py是
+import support
+
+support.print_func("thinking")  # 输出：Hello thinking
+```
+
+##### from ... import
+- 语法: from support import print_func
+
+##### 搜索路径
+当导入一个模块，Python解析器搜索模块的顺序:
+
+- 当前目录
+- 如果当前目录没有，搜索shell变量PYTHONPATH下的每个目录
+- 如果找不到，Python会查看默认路径。UNIX路径地址：/usr/local/lib/python
+
+##### 命名空间和作用域
+当函数中想修改全局变量，需要使用关键字:global
+
+```
+ Money = 2000
 
 
+def add_money():
+    global Money
+    Money = Money + 200
 
 
+print Money  # 输出：2000
+add_money()
+print Money  # 输出：2200
+```
+
+##### dir()函数
+dir()函数是一个排好序的字符串列表，内容是一个模块里定义过的名字
+
+```
+import support
+
+print dir(support)  # 输出：['__builtins__', '__doc__', '__file__', '__name__', '__package__', 'print_func']
+```
+
+##### globals() 和 locals() 函数
+- globals() 和 locals() 函数可被用来返回全局和局部命名空间里的名字。
+- 在函数内部调用 locals()，返回的是所有能在该函数里访问的命名。
+- 在函数内部调用 globals()，返回的是所有在该函数里能访问的全局名字。
+- 两个函数的返回类型都是字典。所以名字们能用 keys() 函数摘取。
+
+##### reload()函数
+当一个模块被导入到一个脚本，模块顶层部分的代码只会被执行一次。如果想从新执行模块里顶层部分的代码，需要使用reload()函数。
+
+- reload(module_name)
+
+##### python包
+- 包是一个分层次的文件目录结构，可以包含模块，子包和子包的子包等组成的Python的应用环境
+- 包其实就是文件夹，但是文件夹下，一定要有文件:\_\_init\_\_.py。文件\_\_init\_\_.py用于标识当前文件夹是一个包
+
+```
+定义包：package_runoob和文件：runoob1.py
+
+def runoob1():
+    print "I am runoob1"
+    
+在测试文件: test.py
+import package_runoob.runoob1
+
+package_runoob.runoob1.runoob1()  # 输出: I am runoob1
+```
 
 
 

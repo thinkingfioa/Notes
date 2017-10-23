@@ -1,6 +1,31 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+total = 1
+
+
+def sumtwonumber(arg1, arg2):
+    total = arg1 + arg2
+    print "函数内total: ", total  # 输出: 函数内total: 300
+    return total
+
+
+sumtwonumber(100, 200)  # 输出: 300
+print "全局变量: ", total  # 输出: 全局变量: 1
+
+
+def sumtwonumber(arg1, arg2):
+    return arg1+arg2
+
+
+print sumtwonumber(100, 200)  # 输出: 300
+
+
+
+sum=lambda arg1, arg2 : arg1+arg2
+
+print "sum is: ", sum(10, 20)  # 输出： 30
+
 
 def printmustargument(str):
     """必备参数"""

@@ -699,6 +699,66 @@ printmoreargument(10, 20, 30)  # 输出: (10, 20, 30)
 ---
 
 ### 匿名函数
+python使用lambda来创建匿名函数
+
+- lambda只是一个表达式，函数体比def简单很多
+- lambda函数拥有自己的命名空间，除了自有参数列表和全局命名空间里的参数外，其他都不能访问
+
+##### 语法
+
+- lambda [arg1 [, arg2,... argn]]: expression
+
+```
+sum = lambda arg1, arg2: arg1 + arg2
+
+print "sum is: ", sum(10, 20)  # 输出： 30
+```
+
+---
+
+### return语句
+- return语句[表达式]，将计算结果返回
+
+```
+def sumtwonumber(arg1, arg2):
+    return arg1+arg2
+
+
+print sumtwonumber(100, 200)  # 输出: 300
+```
+
+---
+
+### 变量作用域
+- 全局变量：定义在函数外的变量
+- 局部变量：定义在函数内的变量，只能在函数内部访问。
+- 全局变量想作用与函数内，需要加一个global
+
+```
+total = 1
+
+
+def sumtwonumber(arg1, arg2):
+    total = arg1 + arg2
+    print "函数内total: ", total  # 输出: 函数内total: 300
+    return total
+
+
+sumtwonumber(100, 200)  # 输出: 300
+print "全局变量: ", total  # 输出: 全局变量: 1
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

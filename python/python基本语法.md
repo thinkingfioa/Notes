@@ -77,6 +77,8 @@ else:
    suite 
 ```
 
+---
+
 ### Python变量类型
 变量可以指定不同的数据类型，这些变量可以存储整数，小数或字符。
 
@@ -209,6 +211,8 @@ print(tinydict.values()); # 输出: ['sales', 6734, 'john']
 |hex(x)|将一个整数转换为一个十六进制字符串|
 |oct(x)|将一个整数转换为一个八进制字符串|
 
+---
+
 ### Python 运算符
 
 ##### Python算术运算符
@@ -272,6 +276,8 @@ else:
 	print("a is not b"); # 输出
 ```
 
+---
+
 ### Python条件语句
 ```
 if 判断语句1:
@@ -287,6 +293,8 @@ num = 9
 if(num >= 0 and num <= 10):    # 判断值是否在0~10之间
     print 'hello'; # 输出结果: hello
 ```
+
+---
 
 ### Python 循环语句
 
@@ -331,9 +339,13 @@ print "Good bye!"
 ##### Python的for-else语句 
 - 当for后的条件不满足时，执行:else语句
 
+---
+
 ### Python的pass语句
 - pass是空语句，为了保证程序结构的完整性。
 - pass不做任何事，一般用作占位符
+
+---
 
 ### Python Number(数字)
 - Python支持: int(有符号整型), long(长整型: 3291930L), float(浮点型), complex(复数: a+bj 或者 complex(a,b).
@@ -396,6 +408,8 @@ print "Good bye!"
 |pi|数学常量pi(圆周率)|
 |e|数学常量e，e是自然数|
 
+---
+
 ### Python字符串
 ##### Python字符串格式化
 |符号|描述|
@@ -457,6 +471,8 @@ print "Good bye!"
 |string.upper()|转换 string 中的小写字母为大写|
 |string.zfill(width)|返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0|
 
+---
+
 ### Python列表
 - 列表的数据项不需要具有相同的类型
 
@@ -483,9 +499,13 @@ print list2[-3]  # 输出 fioa
 print list2[1:]  # 输出 ['fioa', 123, 456]
 ```
 
+---
+
 ### Python元组
 - 元组只有一个元素，需要在元素后面添加逗号。如：tup1 = (50,);
 - 元组不能修改，意味着元组不能删除，更新等更改型操作。
+
+---
 
 ### Python字典
 
@@ -501,6 +521,8 @@ print dict  #输出 {'age': 18, 'Name': 'thinking'}
 dict.clear()
 del dict
 ```
+
+---
 
 ### Python日期和时间
 - Python提供了time和calendar模块用于格式化时间和日期。
@@ -538,6 +560,8 @@ Mo Tu We Th Fr Sa Su
 '''
 print cal
 ```
+
+---
 
 ### Python函数
 
@@ -603,13 +627,78 @@ changelist(mylist)
 print mylist  # 输出：[1, 2, 3, 'thinking']
 ```
 
+**总结:**
+
+- 不可变类型(string, number, tuples)作为参数传值到函数中，如果在函数中修改，**无效**。
+- 可变类型(list, dict)作为参数传值到函数中，如果在函数中修改，**有效**。
+
+##### 函数参数
+调用函数时可使用的参数类型
+
+- 必备参数
+- 关键字参数
+- 缺省参数
+- 不定长参数
+
+##### 必备参数
+想调用函数，必须传入对应的参数
+
+```
+def printmustargument(str):
+    """必备参数"""
+    print str
+    return
 
 
+str = "ppp"
+printmustargument(str)  # 输出:ppp
+```
+
+##### 关键字参数
+使用关键字参数，允许调用函数时参数的顺序可以不一致。
+
+```
+def printkeywordargument(name, age):
+    """关键字函数"""
+    print "Name: ", name
+    print "Age:", age
 
 
+printkeywordargument(name="ppp", age=35)  # 输出: Name: ppp   Age: 35
+```
+
+##### 缺省参数
+调用函数时，缺省参数没有传入，使用默认值
+
+```
+def printdefaultargument(name, age=20):
+    """缺省参数"""
+    print "Name: ", name
+    print "Age:", age
 
 
+printdefaultargument(name="thinking_fioa")  # 输出: Name: thinking_fioa   Age: 20
+```
 
+##### 不定长参数
+函数接受任意长度的参数
+
+```
+def printmoreargument(arg1, *vartuple):
+    """不定长参数"""
+    print arg1
+    for var in vartuple:
+        print var
+    return
+
+
+printmoreargument(10)  # 输出：10
+printmoreargument(10, 20, 30)  # 输出: (10, 20, 30)
+```
+
+---
+
+### 匿名函数
 
 
 

@@ -905,6 +905,118 @@ Python提供os模块，帮助执行文件处理操作的方法，比如：重命
 - getcwd()方法：显示当前的工作目录
 - rmdir()方法：删除目录，目录名称以参数传递。注意：删除这个目录之前，所有内容必须已经被删除
 
+---
+
+### Python异常处理
+
+##### 异常处理
+try/except语句用来检测try语句块中的错误，从而让except语句捕获异常信息并处理
+
+```
+try:
+<语句>        #运行别的代码
+except <名字>：
+<语句>        #如果在try部份引发了'name'异常
+except <名字>，<数据>:
+<语句>        #如果引发了'name'异常，获得附加的数据
+else:
+<语句>        #如果没有异常发生
+```
+说明:
+
+- try/except语句理解和java的一样，除了else有点区别
+- 如果try子句执行没有发生异常，python就会执行else语句
+
+##### 使用except而不带任何异常类型
+- try/except语句中，如果except不带任何异常，表示捕获所有的异常
+
+```
+try:
+    正常的操作...
+except:
+    发生异常，执行这块代码...
+else:
+    如果没有异常执行这块代码
+```
+
+##### 使用except而带多种异常类型
+- 使用相同的except语句而处理多个异常信息
+
+```
+try:
+    正常的操作...
+except(Exception1[, Exception2[,...ExceptionN]]]):
+   发生以上多个异常中的一个，执行这块代码...
+else:
+    如果没有异常执行这块代码
+```
+
+##### try-finally语句
+- try-finally语句中，无论如何都会执行finally语句
+
+```
+try:
+    正常的操作...
+except(Exception1):
+    发生异常，执行这块代码...
+finally:
+    无论如何都会执行这段代码
+```
+
+##### 异常的参数
+- 异常带上参数，帮助理解异常原因。在except后面加上Argument参数
+
+```
+def temp_convert(var):
+    try:
+        return int(var)
+    except ValueError, Argument:
+        print "reason: ", Argument
+
+
+temp_convert("abc")  # 输出：reason:  invalid literal for int() with base 10: 'abc'
+```
+
+##### 触发异常
+- 使用raise语句来触发异常
+- 语法：raise [Exception [,args] ]
+
+```
+def throw_excep(var):
+    print "function start..."
+    raise Exception("you win", var)
+
+
+try:
+    throw_excep("abcd")
+except Exception:
+    print "catch exception"
+else:
+    print "no problem."   # 输出: no problem
+```
+
+##### 用户自定义异常
+- 创建一个新的异常类，应该继承自Exception类
+
+```
+class Networkerror(Exception):
+    def __init__(self, arg):
+        self.args = arg
+
+try:
+    raise Networkerror("Bad hostname")
+except Networkerror, argument:
+    print argument.args  # 输出: ('B', 'a', 'd', ' ', 'h', 'o', 's', 't', 'n', 'a', 'm', 'e')
+```
+
+
+
+
+
+
+
+
+
 
 
 

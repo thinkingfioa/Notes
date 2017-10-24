@@ -829,6 +829,92 @@ import package_runoob.runoob1
 package_runoob.runoob1.runoob1()  # 输出: I am runoob1
 ```
 
+---
+
+### Python文件I/O
+- File对象方法：file对象提供了操作文件的一系列方法
+- Os对象方法：提供了处理文件及目录的一系列方法
+
+##### 读取键盘输入
+Python提供了两个内置函数从标准输入读取一行文本，默认的标准输入是键盘
+
+- raw_input
+- input
+
+##### raw_input
+raw_input(提示文字)函数从标准输入读取一行，并返回一个字符串(去掉结尾的换行符)
+
+```
+str = raw_input("请输入: ")  # 输入: thinking
+print "输入内容是：", str  # 输出: thinking
+```
+
+##### input
+input函数和raw_input函数基本类似。但input可以接收一个Python表达式输入，并将运算结果返回
+
+```
+str2 = input("请输入: ")  # 输入: [x*5 for x in range(2,10,2)]
+print "输入内容是：", str2  # 输出: [10, 20, 30, 40]
+```
+注：
+range函数用法解释: range(start, end, step)
+
+##### 打开和关闭文件
+
+##### Open方法
+Python函数内置一个open()函数
+
+- 语法: file object = open(file_name, [, access_code], [, buffering])
+- file_name变量是访问文件的名称字符串
+- access_code是决定打开文件的模式：只读，写入，追加等
+- buffering：如果buffering的值设为0，就不会有寄存。如果buffering的值设置为1，访问文件会寄存行
+
+##### close方法
+File对象的close()方法：刷新缓冲区里任何还没写的信息，并关闭该文件
+
+##### write方法
+- write(）可将任何字符串写入打开的文件。主要注意的是：Python字符串可以是二进制数据，而不是仅仅是文字
+- write()方法不会在字符串的结尾加上换行符('\n')
+
+##### read方法
+- fileObject.read([count])。从已打开的文件中读取字节数，如果没有传，则读入整个文件尾
+
+```
+fileObject = open("test_io_file.txt", "rb+")
+fileLine = fileObject.read()
+print "context is : ", fileLine
+fileObject.close()
+```
+
+##### 文件定位
+- tell()方法返回文件内当前读取的位置。也就是说：下次读取的起点位置
+- seek(offset,[, from])方法改变当前文件的偏移量。
+ - from = 0:从文件开头位置参考
+ - from = 1:使用文件的当前位置
+ - from = 2:从文件的末尾位置开始
+
+##### 重命名和删除文件
+Python提供os模块，帮助执行文件处理操作的方法，比如：重命名和删除文件
+
+- os.rename(current_file_name, new_file_name)
+- os.remove(file_name)
+
+##### Python的目录管理
+- mdkir()方法：创建新的目录
+- chdir()方法：用chdir()方法来改变当前的目录
+- getcwd()方法：显示当前的工作目录
+- rmdir()方法：删除目录，目录名称以参数传递。注意：删除这个目录之前，所有内容必须已经被删除
+
+
+
+
+
+
+
+
+
+
+
 
 
 

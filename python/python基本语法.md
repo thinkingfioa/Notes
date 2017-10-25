@@ -1,4 +1,12 @@
 # Python基本语法
+
+```
+@author 鲁伟林
+刚开始学习python，以前是一个java/c++党。给出一份学习python时自己的笔记，方便自己回顾，也希望能给大家参考下。
+学习python的网址是：http://www.runoob.com/python/python-object.html
+gitHub地址: https://github.com/thinkingfioa/Notes/tree/master/python
+```
+
  Python是一种解释型、面向对象、动态数据类型的高级程序设计语言。
  
  ---
@@ -430,46 +438,6 @@ print "Good bye!"
 
 ##### Python三引号
 - 三引号(""")可以将字符串变成多行，且字符串中可以包括一些特殊字符
-
-##### Python的字符串内建函数
-
-|方法|描述|
-|:---:|:--:|
-|string.capitalize()|把字符串的第一个字符大写|
-|string.center(width)|返回一个原字符串居中,并使用空格填充至长度width的新字符串|
-|string.count(str, beg=0, end=len(string))|返回str在string 里面出现的次数|
-|string.decode(encoding='UTF-8',errors='strict')|以encoding 指定的编码格式解码 string|
-|string.encode(encoding='UTF-8', errors='strict')|以encoding指定的编码格式编码string|
-|string.endswith(obj, beg=0, end=len(string))|检查字符串是否以obj结束,如果在指定的范围内以obj结束，返回 True|
-|string.expandtabs(tabsize=8)|把字符串string中的tab符号转为空格，tab符号默认的空格数是8|
-|string.find(str, beg=0, end=len(string))|检测str是否包含在string中，如果是返回开始的索引值，否则返回-1|
-|string.format()|格式化字符串|
-|string.index(str, beg=0, end=len(string))|跟find()方法一样，只不过如果str不在 string中会报一个异常.|
-|string.isalnum()|如果string 至少有一个字符并且所有字符都是字母或数字则返回 True|
-|string.isalpha()|如果 string 至少有一个字符并且所有字符都是字母则返回 True|
-|string.isdigit()|如果 string 只包含数字则返回 True|
-|string.isnumeric()|如果 string 中只包含数字字符，则返回 True|
-|string.isspace()|如果 string 中只包含空格，则返回 True|
-|string.isupper()|如果 string 中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True|
-|string.join(seq)|以 string 作为分隔符，将 seq 中所有的元素合并为一个新的字符串|
-|string.ljust(width)|返回一个原字符串左对齐,并使用空格填充至长度 width 的新字符串|
-|string.lower()|转换 string 中所有大写字符为小写.|
-|string.lstrip()|截掉 string 左边的空格|
-|string.rstrip()|删除 string 字符串末尾的空格.|
-|string.strip([obj])|在 string 上执行 lstrip()和 rstrip()|
-|max(str)|返回字符串 str 中最大的字母。|
-|min(str)|返回字符串 str 中最小的字母。|
-|string.partition(str)|有点像 find()和 split()的结合体,从str出现的第一个位置起,把字符 串string分成一个3元素的元组(string_pre_str,str,string_post_str),如果string中不包含str 则 string_pre_str == string.|
-|string.replace(str1, str2,  num=string.count(str1))|把 string 中的 str1 替换成 str2,如果 num 指定，则替换不超过 num 次.|
-|string.rfind(str, beg=0,end=len(string) )|类似于 find()函数，不过是从右边开始查找.|
-|string.rjust(width)|返回一个原字符串右对齐,并使用空格填充至长度 width 的新字符串|
-|string.rpartition(str)|类似于 partition()函数,不过是从右边开始查找.|
-|string.split(str="", num=string.count(str))|以str为分隔符切片string，如果num有指定值，则仅分隔num个子字符串|
-|string.splitlines([keepends])|按照行('\r', '\r\n', \n')分隔，返回一个包含各行作为元素的列表，如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。|
-|string.startswith(obj, beg=0,end=len(string))|检查字符串是否是以 obj 开头，是则返回 True，否则返回 False。如果beg 和 end 指定值，则在指定范围内检查.
-|string.swapcase()|翻转 string 中的大小写|
-|string.upper()|转换 string 中的小写字母为大写|
-|string.zfill(width)|返回长度为 width 的字符串，原字符串 string 右对齐，前面填充0|
 
 ---
 
@@ -1008,32 +976,3 @@ try:
 except Networkerror, argument:
     print argument.args  # 输出: ('B', 'a', 'd', ' ', 'h', 'o', 's', 't', 'n', 'a', 'm', 'e')
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

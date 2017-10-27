@@ -204,6 +204,91 @@ c.setAttr(200)
 c.getAttr()  # 输出：父类属性: 200
 ```
 
+##### 方法重写
+子类可以覆写父类中的方法
+##### 代码
+```
+class Parent:  # 定义父类方法
+
+    def __init__(self):
+        print "调用父类的构造函数"
+
+    def helloWorld(self):
+        print "调用父类方法helloWorld"
+
+
+class Child(Parent):  # 定义子类
+
+    def __init__(self):
+        print "调用子类构造函数方法"
+
+    def helloWorld(self):
+        print "调用子类方法helloWorld"
+
+
+c.helloWorld()  # 输出：调用子类方法helloWorld
+```
+
+##### 基础重载方法
+python提供一些通用的功能，可以在自己的类中重写：
+
+|序号|方法描述|简单的调用|
+|:---:|:---:|:---|
+|1|\_\_init\_\_(self [,args...])|构造函数，调用方法: obj = className(args)|
+|2|\_\_del\_\_(self)|析构方法，调用方法 : del obj|
+|3|\_\_repr\_\_(self)|转化为供解释器读取的形式，调用方法:repr(obj)|
+|4|\_\_str\_\_(self)|用于将值转化为适于人阅读的形式，调用方法: str(obj)|
+|5|\_\_cmp\_\_(self, x)|对象比较 简单的调用方法:cmp(obj, x)|
+
+##### 父子类判断和实例的类型判断(类似于java的instanceof关键字）
+1. issubclass() - 布尔值判断一个类是另一个类的子类或子孙类。语法: issubclass(sub, sup)
+2. isinstance(obj, class) - 布尔函数，如果obj是class类的实例对象或者是一个class子类的实例对象
+
+##### 运算符重载
+python支持运算符重载
+##### 代码
+```
+class Vector:
+
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+
+    def __str__(self):
+        return "Vector( %d, %d)" % (self.a, self.b)
+
+    def __add__(self, other):
+        return Vector(self.a + other.a, self.b + other.b)
+
+
+v1 = Vector(1, 2)
+v2 = Vector(3, 4)
+print v1 + v2  # 输出: Vector( 4, 6)
+```
+
+
+##### 类的私有属性
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

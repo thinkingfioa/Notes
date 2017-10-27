@@ -124,13 +124,85 @@ python的面向对象关于对象的属性和java或C++不太一样。它的属�
 4. \_\_module__: 类定义所在的模块（类的全名是'\_\_main\_\_.className'，如果类位于一个导入模块mymod中，那么className.\_\_module\_\_ 等于 mymod）
 5. \_\_bases\_\_ : 类的所有父类构成元素（包含了一个由所有父类组成的元组）
 
+##### Python对象销毁(垃圾回收)
+1. python使用了引用计数来跟踪和回收垃圾
+2. 当对象被创建时，就创建了一个引用计数，当这个对象的引用计数变为0时，它被垃圾回收
+3. \_\_del\_\_在对象销毁的时候被调用，当对象不再被使用时也就是说该对象引用=0时，调用析构函数
+
+##### 代码
+
+```
+a = 40      # 创建对象  <40>
+b = a       # 增加引用， <40> 的计数
+
+del a       # 减少引用 <40> 的计数
+b = 100     # 减少引用 <40> 的计数
+```
+
+```
+class Point:
+    def __init(self, x=0, y=0):
+        self.x = x
+        self.y = y
+
+    def __del__(self):
+        class_name = self.__class__.__name__
+        print class_name, "销毁"  # 输出：Point 销毁
 
 
+pt1 = Point()  # 解释：对象引用计数 + 1
+pt2 = pt1  # 解释：对象引用计数 + 1
+pt3 = pt1  # 解释：对象引用计数 + 1。该对象一共有3个引用
+del pt1  # 解释：对象引用计数 - 1
+del pt2  # 解释：对象引用计数 - 1
+del pt3  # 解释：对象引用计数 - 1。对象引用为0，所以调用析构函数函数
+```
+
+##### 类的继承
+1. 类的继承语法: class 派生类名(基类名)
+2. 继承基类的构造(\_\_init\_\_方法)不会被自动调用，需要在派生类的构造中亲自调用
+3. 调用基类的方法时，需要加上基类的类名前缀，且需要带上self参数变量。
+4. 如果调用类中普通函数，并不需要带上self参数
+5. Python先在本类中查找调用的方法，找不到才去基类中找
+
+##### 代码
+```
+class SubClassName (ParentClass1[, ParentClass2, ...]):
+   '类的解释'
+   class_suite
+```
+```
+class Parent:  # 定义父类方法
+    parentAttr = 100
+
+    def __init__(self):
+        print "调用父类的构造函数"
+
+    def parentMethond(self):
+        print "调用父类的方法"
+
+    def setAttr(self, attr):
+        Parent.parentAttr = attr
+
+    def getAttr(self):
+        print "父类属性: ", Parent.parentAttr
 
 
+class Child(Parent):  # 定义子类
+
+    def __init__(self):
+        print "调用子类构造函数方法"
+
+    def childMethod(self):
+        print "调用子类方法"
 
 
-
+c = Child()  # 输出: 调用子类构造函数方法
+c.childMethod()  # 输出：调用子类方法
+c.parentMethond()  # 输出：调用父类的方法
+c.setAttr(200)
+c.getAttr()  # 输出：父类属性: 200
+```
 
 
 

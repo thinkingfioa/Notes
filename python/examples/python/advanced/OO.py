@@ -2,6 +2,24 @@
 # -*- coding: UTF-8 -*-
 
 
+class Point:
+    def __init(self, x=0, y=0):
+        self.x = x
+        self.y = y
+
+    def __del__(self):
+        class_name = self.__class__.__name__
+        print class_name, "销毁"  # 输出：Point 销毁
+
+
+pt1 = Point()  # 解释：对象引用计数 + 1
+pt2 = pt1  # 解释：对象引用计数 + 1
+pt3 = pt1  # 解释：对象引用计数 + 1。该对象一共有3个引用
+del pt1  # 解释：对象引用计数 - 1
+del pt2  # 解释：对象引用计数 - 1
+del pt3  # 解释：对象引用计数 - 1。对象引用为0，所以调用析构函数函数
+
+
 class Employee:
     "所有员工的基类"
     empCount = 0  # 解释：是一个类变量，他的值在所有实例中共享

@@ -1,5 +1,6 @@
 # Maven
 [TOC]
+
 ## 1. Requirements
 |  Maven Version |  JDK  |
 |----------------|-------|
@@ -21,6 +22,11 @@
 * install
 * deploy
 * -dmaven.test.skip=true
+
+常用命令组合
+- mvn clean install(打包命令)
+- mvn clean compile -U -e(编译，同时强行跟新本地jar包)
+
 
 ## 4. Scope
 * compile 缺省值，会随着项目一起发布。 

@@ -2,6 +2,36 @@
 # -*- coding: UTF-8 -*-
 
 
+class JustCounter:
+    __secretCount = 0
+
+    def countObjectSecretCount(self):
+        self.__secretCount += 1
+
+    @staticmethod
+    def countClassSecretCount():
+        JustCounter.__secretCount += 1
+
+    def printObjectSecretCount(self):
+        print "属性: ", self.__secretCount
+
+    @staticmethod
+    def printClassSecretCount():
+        print "类的属性: ", JustCounter.__secretCount
+
+
+counter1 = JustCounter()
+counter2 = JustCounter()
+counter1.countObjectSecretCount()
+JustCounter.countClassSecretCount()
+counter2.countObjectSecretCount()
+
+
+print "对象1的", counter1.printObjectSecretCount()  # 输出: 对象1的属性:  1
+print JustCounter.printClassSecretCount()  # 输出: 类的属性:  1
+print "对象2的", counter2.printObjectSecretCount()  # 输出: 对象2的属性:  2
+
+
 class Vector:
 
     def __init__(self, a, b):

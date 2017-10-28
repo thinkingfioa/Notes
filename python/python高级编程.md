@@ -266,14 +266,131 @@ v2 = Vector(3, 4)
 print v1 + v2  # 输出: Vector( 4, 6)
 ```
 
-
+##### 类属性与方法
 ##### 类的私有属性
+\_\_privateAttrs: 两个下划线开头，声明该属性为私有，不能在类的外部被访问。
+##### 类的方法
+在类的内部，定义方法：需要用到关键字def，且方法第一个参数必须是self
+##### 类的私有方法
+\_\_privateMethod: 两个下划线开头，声明该方法是私有方法
+
+##### 代码
+```
+class JustCounter:
+    __secretCount = 0  # 对象私有变量
+
+    def countObjectSecretCount(self):
+        self.__secretCount += 1
+
+    @staticmethod  # 类的静态方法
+    def countClassSecretCount():
+        JustCounter.__secretCount += 1
+
+    def printObjectSecretCount(self):
+        print "属性: ", self.__secretCount
+
+    @staticmethod
+    def printClassSecretCount():
+        print "类的属性: ", JustCounter.__secretCount
 
 
+counter1 = JustCounter()
+counter2 = JustCounter()
+counter1.countObjectSecretCount()
+JustCounter.countClassSecretCount()
+counter2.countObjectSecretCount()
+
+print "对象1的", counter1.printObjectSecretCount()  # 输出: 对象1的属性:  1
+print JustCounter.printClassSecretCount()  # 输出: 类的属性:  2
+print "对象2的", counter2.printObjectSecretCount()  # 输出: 对象2的属性:  2
+```
+
+##### 单下划线、双下划线、头尾双下划线说明：
+1. \_\_foo\_\_: 定义的是特列方法，类似 \_\_init\_\_() 之类的。
+2. \_foo: 以单下划线开头的表示的是 protected 类型的变量，即保护类型只能允许其本身与子类进行访问，不能用于 from module import *
+3. \_\_foo: 双下划线的表示的是私有类型(private)的变量, 只能是允许这个类本身进行访问了。
+
+##### 探讨Python的类属性和实例属性
+##### 代码1
+```
+class AAA():  
+    aaa = 10  
+ 
+# 情形1   
+obj1 = AAA()  
+obj2 = AAA()   
+print obj1.aaa, obj2.aaa, AAA.aaa   # 输出 10, 10, 10
+ 
+# 情形2  
+obj1.aaa += 2  
+print obj1.aaa, obj2.aaa, AAA.aaa   # 输出 12, 10, 10
+ 
+# 情形3  
+AAA.aaa += 3  
+print obj1.aaa, obj2.aaa, AAA.aaa  # 输出 12, 13, 13
+```
+问: 
+因为aaa属性被称为类属性，既然是类属性，那么根据从C++/Java这种静态语言使用的经验来判断，类属性应该是为其实例所共享的。那么从类的层次改变aaa的值，自然其实例的aaa的值也应该变化？
+
+##### 代码2
+```
+class JustCounter:
+    __secretCount = 0
+
+    def countObjectSecretCount(self):
+        self.__secretCount += 1
+
+    @staticmethod
+    def countClassSecretCount():
+        JustCounter.__secretCount += 1
+
+    def printObjectSecretCount(self):
+        print "属性: ", self.__secretCount
+
+    @staticmethod
+    def printClassSecretCount():
+        print "类的属性: ", JustCounter.__secretCount
 
 
+counter1 = JustCounter()
+counter2 = JustCounter()
+counter1.countObjectSecretCount()  # counter1.__secretCount = 1, JustCounter.__secretCount = 0, counter2没有属性: __secretCount
+JustCounter.countClassSecretCount()   # counter1.__secretCount = 1, JustCounter.__secretCount = 1, counter2没有属性: __secretCount
+counter2.countObjectSecretCount()  # counter1.__secretCount = 1, JustCounter.__secretCount = 1, counter2.__secretCount=2
 
 
+print "对象1的", counter1.printObjectSecretCount()  # 输出: 对象1的属性:  1
+print JustCounter.printClassSecretCount()  # 输出: 类的属性:  1
+print "对象2的", counter2.printObjectSecretCount()  # 输出: 对象2的属性:  2
+
+ # 动态的加属性
+ counter1.name = "thinking_fioa"
+ print counter1.name  # 输出: thinking_fioa
+```
+
+```
+       JustCounter
+            |
+       -----------
+      |           |  
+  counter1     counter2
+
+```
+解释: 
+
+1. 首先：self.__secretCount += 1，可以理解为三个步骤: 取值，加操作，赋值操作
+2. counter1.countObjectSecretCount()代码中: counter1没有\_\_secretCount这个属性，所以它向上找到JustCounter类，成功找到，执行 +1，然后为对象counter1添加属性并赋值\_\_secretCount = 1。
+3. JustCounter.countClassSecretCount()代码: 仅仅为JustCounter.\_\_secretCount = 1
+4. counter2.countObjectSecretCount()代码中: counter2没有\_\_secretCount这个属性，所以它向上找到JustCounter类，成功找到，执行 +1，然后为对象counter2添加属性并赋值\_\_secretCount = 2。
+
+##### 总结：
+1. Python的类属性和实例属性与Java的完全不同。python是一个动态语言，我们不能用Java语言的类属性来理解Python的类属性。
+2. 理解Python属性需要依赖查找树来理解。从下往上查找机制
+3. Python是动态语言，可以动态添加和删除属性
+
+___
+
+### Python正则表达式
 
 
 

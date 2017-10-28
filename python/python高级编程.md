@@ -39,12 +39,17 @@ class Employee:
 
     def displayEmployee(self):
         print "Name: ", self.name, ", Salary: ", self.salary
+    
+    @staticmethod
+    def displayClassEmpCount():
+        print "类的属性: ", empCount
 ```
 说明:
 
-1. empCount变量是一个类变量，它的值在所有实例间共享
+1. empCount变量是一个类变量，python类变量非常特殊，请参考下文：python类属性和实例属性
 2. _\_init\_\_函数是构造函数
 3. self代表类的实例，self在定义类的方法时必须有。调用时不必传入相应的参数
+4. @staticmethod描述类的静态方法
 
 ##### self代表类的实例，而非类
 
@@ -273,6 +278,8 @@ print v1 + v2  # 输出: Vector( 4, 6)
 在类的内部，定义方法：需要用到关键字def，且方法第一个参数必须是self
 ##### 类的私有方法
 \_\_privateMethod: 两个下划线开头，声明该方法是私有方法
+##### 类的静态方法
+@staticmethod来修饰，无需加参数self
 
 ##### 代码
 ```

@@ -3,21 +3,24 @@
 
 
 class JustCounter:
-    __secretCount = 0
+    #__secretCount = 0
+
+    def __init__(self):
+        self.secretCount = 0
 
     def countObjectSecretCount(self):
-        self.__secretCount += 1
+        self.secretCount += 1
 
     @staticmethod
     def countClassSecretCount():
-        JustCounter.__secretCount += 1
+        JustCounter.secretCount += 1
 
     def printObjectSecretCount(self):
-        print "属性: ", self.__secretCount
+        print "属性: ", self.secretCount
 
     @staticmethod
     def printClassSecretCount():
-        print "类的属性: ", JustCounter.__secretCount
+        print "类的属性: ", JustCounter.secretCount
 
 
 counter1 = JustCounter()

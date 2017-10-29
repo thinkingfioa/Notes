@@ -398,11 +398,110 @@ print "对象2的", counter2.printObjectSecretCount()  # 输出: 对象2的属�
 ___
 
 ### Python正则表达式
+re 模块使 Python 语言拥有全部的正则表达式功能
 
+##### re.match()函数
+1. re.match尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none
+2. 基本语法: re.match(pattern, string, flags=0)，其中flags=0用于控制正则表达式的匹配方式，如:是否匹配大小写等
 
+##### 代码
+```
+import re
 
+print re.match('www', "www.baidu.com").span()  # 输出: (0, 3)
+print re.match('com', "www.baidu.com").span()  # 输出：none
 
+line = "Cats are smarter than dogs"
 
+matchObj = re.match('(.*) are (.*?) (.*)', line, re.I)  # 解释: ? 有非贪婪意思
+
+if matchObj:
+    print "matchObj.group() : ", matchObj.group()  # 输出: Cats are smarter than dogs
+    print "matchObj.group(1) : ", matchObj.group(1)  # 输出: Cats
+    print "matchObj.group(2) : ", matchObj.group(2)  # 输出: smarter
+    print "matchObj.group(3) : ", matchObj.group(3)  # 输出: than dogs
+else:
+    print "No match!!"
+```
+
+##### re.search方法
+1. research方法扫描整个字符串并返回一个成功的匹配
+2. 函数语法: re.search(pattern, string, flags = 0)，其中flags=0用于控制正则表达式的匹配方式，如:是否匹配大小写等
+
+##### 代码
+```
+import re
+
+print re.search('www', "www.baidu.com").span()  # 输出: (0, 3)
+print re.search('com', "www.baidu.com").span()  # 输出: (10, 13)
+
+line = "Cats are smarter than dogs"
+
+matchObj = re.search('(.*) are (.*?) (.*)', line, re.I)  # 解释: ? 有非贪婪意思
+
+if matchObj:
+    print "matchObj.group() : ", matchObj.group()  # 输出: Cats are smarter than dogs
+    print "matchObj.group(1) : ", matchObj.group(1)  # 输出: Cats
+    print "matchObj.group(2) : ", matchObj.group(2)  # 输出: smarter
+    print "matchObj.group(3) : ", matchObj.group(3)  # 输出: than dogs
+else:
+    print "No match!!"
+```
+
+##### re.match与re.search的区别
+1. re.match只匹配字符串的开始，如果字符串开始不符合正则表达式，则匹配失败，返回nonee；而re.search匹配整个字符串，直到找到一个匹配
+
+##### 代码
+```
+line2 = "Cats are smarter than dogs"
+matchObj = re.match('dogs', line2, re.M | re.I)
+
+if matchObj:
+    print "match --> matchObj.group(): ", matchObj.group()
+else:
+    print "No match!"  # 输出: No match!
+
+searchObj = re.search('dogs', line2, re.M | re.I)
+
+if searchObj:
+    print "match --> matchObj.group(): ", searchObj.group()  # 输出：match --> matchObj.group():  dogs 
+else:
+    print "search --> searchObj.group(): ", searchObj.group()
+```
+
+##### 检索和替换
+1. Python提供re模块中的re.sub用于替换字符串中的匹配项
+2. 基本语法: re.sub(pattern, repl, string, count=0, flags=0)
+3. 参数解释: pattern -> 正则表达式; repl -> 替换的字符串，也可以是一个函数; string -> 要被查找替换的原始字符串; count -> 模式匹配后替换的最大次数，默认0表示替换所有的匹配
+
+##### 代码
+```
+phone = "2004-959-559 # 这是一个国外电话号码"
+
+# 删除字符串中的注释
+num = re.sub(r'#.*$', "", phone)
+print "电话号码是: ", num  # 输出：电话号码是:  2004-959-559
+# 删除非数字(-)的字符串
+num = re.sub(r'\D', "", phone)
+print "电话号码是: ", num  # 输出： 电话号码是:  2004959559
+```
+
+##### repl参数是函数
+将字符串中的匹配的数字乘于 2：
+##### 代码
+```
+# 将匹配的数字乘于 2
+def double(matched):
+    value = int(matched.group('value'))
+    return str(value * 2)
+ 
+s = 'A23G4HFD567'
+print(re.sub('(?P<value>\d+)', double, s)) # 输出: A46G8HFD1134
+```
+
+---
+
+### Python CGI编程
 
 
 

@@ -10,10 +10,10 @@ opener = urllib2.build_opener()
 opener.addheaders = [('User-agent', 'Mozilla/5.0')]  
 
 #urlList = ["http://blog.csdn.net/thinking_fioa/article/details/78265745", "http://blog.csdn.net/thinking_fioa/article/details/78270793", "http://blog.csdn.net/thinking_fioa/article/details/78306670"]
-urlList = ["http://blog.csdn.net/thinking_fioa/article/details/78373871"]
+urlList = ["http://blog.csdn.net/thinking_fioa/article/details/78265745"]
 #tempUrl = raw_input("请输入网址:");
 for tempUrl in urlList:
-    count = random.randint(100, 300);
+    count = random.randint(300, 500);
     print("%s 共执行%d 次" % (tempUrl, count));
     for j in range(count):  
 	    try :  

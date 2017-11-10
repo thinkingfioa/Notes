@@ -502,6 +502,7 @@ print(re.sub('(?P<value>\d+)', double, s)) # 输出: A46G8HFD1134
 ---
 
 ### Python CGI编程
+本章感觉用到的不多，知识点也太细了，目前不准备学习。
 
 
 

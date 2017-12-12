@@ -27,6 +27,7 @@
 |git reset log|恢复到历史版本|
 |git init|将当前目录初始化为本地仓库|
 |git checkout|丢弃本地修改|
+|git push origin --delete <branch-name>|删除远程分之|
 
 ### git命令的使用
 

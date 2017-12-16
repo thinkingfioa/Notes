@@ -18,8 +18,8 @@
 |git push|推送代码到远程代码库|
 |git branch|查看当前分支。带*是当前分支|
 |git branch branchName|新建一个分支|
-|git branch -d <branch-name>|删除一个分支|
-|git checkout <branch-name>|切换到指定分支|
+|git branch -d branch-name|删除一个分支|
+|git checkout branch-name|切换到指定分支|
 |git log|查看提交记录（即历史的 commit 记录）|
 |git status|当前修改的状态，是否修改了还没提交，或者那些文件未使用|
 |git diff filename|查看具体修改的内容|
@@ -27,6 +27,7 @@
 |git reset log|恢复到历史版本|
 |git init|将当前目录初始化为本地仓库|
 |git checkout|丢弃本地修改|
+|git push origin --delete branch-name|删除远程分之|
 
 ### git命令的使用
 

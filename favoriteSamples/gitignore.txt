@@ -1,5 +1,7 @@
 # Java noise
 *.class
+/.idea
+*.iml
 
 # SVN directories
 .svn

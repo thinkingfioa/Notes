@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JavaScript</title>
+</head>
+<body>
+	<p id="demo">需要变化</p>
+	<script>
+		function alertFunction(){
+			window.alert("hello world");
+		}
+		function alertDocument(){
+			document.write("hello thinking");
+		}
+		function alertInnerHTML(){
+			document.getElementById("demo").innerHTML="hello ppp";
+		}
+		function alertConsole(){
+			console.log("hello fioa");
+		}
+	</script>
+
+	<input type="button" value="Alert" onclick="alertFunction()">
+	<input type="button" value="Document" onclick="alertDocument()">
+	<input type="button" value="InnerHTML" onclick="alertInnerHTML()">
+	<input type="button" value="Console" onclick="alertConsole()">
+	
+</body>
+</html>

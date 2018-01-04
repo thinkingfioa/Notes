@@ -622,6 +622,72 @@ HTML使用\<lable>标签为input元素定义标注
 </form>
 ```
 
+## 17 HTML 框架
+- 1. 通过使用框架，可以在同一个浏览器窗口中显示不止一个页面
+- 2. 使用iframe标签可以实现内嵌一个页面
+
+### 17.1 iframe标签语法
+iframe语法: \<iframe src="URL">\<iframe>该URL指向不同的网页
+
+### 17.2 iframe属性
+- 1. 属性height和属性width用来定义iframe标签的高度和宽度
+- 2. frameborder属性用来定义是否显示边框
+
+##### 代码:
+```html
+<body>
+	<iframe src="https://www.baidu.com/" width="500px" height="500px" frameborder="0"></iframe>
+</body>
+```
+
+## 18 HTML 颜色
+请参考下列url地址:
+
+- 1. [颜色:](http://www.runoob.com/html/html-colors.html)
+- 2. [颜色名:](http://www.runoob.com/html/html-colornames.html)
+- 3. [颜色值:](http://www.runoob.com/html/html-colorvalues.html)
+
+## 19 HTML脚本
+HTML使用标签\<script>来定义JavaScript脚本。在另一篇文章中介绍了JavaScript语言编写规则。
+
+- 1. \<script>标签可以以内联方式引入
+- 2. \<script>脚本可以通过src属性指向外部脚本文件
+- 3. JavaScript最常用于图片操作、表单验证和内容动态更新
+
+##### 代码:
+```html
+<body>
+<script>
+	document.write("hello world")
+</script>
+</body>
+```
+
+## 20 HTML字符实体
+HTML中有预留字，所以如果页面中显示的话，需要使用字符实体，具体可见[字符实体](http://www.runoob.com/html/html-entities.html)
+
+### 20.1 不间断空格(No-breaking Space)
+HTML中常用的字符实体是不间断空格: &nbsp。HTML会主动截短HTML页面中的空格，为了保证空格个数，使用不间断空格: &nbsp。
+
+## 21 HTML视屏
+如果想播放视频，请参考下面代码，最大兼容多种浏览器。
+
+##### 代码:
+```html
+<body>
+	<video width="320" height="240" controls autoplay>
+		<source src="movie.ogg" type="video/ogg">
+		<source src="movie.mp4" type="video/mp4">
+		<source src="movie.webm" type="video/webm">
+		<object data="movie.mp4" width="320" height="240">
+			<embed width="320" height="240" src="movie.swf">
+		</object>
+	</video>
+</body>
+```
+
+## HTML速查表
+如果你已经读完本篇文章，请重点去理解，这里提供[速查表](http://www.runoob.com/html/html-quicklist.html),理解后可以迅速查询
 
 
 

@@ -437,11 +437,190 @@ HTML中使用\<table>标签定义表格，数据单元可以包含文本、图�
 ```
 
 ### 13.1 HTML无序列表
+使用style="list-style-type:disc"属性来定义不同的无序列表，包括：圆点、圆圈和正方形
+
+##### 代码:
+```html
+<body>
+<!-- 圆点：disc, 圆圈: circle, 正方形: square -->
+	<ul style="list-style-type: circle;">
+		<li>Coffee</li>
+		<li>Tea</li>
+		<li>Milk</li>
+	</ul>
+</body>
+```
 
 ### 13.2 HTML有序列表
 
+##### 代码:
+```html
+<body>
+<!-- type="a"是a,b...; type="A"是A,B...; type="i"; type="I"-->
+	<ol type="I">
+		<li>Coffee</li>
+		<li>Tea</li>
+		<li>Milk</li>
+	</ol>
+</body>
+```
 
+## 14 HTML区块
+HTML可以通过\<div>和\<span>将元素组合起来
 
+### 14.1 HTML\<div>元素
+- 1. \<div>元素是一个块级元素，没有特定的含义，通常被用做文档布局
+- 2. \<div>元素浏览器会在前后显示**折行**
+
+### 14.2 HTML\<span>元素
+\<span>是内联元素，被用做文本容器，没有特定的含义
+
+## 15 HTML布局
+虽然页面布局可以使用\<div>和\<table>，但是推荐使用\<div>进行页面布局。
+
+##### 代码:
+```html
+<body>
+	<div style="background-color: yellow; font-size: 30px; text-align:center;width: 500px;">
+		<span>网页标题</span>
+	</div>
+	<div style="background-color: red; height:200px;width: 100px;float: left">
+		<span><b>菜单</b></span><br/>
+		<span>HTML</span><br/>
+		<span>CSS</span><br/>
+		<span>JavaScript</span><br/>
+	</div>
+	<div style="background-color: green;height: 200px;width:400px;float: left">
+		<span>内容在这里</span>
+	</div>
+	<div style="background-color: yellow; font-size: 30px;text-align: center;width: 500px">
+		<span>版权@thinking_fioa</span>
+	</div>	
+</body>
+```
+
+## 16 HTML表单和输入
+### 16.1 HTML表单
+- 1. 表单是一个包含表单元素的区域
+- 2. 使用标签\<form>来设置
+- 3. 表单元素是允许用于交互界面，比如输入内容(文本域、下拉列表和单选框等)
+- 4. 表单本身是**看不见**的，只能看到输入框或选择框
+- 5. 属性name表示的是提交后对应的key
+- 6. 属性value作为提交后对应的value
+
+##### 代码:
+```html
+<body>
+	<form action="">
+		<span>Username:</span>
+		<input type="text" name="user" value="thinking_fioa"><br/>
+		<span>Passowrd:</span>
+		<input type="password" name="password" value="123456">
+	</form>
+
+	<p><b>注意: </b>密码字段中的字符是隐藏的</p>
+</body>
+```
+
+### 16.2 HTML表单-输入元素
+- 1. 多数情况下都是使用表单标签输入标签\<input>
+- 2. 对于输入标签\<input>，使用类型属性type来定义不同的输入
+- 3. 属性name表示的是提交后对应的key
+- 4. 属性value作为提交后对应的value
+- 5. 单选按钮使用属性:checked="checked"来默认选择
+
+|类型属性(type)|使用样例|说明|
+|:---:|:---:|:---:|
+|type="text"|\<input type="text" name="username">|输入框|
+|type="password"|\<input type="password" name="pwd">|输入不显示框|
+|type="radio"|\<input type="radio" name="sex" value="male">|单选框|
+|type="checkbox"|\<input type="checkbox" name="vehicle" value="Car">|复选框|
+|type="submit"|\<input type="submit" value="Submit">|输入框|
+
+##### 代码:
+```html
+<body>
+	<p>单选按钮</p>
+	<form>
+		<input type="radio" name="sex" value="male" checked="checked"><span>Male</span><br/>
+		<input type="radio" name="sex" value="female"><span>Female</span><br/>
+	</form>
+
+	<p>复选框</p>
+	<form>
+		<input type="checkbox" name="vehicle" value="Bike"><span>Bike</span><br/>
+		<input type="checkbox" name="vehicle" value="Car"><span>Car</span><br/>
+	</form>
+
+	<!-- 提交按钮 -->
+	<form name="input" action="html_form_action.php" method="get">
+		<span>Username:</span><input type="text" name="user"><br/>
+		<span>Password:</span><input type="password" name="pwd"><br/>
+		<input type="submit" value="Submit">
+	</form>
+</body>
+```
+
+### 16.3 HTML表单-预选下拉列表
+- 1. 使用标签\<select>来定义下拉选项
+- 2. 属性selected来显示预选
+
+##### 代码:
+```html
+<span>下拉选择框</span>
+<form action="">
+	<select name="cars">
+		<option value="volvo">Volvo</option>
+		<option value="fiat" selected>Fiat</option>
+		<option value="benz">Benz</option>
+	</select>
+</form>
+```
+
+### 16.4 HTML创建按钮
+属性type的值为button
+
+##### 代码:
+```html
+<span>创建按钮</span>
+<form action="">
+	<input type="button" value="hello world">
+</form>
+```
+
+### 16.5 带边框的表单
+- 1. 表单带上边框
+- 2. 单选按钮使用属性:checked="checked"来默认选择
+
+##### 代码:
+```html
+<p>有边框的表单</p>
+<form action="">
+	<fieldset>
+		<legend>Personal information:</legend>
+		<span>UserName:</span><input type="text" name="usrname" value="luweilin"><br/>
+		<span>Address:</span><input type="text" name="address" value="hangz"><br/>
+		<span>Sex:</span><br/>
+		<input type="radio" name="sex" value="male" checked="checked"><span>Male</span><br/>
+		<input type="radio" name="sex" value="female"><span>Female</span><br/>
+		<input type="submit" value="Submit">
+	</fieldset>
+</form>
+```
+
+### 16.6 HTML\<lable>标签
+HTML使用\<lable>标签为input元素定义标注
+
+##### 代码
+```html
+<form action="*.phpp">
+  <label for="male">Male</label>
+  <input type="radio" name="sex" id="male" value="male"><br>
+  <label for="female">Female</label>
+  <input type="radio" name="sex" id="female" value="female"><br><br>
+  <input type="submit" value="提交">
+</form>
+```
 
 
 

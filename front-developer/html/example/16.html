@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>THML学习</title>
+</head>
+<body>
+	<form action="">
+		<span>Username:</span>
+		<input type="text" name="user" value="luweilin"><br/>
+		<span>Passowrd:</span>
+		<input type="password" name="password" value="123456"><br/>
+	</form>
+
+	<p>单选按钮</p>
+	<form>
+		<input type="radio" name="sex" value="male"><span>Male</span><br/>
+		<input type="radio" name="sex" value="female"><span>Female</span><br/>
+	</form>
+
+	<p>复选框</p>
+	<form>
+		<input type="checkbox" name="vehicle" value="Bike"><span>Bike</span><br/>
+		<input type="checkbox" name="vehicle" value="Car"><span>Car</span><br/>
+	</form>
+
+	<!-- 提交按钮 -->
+	<form name="input" action="html_form_action.php" method="get">
+		<span>Username:</span><input type="text" name="user"><br/>
+		<span>Password:</span><input type="password" name="pwd"><br/>
+		<input type="radio" name="sex" value="male"><span>男</span><br/>
+		<input type="radio" name="sex" value="female"><span>女</span><br/>
+		<input type="submit" value="Submit">
+	</form>
+
+	<p><b>注意: </b>密码字段中的字符是隐藏的</p>
+
+	<span>下拉选择框</span>
+	<form action="">
+		<select name="cars">
+			<option value="volvo">Volvo</option>
+			<option value="fiat" selected>Fiat</option>
+			<option value="benz">Benz</option>
+		</select>
+	</form>
+
+	<span>创建按钮</span>
+	<form action="">
+		<input type="button" value="hello world">
+	</form>
+
+	<p>有边框的表单</p>
+	<form action="">
+		<fieldset>
+			<legend>Personal information:</legend>
+			<span>UserName:</span><input type="text" name="usrname" value="luweilin"><br/>
+			<span>Address:</span><input type="text" name="address" value="hangz"><br/>
+			<span>Sex:</span><br/>
+			<input type="radio" name="sex" value="male" checked="checked"><span>Male</span><br/>
+			<input type="radio" name="sex" value="female"><span>Female</span><br/>
+			<input type="submit" value="Submit">
+		</fieldset>
+		
+	</form>
+
+</body>
+</html>

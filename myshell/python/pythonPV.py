@@ -10,7 +10,7 @@ opener = urllib2.build_opener()
 opener.addheaders = [('User-agent', 'Mozilla/5.0')]  
 
 #urlList = ["http://blog.csdn.net/thinking_fioa/article/details/78265745", "http://blog.csdn.net/thinking_fioa/article/details/78270793", "http://blog.csdn.net/thinking_fioa/article/details/78306670"]
-urlList = ["http://blog.csdn.net/thinking_fioa/article/details/78789698","http://blog.csdn.net/thinking_fioa/article/details/78344645"]
+urlList = ["http://blog.csdn.net/thinking_fioa/article/details/78972847","http://blog.csdn.net/thinking_fioa/article/details/78789698"]
 #tempUrl = raw_input("请输入网址:");
 for tempUrl in urlList:
     count = random.randint(1000, 2000);

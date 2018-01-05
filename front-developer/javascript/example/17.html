@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JavaScript</title>
+</head>
+<body>
+	<script>
+		console.log(typeof "thinking"); //输出: string
+		console.log(typeof 3.1415); //输出: number
+		console.log(typeof new String("fioa")); //输出: object
+		console.log(typeof [1,2,3]); //输出: object 
+		console.log(typeof {name:"ppp", age:18}); //输出: object
+		console.log(typeof function(){}); //输出: function
+		console.log(typeof null); //输出: object
+		console.log(typeof undefined); //输出: undefined
+
+		isNumber(321);
+		function isNumber(num){
+			console.log("isNumber:" + ((num).constructor.toString().indexOf("Number") > -1));
+		}
+	</script>
+</body>
+</html>

@@ -85,7 +85,7 @@ JavaScript是一个脚本语言，轻量级。JavaScript语言注释使用双斜
 在编程语言中，变量用来存储数据值。JavaScript使用关键字var来定义变量，等号来赋值。
 
 ### 4.2 JavaScript数据类型
-JavaScript有多种数据类型: 数字、字符串、数组和对象等。JavaScript对象其实就是键值对
+JavaScript有多种数据类型: 数字(Number)、字符串(String)、布尔(boolean)、对象(Object)和function。JavaScript对象其实就是键值对
 
 ##### 代码:
 ```html
@@ -103,7 +103,7 @@ JavaScript语句想浏览器发出命令，告诉浏览器该如何做
 - 2.重新声明JavaScript变量，该变量的值不会丢失。如: var name="Volvo"; var name;
 
 ## 7 JavaScript数据类型
-字符串(String)、数字(Number)、布尔(Boolean)、数组(Array)、对象(Object)、空(Null)、未定义(Undefined)。其中对象(Object)就是键值对
+字符串(String)、数字(Number)、布尔(Boolean)、对象(Object)、空(Null)、未定义(Undefined)。其中对象(Object)多数情况下就是键值对
 
 ### 7.1 JavaScript拥有动态类型
 JavaScript拥有动态的类型，意味着相同的变量可被用作不同的类型
@@ -210,11 +210,202 @@ JavaScript变量的生命周期是从它们声明的时间开始。局部变量�
 ### 9.7 向未声明的JavaScript变量分配值
 如果把值赋值给未声明的变量，该变量会被自动作为全局变量声明。如: carname="Volvo"，那么carname变成了全局变量，即使在函数内也会变成全局变量。
 
+## 10 JavaScript作用域
+在JavaScript中，作用域为可访问变量、对象和函数的集合
 
+### 10.1 JavaScript局部作用域
+- 1.变量在函数内声明，只能在函数内使用，函数执行完后，局部变量自动销毁
+- 2.函数参数也是局部变量，只能局部作用域。
 
+### 10.2 JavaScript全局变量
+- 1.变量定义在函数外，即为全局变量。全局作用域：网页中所有脚本和函数均可以使用
+- 2.函数内，变量没有声明(没有使用var关键字),则认为该变量是全局变量
 
+##### 代码:
+```html
+<script>
+	var carName="Volvo";  // 全局变量
+	myFunction();
+	function myFunction(){
+		// carName="BMW"; //全局变量
+		document.getElementById("demo").innerHTML="显示变量carName: "+ carName;
+	}
+</script>
+```
 
+### 10.3 JavaScript变量生命周期
+- 1.JavaScript变量生命周期在它声明时初始化
+- 2.局部变量在函数执行完后销毁
+- 3.全局变量在页面关闭后销毁
 
+### 10.4 window对象
+在HTML中，全局变量是window对象，所有的数据变量都属于window对象。
+
+## 11 JavaScript事件
+HTML事件是发生在HTML元素上的事情。
+
+### 11.1 HTML事件
+HTML事件可以是浏览器行为，也可以是用户行为。当事件发生时，可以执行一些JavaScript代码。HTML事件的实例有:
+
+- 1.HTML页面完成加载
+- 2.HTML input字段改变时
+- 3.HTML的按钮被点击
+
+### 11.2 常见的HTML事件
+|事件|描述|
+|:---:|:---:|
+|onchange|HTML元素改变|
+|onclick|用户点击HTML元素|
+|onmouseover|用户在一个HTML元素上移动鼠标|
+|onmouseout|用户从一个HTML元素上移开鼠标|
+|onkeydown|用户按下键盘按键|
+|onload|浏览器完成页面的加载|
+
+##### 代码:
+```html
+<body>
+	<div>
+		<span>HTML事件中onchange事件</span>
+	</div>
+	<input type="text" name="me" value="thinking" onchange="onChange(this)">
+
+	<script>
+		function onChange(cc){
+			window.alert("文本改为: "+ cc.value);
+		}
+	</script>
+</body>
+```
+
+## 12 JavaScript字符串
+- 1.JavaScript字符串用于存储和处理文本
+- 2.字符串的索引从0开始，依次类推。类似于其他语言
+- 3.如果把数字与字符串相加，结果将变成字符串
+
+### 12.1 字符串长度
+使用内置属性length来计算字符串长度，如: var strSize=str.length;
+
+### 12.2 字符串可以对象
+- 1.var firstName="thinking"，其是一个字符串
+- 2.var firstName=new String("thinking")，其是一个Object 对象
+
+### 12.3 JavaScript中==与===区别
+- 1.对于string、number等基础类型，==只会比价值是否相等，===不仅要求值相等还要求数据类型相同
+- 2.对于Array、Object等高级类型，没有区别，进行指针地址比较
+- 3.!=是==的非运算，!==是===的非运算
+
+##### 代码:
+```html
+<script>
+	var firstName="thinking";
+	var firstName2=new String("thinking");
+	console.log(typeof firstName); //输出: string
+	console.log(typeof firstName2); //输出: object
+	console.log(firstName == firstName2); //输出: true
+	console.log(firstName === firstName2); //输出: false
+</script>
+```
+
+### 12.4 字符串方法
+字符串方法，请看[地址](http://www.runoob.com/jsref/jsref-obj-string.html)
+
+## 13 JavaScript条件语句语法
+```html
+if(time<10){
+	//some thing
+} else if(time>10 && time <20){
+	//some thing
+} else {
+	//some thing
+}
+```
+
+## 14 JavaScript switch语句语法
+```html
+switch(d){
+	case 1: code line;
+		break;
+	case 2: code line;
+		break;
+	default:
+		break;
+}
+```
+
+## 15 JavaScript循环
+- 1.for循环
+- 2.for/in循环, 比如: for(onePerson : persons){...}
+- 3.while循环
+- 4.do/while循环
+- 5.break/continue与其他语言一样
+
+## 16 JavaScript中typeof、null、undefined和valueOf()
+- 1.string、number、boolean等基础类型，typeof会得到对应的类型
+- 2.array、object、Date、null等高级类型，typeof会得到Object类型
+- 3.所有利用关键字new得到的变量，都是object数据类型变量。在进行==或===比较时，要注意
+
+### 16.1 null和undefined区别
+- 1.通常设置对象为null，来清空对象
+- 2.undefined的类型是undefined，null的类型是object。null==undefined返回true; null===undefined返回false
+
+##### 代码:
+```html
+<script>
+	console.log(typeof undefined); //输出: undefined
+	console.log(typeof null); //输出: object
+	console.log(null == undefined); //输出: true
+	console.log(null === undefined); //输出: false
+</script>
+```
+
+## 17 JavaScript类型转换
+- 1.在JavaScript中有5种不同的数据类型:
+ - string
+ - number
+ - boolean
+ - object
+ - function
+- 2.3种对象类型:
+ - Object
+ - Date
+ - Array
+- 3.2种不包含任何值的数据类型
+ - null
+ - undefined
+
+### 17.1 typeof操作符
+```html
+<script>
+	console.log(typeof "thinking"); //输出: string
+	console.log(typeof 3.1415); //输出: number
+	console.log(typeof new String("fioa")); //输出: object
+	console.log(typeof [1,2,3]); //输出: object 
+	console.log(typeof {name:"ppp", age:18}); //输出: object
+	console.log(typeof function(){}); //输出: function
+	console.log(typeof null); //输出: object
+	console.log(typeof undefined); //输出: undefined
+</script>
+```
+
+### 17.2 constructor属性
+constructor属性返回所有JavaScript变量的构造函数，可以被用来判断类型
+
+##### 代码:
+```html
+isNumber(321);
+function isNumber(num){
+	console.log("isNumber:" + ((num).constructor.toString().indexOf("Number") > -1));
+}
+```
+
+### 17.3 JavaScript类型
+- 1.全局方法String()可以将数字、布尔和日期转换成字符串。或者是toString()方法
+- 2.全局方法Number()可以将字符串、布尔和日期转换成数字。若无法转换，则变为NaN
+- 3.一元运算符+，可以将变量转化为数字。如:var x= + "5";
+
+### 17.4 typeof用来判空
+- 1.判断某个变量是否存在，请不要使用if(a)。替换为:if(typeof a!="undefined"){}
+- 2.使用关键字instanceof来判断对象类型。如: if(arr instanceof Array){} 
 
 
 

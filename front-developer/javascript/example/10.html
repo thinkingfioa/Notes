@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JavaScript</title>
+</head>
+<body>
+	<div>
+		<span>全局变量在任何脚本和函数内均可访问。</span>
+	</div>
+	<div>
+		<span id="demo"></span>
+	</div>
+	<div>
+		<span>HTML事件中文本验证
+	</div>
+	<input type="text" name="me" value="thinking" onchange="onChange(this)">
+
+	<script>
+		var carName="Volvo";  // 全局变量
+		myFunction();
+		function myFunction(){
+			// carName="BMW"; //全局变量
+			document.getElementById("demo").innerHTML="显示变量carName: "+ carName;
+		}
+		function onChange(cc){
+			window.alert("文本改为: "+ cc.value);
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JavaScript</title>
+</head>
+<body>
+	<div>
+		<span>替换"microsoft"为"Runnoob"</span>
+	</div>
+	<button name="myButton" onclick="ClickButton('Runnoob')">点我</button>
+	<div >
+		<span>请访问</span>
+		<span id="demo">Microsoft!</span>
+		
+	</div>
+	<script>
+		function ClickButton(name){
+			var str = document.getElementById("demo").innerHTML;
+			var txt = str.replace(/microsoft/i, name)
+			document.getElementById("demo").innerHTML=txt;
+		}
+	</script>
+</body>
+</html>

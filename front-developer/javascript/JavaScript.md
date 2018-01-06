@@ -398,16 +398,127 @@ function isNumber(num){
 }
 ```
 
-### 17.3 JavaScript类型
+### 17.3 JavaScript类型转换
 - 1.全局方法String()可以将数字、布尔和日期转换成字符串。或者是toString()方法
 - 2.全局方法Number()可以将字符串、布尔和日期转换成数字。若无法转换，则变为NaN
 - 3.一元运算符+，可以将变量转化为数字。如:var x= + "5";
 
 ### 17.4 typeof用来判空
 - 1.判断某个变量是否存在，请不要使用if(a)。替换为:if(typeof a!="undefined"){}
-- 2.使用关键字instanceof来判断对象类型。如: if(arr instanceof Array){} 
+- 2.使用关键字instanceof来判断对象类型。如: if(arr instanceof Array){} 、
 
+## 18 JavaScript正则表达式
+- 1.语法: /正则表达式主体/修饰符(可选)。如: /runooob/i中runoob是一个正则表达式主体(用于检索),i是一个修饰符(检索不区分大小写)
+- 2.正则表达式可参考[地址](http://www.runoob.com/js/js-regexp.html)
 
+### 18.1 正则表达式两个字符串方法
+- 1.search()用于检索指定的子字符串，返回子串的起始位置
+- 2.replace()用于替换字符串中特定的子串
+
+##### 代码:
+```html
+<script>
+	function ClickButton(name){
+		var str = document.getElementById("demo").innerHTML;
+		var txt = str.replace(/microsoft/i, name)
+		document.getElementById("demo").innerHTML=txt;
+	}
+</script>
+```
+
+## 19 JavaScript错误-throw、try和catch
+try-catch基本和Java保持一致
+##### 代码:
+```html
+<script>
+		function tryCatchFunction() {
+		try {
+			if(x<0) throw "不能为负数";
+			.....
+		}catch(err) {
+			alert(err);
+			some.innerHTML=err.message;
+		}
+	}
+</script>
+```
+
+## 20 JavaScript变量提升
+- 1.在JavaScript中，函数及变量的声明都会被提升到函数的最顶部，所以变量可以先使用后声明，但不推荐这样
+- 2.只有函数和变量的声明会提升到最顶部，**初始化则不会**，请注意
+
+## 21 JavaScript表单
+HTML表单验证可以使用JavaScript来完成。下面代码验证必须填写字段
+
+##### 代码：
+```html
+<body>
+	<form name="myForm" action="some.php" onsubmit="return myFunction()" method="post">
+		<span>名字:</span>
+		<input type="text" name="myText">
+		<input type="submit" value="提交">
+	</form>
+	<script> 
+		function myFunction(){
+			var txt = document.forms["myForm"]["myText"].value;
+			if(txt == null || txt ==""){
+				window.alert("必填");
+				return false;
+			}
+		}
+	</script>
+</body>
+```
+
+## 22 JavaScript验证API
+提供属性min或属性max，可以约束type="number"最小值和最大值范围，提供特定API进行验证
+
+## 23 JavaScript JSON
+JavaScript提供方法与JSON格式的数据交互。
+
+### 23.1 JSON.parse()
+JSON.parse()方法用于将一个JSON格式的数据转换为JavaScript对象
+##### 代码:
+```html
+<body>
+	<div>
+		<h3>为JSON字符串创建对象
+	</div>
+	<p id="demo"></p>
+	<script>
+		var txt = '{ "sites" : [' +
+			'{ "name":"Runoob" , "url":"www.runoob.com" },' +
+			'{ "name":"Google" , "url":"www.google.com" },' +
+			'{ "name":"Taobao" , "url":"www.taobao.com" } ]}';
+
+		var obj = JSON.parse(txt);
+		document.getElementById("demo").innerHTML=obj.sites[1].name + " " + obj.sites[1].url;
+	</script>
+</body>
+```
+
+### 23.2 JSON.stringify()
+JSON.stringify()方法用于将JavaScript值转化为JSON字符串
+##### 代码:
+```html
+<script>
+	var txt = JSON.stringify(obj);
+</script>
+```
+
+## 24 JavaScript void
+void是JavaScript中非常重要的关键字，该操字符指定要计算一个表达式但是不返回值
+
+### 24.1 语法格式
+```html
+<script>
+	void(func())
+	javascript:void(func()) // 比如: javascript:void(alert('Warning!')
+</script>
+```
+
+### 24.2 javascript:void(0)含义
+javascript:void(0)常被用不做任何事情。
 
 
 

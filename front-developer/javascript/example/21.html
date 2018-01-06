@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JavaScript</title>
+</head>
+<body>
+	<form name="myForm" action="some.php" onsubmit="return myFunction()" method="post">
+		<span>名字:</span>
+		<input type="text" name="myText">
+		<input type="submit" value="提交">
+	</form>
+	<script> 
+		function myFunction(){
+			var txt = document.forms["myForm"]["myText"].value;
+			if(txt == null || txt ==""){
+				window.alert("必填");
+				return false;
+			}
+		}
+	</script>
+</body>
+</html>

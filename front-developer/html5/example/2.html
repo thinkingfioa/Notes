@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5</title>
+</head>
+<body>
+	<canvas id="myCanvas" width="200px" height="100px" style="border: 1px solid #000000;">
+		浏览器不支持Canvas标签
+	</canvas>
+	<br/>
+	<canvas id="myCanvas1" width="200px" height="100px" style="border: 1px solid #000000">
+		浏览器不支持Canvas标签
+	</canvas>
+	<br/>
+	<canvas id="myCanvas2" width="200px" height="100px" style="border: 1px solid #000000">
+		浏览器不支持Canvas标签
+	</canvas>
+	<br/>
+	<canvas id="myCanvas3" width="200px" height="100px" style="border: 1px solid #000000">
+		浏览器不支持Canvas标签
+	</canvas>
+	<br/>
+	<canvas id="myCanvas4" width="200px" height="100px" style="border: 1px solid #000000">
+		浏览器不支持Canvas标签
+	</canvas>
+	<br/>
+	<canvas id="myCanvas5" width="200px" height="100px" style="border: 1px solid #000000">
+		浏览器不支持Canvas标签
+	</canvas>
+	<br/>
+	<canvas id="myCanvas6" width="200px" height="100px" style="border: 1px solid #000000">
+		浏览器不支持Canvas标签
+	</canvas>
+	<br/>
+	<img id="myHeadPic" src="https://avatars1.githubusercontent.com/u/13462500?s=460&v=4" width="230px" height="300px" alt="无法加载">
+	<canvas id="myCanvas7" width="400px" height="350px" style="border: 1px solid #000000">
+		浏览器不支持Canvas标签
+	</canvas>
+
+	<script>
+		var c = document.getElementById("myCanvas1");
+		var ctx = c.getContext("2d");
+		ctx.fillStyle="#00FF00";
+		ctx.fillRect(0,0,166,66);
+
+		var c2 = document.getElementById("myCanvas2");
+		var ctx2 = c2.getContext("2d");
+		ctx2.moveTo(0,0);
+		ctx2.lineTo(200,100);
+		ctx2.stroke();
+
+		var c3 = document.getElementById("myCanvas3");
+		var ctx3 = c3.getContext("2d");
+		ctx3.beginPath();
+		ctx3.arc(95,50,40,0,2*Math.PI);
+		ctx3.stroke();
+
+		var c4 = document.getElementById("myCanvas4");
+		var ctx4 = c4.getContext("2d");
+		ctx4.font="30px Arial";
+		ctx4.fillText("Hello World", 10, 50);
+
+		var v5 = document.getElementById("myCanvas5");
+		var ctx5 = v5.getContext("2d");
+		// 创建渐变
+		var grd = ctx5.createLinearGradient(0, 0, 200, 0);
+		grd.addColorStop(0, "red");
+		grd.addColorStop(1, "white");
+		// 填充渐变
+		ctx5.fillStyle=grd;
+		ctx5.fillRect(10, 10, 150, 80);
+
+		var v6 = document.getElementById("myCanvas6");
+		var ctx6 = v6.getContext("2d");
+		var grd6 = ctx6.createRadialGradient(90,60,5,90,60,50);
+		grd6.addColorStop(0, "red");
+		grd6.addColorStop(1,"white");
+		ctx6.fillStyle=grd6;
+		ctx6.fillRect(10,10,150,80);
+
+		var v7 = document.getElementById("myCanvas7");
+		var ctx7 = v7.getContext("2d");
+		var img7 = document.getElementById("myHeadPic");
+		img7.onload = function(){
+			ctx7.drawImage(img7, 10,10);
+		}
+	</script>
+</body>
+</html>

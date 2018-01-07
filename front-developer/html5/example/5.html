@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5</title>
+</head>
+<body>
+	<div>
+		<span><h3>拖动头像进入矩形框</h3></span>
+	</div>
+	<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: 350px;height: 350px;padding: 10px;border: 1px solid #000000"></div>
+
+	<br/>
+	<img id="img1" src="https://avatars1.githubusercontent.com/u/13462500?s=460&v=4" draggable="true" ondragstart="drag(event)" width="300px" height="300px">
+
+	<script>
+		function drag(ev) {
+			ev.dataTransfer.setData("Text", ev.target.id);
+		}
+		function allowDrop(ev) {
+			ev.preventDefault();
+		}
+		function drop(ev) {
+			ev.preventDefault();
+			var data = ev.dataTransfer.getData("Text");
+			ev.target.appendChild(document.getElementById(data));
+		}
+	</script>
+</body>
+</html>

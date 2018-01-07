@@ -137,7 +137,94 @@ Canvas可以画圆形，具体方法是: arc(x,y,r,start,stop)
 
 - drawImage(image,x,y)
 
+##### 代码:
+```html
+<body>
+	<img id="myHeadPic" src="https://avatars1.githubusercontent.com/u/13462500?s=460&v=4" width="230px" height="300px" alt="无法加载">
+	<canvas id="myCanvas7" width="400px" height="350px" style="border: 1px solid #000000">
+		浏览器不支持Canvas标签
+	</canvas>
+	<script>
+		var v = document.getElementById("myCanvas7");
+		var ctx = v.getContext("2d");
+		var img = document.getElementById("myHeadPic");
+		img.onload = function(){
+			ctx.drawImage(img, 10,10);
+		}
+	</script>
+</body>
+```
 
+## 3 HTML5内联SVG
+HTML5支持内联SVG，SVG是使用XML格式定义图片。
+
+## 4 HTML5 MathML
+在HTML5中可以使用MathML元素，对应的标签是\<math>...\</math>。MathML是一个数学标记语言，是一种基于XML的标准，用来写网页版的数学符号和公式。
+
+## 5 HTML5 拖放
+### 5.1 设置元素为可拖放
+为了是元素可拖动，把draggable属性设置为true,则：\<img draggable="true">
+
+### 5.2 拖动什么-ondragstart和setData()
+规定当元素被拖动时，会发生什么。ondragstart属性需要定义函数drag(event)，函数中需要填入拖动的数据。
+
+### 5.3 放在何处-ondragover
+ondragover事件规定在何处放置被拖动的数据
+
+### 5.4 进行放置-ondrop
+当放置被拖动数据时，会发生drop事件
+
+##### 代码:
+```html
+<body>
+	<div>
+		<span><h3>拖动头像进入矩形框</h3></span>
+	</div>
+	<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" style="width: 350px;height: 350px;padding: 10px;border: 1px solid #000000"></div>
+
+	<br/>
+	<img id="img1" src="https://avatars1.githubusercontent.com/u/13462500?s=460&v=4" draggable="true" ondragstart="drag(event)" width="300px" height="300px">
+
+	<script>
+		function drag(ev) {
+			ev.dataTransfer.setData("Text", ev.target.id);
+		}
+		function allowDrop(ev) {
+			ev.preventDefault();
+		}
+		function drop(ev) {
+			ev.preventDefault();
+			var data = ev.dataTransfer.getData("Text");
+			ev.target.appendChild(document.getElementById(data));
+		}
+	</script>
+</body>
+```
+
+## 6 HTML5 地理定位
+HTML5 Geolocation API用于获得用户的地理位置。该特性可能侵犯用户的隐私，HTML5可以做到
+
+## 7 HTML5 Video(视频)
+HTML5规定一种通过video元素来包含视频的标准方法，具体代码如下:
+
+```html
+<video widht="320px" height="320" controls>
+	<source src="" type="video/mp4">
+	<source src="" type="video/ogg">
+</video>
+```
+
+## 8 HTML5 Audio(音频)
+HTML5中规定音频元素标准，使用<audio>元素，具体代码如下:
+
+```html
+<audio controls>
+  <source src="horse.ogg" type="audio/ogg">
+  <source src="horse.mp3" type="audio/mpeg">
+</audio>
+```
+
+## 9 HTML5 Input类型
 
 
 

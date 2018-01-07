@@ -225,6 +225,113 @@ HTML5中规定音频元素标准，使用<audio>元素，具体代码如下:
 ```
 
 ## 9 HTML5 Input类型
+HTML5拥有多个新的表单输入类型，新的特性提供更好的输入控制和验证。新的输入类型：color、date、datetime、datetime-local、email、month、number、range、search、tel、time、url、week。
+
+### 9.1 Input类型: color
+color类型用在input字段主要用于从拾色器中选择颜色
+##### 代码:
+```html
+<form action="some_url.html" method="get">
+	<div>
+		<span>选择你喜欢的颜色:</span>
+	</div>
+	<input type="color" name="favorite">
+	<input type="submit" value="提交">
+</form>
+```
+
+### 9.2 Input类型: date
+date类型允许从日期选择器选择一个日期，代码:\<input type="date" name="bday">
+
+### 9.3 Input类型: datetime-local
+datetime-local类型允许你选择一个日期，但具体怎么用的，我没整明白
+
+### 9.4 Input类型: email
+email类型用于应该包含e-mail的地址输入域，会进行email格式的校验。如:\<input type="email" name="usremail">
+
+### 9.5 Input类型: month
+month类型允许选择年／月，时间精确到月份。如:\<input type="month" name="bdaymonth">
+
+### 9.6 Input类型: number
+number类型用于包含数值的输入域。该类型有较多的属性，请看下面的代码:
+##### 代码:
+```html
+<form id="myForm" action="some_url.html" method="get">
+	<input type="number" name="points" min="0" max="10" step="3" value="6">
+	<input type="submit" value="提交表单">
+</form>
+```
+
+### 9.7 Input类型: range
+range类型的显示为滑动条，包括一定的范围。如: \<input type="range" name="myRange" min="1" max="10" step="2" value="4">。其中value属性是规定默认值
+
+### 9.8 Input类型: search
+search类型用于定义搜索域，比如站点搜索等。如:\<input type="search" name="mySearch">。完全是让好理解，我觉得文本框也可以做到。
+
+### 9.9 Input类型: tel
+定义输入电话号码，完全是让好理解，我觉得文本框也可以做到。如:\<input type="tel" name="myTel">
+
+### 9.10 Input类型: time
+time类型允许你选择一个时间，如:\<input type="time" name="usr_time"> 
+
+### 9.11 Input类型: url
+url类型包含URL地址输入域，在提交表单时，自动验证url域的值。如:\<input type="url" name="homepage">
+
+### 9.12 Input类型: week
+week类型允许选择周和年
+
+## 10 HTML5表单元素
+HTML5有以下新的表单元素:
+
+- 1.\<datalist>
+- 2.\<keygen>
+- 3.\<output>
+
+### 10.1 HTML5 \<datalist>元素
+\<datalist>元素规定输入域的选择列表，但是如果用户自己输入，也可以。
+##### 代码:
+```html
+<form action="some_url.html" method="get">
+	<input list="girlfriends" name="girlfriends">
+	<datalist id="girlfriends">
+		<option value="PPP1"></option>
+		<option value="PPP2"></option>
+		<option value="PPP3"></option>
+		<option value="PPP4"></option>
+		<option value="PPP5"></option>
+	</datalist>
+	<input type="submit" value="提交">
+</form>
+```
+
+### 10.2 HTML5\<keygen>元素
+\<keygen>标签规定用于表单的密钥对生成器，我没有理解怎么用？请补充实例?
+##### 代码:
+```html
+```
+
+### 10.3 HTML5\<output>元素
+\<output>元素用于不同类型的输出，比如计算或脚本输出：
+##### 代码:
+```html
+<form oninput="x.value=parseInt(a.value)+parseInt(b.value)">
+	<div>
+		<sapn>0</sapn>
+		<input type="range" id="a" value="50">
+		<span>100+</span>
+		<input type="number" id="b" value="50">
+		<span>=</span>
+		<output name="x" for="a b"></output>
+	</div>
+</form>
+```
+
+## 11 HTML5表单属性
+
+
+
+
+
 
 
 

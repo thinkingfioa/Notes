@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5</title>
+</head>
+<body>
+	<form action="some_url.html" method="get">
+		<input list="girlfriends" name="girlfriends">
+		<datalist id="girlfriends">
+			<option value="PPP1"></option>
+			<option value="PPP2"></option>
+			<option value="PPP3"></option>
+			<option value="PPP4"></option>
+			<option value="PPP5"></option>
+		</datalist>
+		<input type="submit" value="提交">
+	</form>
+
+	<form oninput="x.value=parseInt(a.value)+parseInt(b.value)">
+		<div>
+			<sapn>0</sapn>
+			<input type="range" id="a" value="50">
+			<span>100+</span>
+			<input type="number" id="b" value="50">
+			<span>=</span>
+			<output name="x" for="a b"></output>
+
+		</div>
+		
+	</form>
+</body>
+</html>

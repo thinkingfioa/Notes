@@ -96,7 +96,7 @@ var person={firstName:"thinking", lastName="fioa"};
 ```
 
 ## 5 JavaScript语句
-JavaScript语句想浏览器发出命令，告诉浏览器该如何做
+JavaScript语句向浏览器发出命令，告诉浏览器该如何做
 
 ## 6 JavaScript变量
 - 1.如果JavaScript变量未初始化，缺省值为: undefined
@@ -280,7 +280,7 @@ HTML事件可以是浏览器行为，也可以是用户行为。当事件发生�
 ## 12 JavaScript字符串
 - 1.JavaScript字符串用于存储和处理文本
 - 2.字符串的索引从0开始，依次类推。类似于其他语言
-- 3.如果把数字与字符串相加，结果将变成字符串
+- 3.如果把字符串与数字相加，结果将变成字符串
 
 ### 12.1 字符串长度
 使用内置属性length来计算字符串长度，如: var strSize=str.length;

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5</title>
+</head>
+<body>
+	<form action="some_url.php" method="get" autocomplete="on">
+		<span>First name:</span>
+		<input type="text" name="firstName"><br/>
+		<span>Last Name:</span>
+		<input type="text" name="lastName"><br/>
+		<span>E-mail:</span>
+		<input type="email" name="email" autocomplete="off"><br/>
+		<input type="submit" value="submit">
+	</form>
+
+	<form action="some_url.php" method="get" novalidate>
+		<span>E-mail:</span>
+		<input type="email" name="myEmail">
+		<input type="submit" value="submit">
+	</form>
+
+	<form action="some_url.php" method="get">
+		<span>First Name:</span>
+		<input type="text" name="firstName" >
+		<span>Last Name:</span>
+		<input type="text" name="lastName" autofocus>
+		<input type="submit" value="submit">
+	</form>
+
+	<form id="form1" action="some_url.php" method="get"> 
+		<span>First Name:</span>
+		<input type="text" name="firstName">
+		<input type="submit" value="submit">
+	</form>
+	<span>Last Name:</span>
+	<input type="text" name="lastName" form="form1">
+
+	<form action="some_url.php" method="get" novalidate>
+		<span>E-mail:</span>
+		<input type="email" name="myEmail">
+		<input type="submit" value="submit" formaction="your_ur.php">
+	</form>
+
+	<form action="some_url.html" method="post">
+		<span>PPP:</span>
+		<input type="text" name="ppp">
+		<input type="submit" value="以multipart/form-data提交" formenctype="multipart/form-data">
+	</form>
+
+	<form action="some_url.php" method="post">
+		<span>lwl-E-mail:</span>
+		<input type="email" name="lwl-email">
+		<input type="submit" value="提交" formnovalidate> 
+	</form>
+
+	<form action="some_url.php" method="get">
+		<span>First name:</span>
+		<input type="text" name="firstName"><br/>
+		<span>Last Name:</span>
+		<input type="text" name="lastName"><br/>
+		<span>E-mail:</span>
+		<input type="image" src="http://www.runoob.com/try/demo_source/img_submit.gif" alt="Submit" width="50" height="50">
+	</form>
+
+	<form action="some_url.php" method="get">
+		<input list="browsers" name="browser">
+		<datalist id="browsers">
+			<option value="Internet Explorer"></option>
+			<option value="Firefox"></option>
+			<option value="Chrome"></option>
+		</datalist>
+		<input type="submit">
+	</form><br/>
+
+	<form action="some_url.php" action="get">
+		<span>选择图片:</span>
+		<input type="file" name="chooseFile">
+		<input type="submit" value="提交">
+	</form>
+
+	<form action="some_url.php" method="get">
+		<span>Country Code:</span>
+		<input type="text" name="countryCode" pattern="[A-Za-z]{3}" title="请使用3个字母">
+		<input type="submit" value="提交">
+	</form>
+
+	<form action="some_url.php" method="get">
+		<span>First Name:</span>
+		<input type="text" name="fName" placeholder="thinking">
+		<span>Last Name:</span>
+		<input type="text" name="lName" placeholder="fioa">
+		<br/>
+		<input type="submit" value="Sumbit">
+	</form>
+
+	<form action="some_url.php" method="get">
+		<span>Username:</span>
+		<input type="text" name="userName" required>
+		<input type="submit" value="Submit">
+	</form>
+</body>
+</html>

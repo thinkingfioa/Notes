@@ -327,28 +327,221 @@ HTML5有以下新的表单元素:
 ```
 
 ## 11 HTML5表单属性
+HTML的\<form>和\<input>标签新加了几个属性
+\<form>的新属性:
 
+- 1.autocomplete
+- 2.novalidate
 
+\<input>的新属性:
 
+- 1.autocomplete
+- 2.autofocus
+- 3.form
+- 4.formaction
+- 5.formenctype
+- 6.formmethod
+- 7.formnovalidate
+- 8.formtarget
+- 9.height 与 width
+- 10.list
+- 11.min 与 max
+- 12.multiple
+- 13.pattern (regexp)
+- 14.placeholder
+- 15.required
+- 16.step
 
+### 11.1 \<form>和\<input> autocomplete属性
+- 1.autocomplete属性规定form和input域应该拥有自动完成的功能。当用户在自动完成域中开始输入时，浏览器应该在该域中显示填写的选项。
+- 2.autocomplete属性有可能在form元素中开启的，而是在input元素中关闭
 
+##### 代码:
+```html
+<form action="some_url.php" method="get" autocomplete="on">
+	<span>First name:</span>
+	<input type="text" name="firstName"><br/>
+	<span>Last Name:</span>
+	<input type="text" name="lastName"><br/>
+	<span>E-mail:</span>
+	<input type="email" name="email" autocomplete="off"><br/>
+	<input type="submit" value="submit">
+</form>
+```
 
+### 11.2 \<form> novalidate 属性
+novalidate属性是一个boolean属性。规定在提交表单时不应该验证form或input域
 
+##### 代码:
+```html
+<form action="some_url.php" method="get" novalidate>
+	<span>E-mail:</span>
+	<input type="email" name="myEmail">
+	<input type="submit" value="submit">
+</form>
+```
 
+### 11.3 \<input> autofocus属性
+autofocus属性是一个boolean属性，规定在页面加载时，域自动获得焦点
+##### 代码:
+```html
+<form action="some_url.php" method="get" autofocus>
+	<span>First Name:</span>
+	<input type="text" name="firstName" >
+	<span>Last Name:</span>
+	<input type="text" name="lastName">
+	<input type="submit" value="submit">
+</form>
+```
 
+### 11.4 \<input> form属性
+\<input>标签中有属性form，可以指明该标签属于哪个form表单，即使该标签不在其对应的form域内。比如: 例子中lastName标签不在id=form1表单中，但是提交按钮会一起打包提交。
+##### 代码:
+```html
+<form id="form1" action="some_url.php" method="get"> 
+	<span>First Name:</span>
+	<input type="text" name="firstName">
+	<input type="submit" value="submit">
+</form>
+<span>Last Name:</span>
+<input type="text" name="lastName" form="form1">
+```
 
+### 11.5 \<input> formaction属性
+formaction属性用于描述表单提交的URL地址，会覆盖\<form>元素中的action属性，\<form>元素中的action属性会无效
+##### 代码:
+```html
+<form action="some_url.php" method="get" novalidate>
+	<span>E-mail:</span>
+	<input type="email" name="myEmail">
+	<input type="submit" value="submit" formaction="your_ur.php">
+</form>
+```
 
+### 11.6 \<input> formenctype属性
+formenctype属性描述了表单提交到服务器的数据编码,只对form表单中method="post"有效。且会覆盖form元素中的enctype属性
+##### 代码
+```html
+<form action="some_url.html" method="post">
+	<span>PPP:</span>
+	<input type="text" name="ppp">
+	<input type="submit" value="提交" formenctype="multipart/form-data">
+</form>
+```
 
+### 11.7 \<input> formmethod属性
+formmethod属性定义了表单提交的方式，会覆盖form元素中的method属性，formmethod="post"
 
+### 11.8 \<input> formnovalidate属性
+novalidate属性是一个boolean属性，描述\<input>元素提交时无需验证。formnovalidate属性可实现同样的效果，**注意：**formnovalidate属性与type="submit"提起使用
+##### 代码:
+```html
+<form action="some_url.php" method="post">
+	<span>lwl-E-mail:</span>
+	<input type="email" name="lwl-email">
+	<input type="submit" value="提交" formnovalidate> 
+</form>
+```
 
+### 11.9 \<input> formtarget属性
+formtarget属性指定一个名称或一个关键字来指明表单提交数据接收后的展示。目前没有懂，下面的例子没什么用，运行结果一样的
+##### 代码:
+```html
+<form action="demo-form.php">
+  First name: <input type="text" name="fname"><br>
+  Last name: <input type="text" name="lname"><br>
+  <input type="submit" value="正常提交">
+  <input type="submit" formtarget="_blank" value="提交到一个新的页面上">
+</form>
+```
 
+### 11.10 \<input> height和width属性
+height和width属性规定用于type="image"标签的图像大小。type="image"标签用于图片代替type="submit"提交按钮
+##### 代码：
+```html
+<form action="some_url.php" method="get">
+	<span>First name:</span>
+	<input type="text" name="firstName"><br/>
+	<span>Last Name:</span>
+	<input type="text" name="lastName"><br/>
+	<span>E-mail:</span>
+	<input type="image" src="http://www.runoob.com/try/demo_source/img_submit.gif" alt="Submit" width="50" height="50">
+</form>
+```
 
+### 11.11 \<input> list属性
+list属性规定输入域为datalist。datalist输入域定义选项列表
 
+##### 代码:
+```html
+<form action="some_url.php" method="get">
+	<input list="browsers" name="browser">
+	<datalist id="browsers">
+		<option value="Internet Explorer"></option>
+		<option value="Firefox"></option>
+		<option value="Chrome"></option>
+	</datalist>
+	<input type="submit">
+</form><br/>
+```
 
+### 11.12 \<input> min和max属性
+min、max和step属性用于包含数字或日期的input类型的约束。适用于类型的\<input>标签: date picker、number和range。
 
+### 11.13 \<input> multiple属性
+multiple属性是一个boolean属性，规定\<input>元素中可选择多个值，使用于标签: email和file
 
+##### 代码:
+```html
+<form action="some_url.php" action="get">
+	<span>选择图片:</span>
+	<input type="file" name="chooseFile" multiple>
+	<input type="submit" value="提交">
+</form>
+```
 
+### 11.14 \<input> pattern属性
+- 1.pattern属性描述了一个正则表达式，用于验证\<input>元素的值。适用于一些类型标签: text、search、url、tel、email和password
+- 2.使用title显示提示信息
 
+##### 代码:
+```html
+<form action="some_url.php" method="get">
+	<span>Country Code:</span>
+	<input type="text" name="countryCode" pattern="[A-Za-z]{3}" title="请使用3个字母">
+	<input type="submit" value="提交">
+</form>
+```
+
+### 11.15 \<input> placeholder属性
+placeholder属性提供一种提示(hint)，描述输入域所期待的值，适用于以下类型标签:text、search、url、telephone、email和password
+
+##### 代码:
+```html
+<form action="some_url.php" method="get">
+	<span>First Name:</span>
+	<input type="text" name="fName" placeholder="thinking">
+	<span>Last Name:</span>
+	<input type="text" name="lName" placeholder="fioa">
+	<br/>
+	<input type="submit" value="Sumbit">
+</form>
+```
+
+### 11.16 \<input> required属性
+required属性是一个boolean属性。规定在提交之前必须填写输入域(不能为空)。适用的标签有: text、search、url、telephone、email、password、date pickers、number、checkbox、radio和file
+
+##### 代码:
+```html
+<form action="some_url.php" method="get">
+	<span>Username:</span>
+	<input type="text" name="userName" required>
+	<input type="submit" value="Submit">
+</form>
+```
+
+### 11.17 \<input> step属性
+step规定了合法的数字间隔，step属性往往和min、max属性创建一个区域值。适用的标签有:number、range、date、datetime、datetime-local、month、time和week.
 
 
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5</title>
+</head>
+<body>
+	<div>
+		<span>计数:</span>
+		<output id="rusult">0</output>
+	</div>
+	<button id="startButton" onclick="startWorker()">开始工作</button>
+	<button id="endButton" onclick="endWorker()">停止工作</button>
+
+	<script>
+		var w;
+		function startWorker() {
+			if(typeof(Worker) !== "undefined") {
+				if(typeof(w) == "undefined"){
+					w = new Worker("demo_14_workers.js"); // 执行一段Js脚本
+				}
+				w.onmessage = function(event) {
+					document.getElementById("result").innerHTML=event.data;
+				}
+			} else {
+				document.getElementById("result").innerHTML = "抱歉，你的浏览器不支持 Web Workers...";
+			}
+			
+		}
+		function endWorker() {
+			w.terminate();
+			w = undefined;
+		}
+	</script>
+</body>
+</html>

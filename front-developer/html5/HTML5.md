@@ -543,10 +543,128 @@ required属性是一个boolean属性。规定在提交之前必须填写输入�
 ### 11.17 \<input> step属性
 step规定了合法的数字间隔，step属性往往和min、max属性创建一个区域值。适用的标签有:number、range、date、datetime、datetime-local、month、time和week.
 
+## 12 HTML5 语义元素
+语义元素指的是有意义的元素，能够清楚描述其意义给开发者。比如\<div>或\<span>就是无意义，而\<table>则是语义元素。
 
+### 12.1 HTML5中新的语义元素
+HTML5提供了新的语义元素来明确一个Web页面的不同部分:
 
+- 1.\<header>
+- 2.\<nav>
+- 3.\<section>
+- 4.\<article>
+- 5.\<aside>
+- 6.\<figcaption>
+- 7.\<figure>
+- 8.\<footer>
 
+具体如图所示:![页面布局](https://github.com/thinkingfioa/Notes/blob/master/uploadPics/web-layout.png)
 
+### 12.2 HTML5 \<section>元素
+\<section>标签定义文档中的节，包含一组内容及其标题
+
+##### 代码:
+```html
+<body>
+	<section>
+		<h1>标题1</h1>
+		<p>第一个段落</p>
+	</section>
+	<section>
+		<h1>标题2</h1>
+		<p>第二个段落</p>
+	</section>
+</body>
+```
+
+### 12.3 HTML5\<article>元素
+\<article>标签定义独立的内容
+##### 代码:
+```html
+<body>
+	<article>
+		<h1>Internet Explorer 9</h1>
+  		<p> Windows Internet Explorer 9(缩写为 IE9 )在2011年3月14日21:00 发布。</p>
+	</article>
+</body>
+```
+
+### 12.4 HTML5\<nav>元素
+\<nav>标签定义导航链接的部分
+
+### 12.5 HTML5\<aside>元素
+\<aside>标签定义页面主区域内容外的内容，如侧边栏。
+
+### 12.6 HTML5\<header>元素
+\<header>元素描述了文档的头部区域，在页面中可以使用多个\<header>元素
+
+### 12.7 HTML5\<footer>元素
+\<footer>元素描述了文档底部区域，一个页脚通常包含文档的作者、联系信息等
+##### 代码：
+```html
+<footer>
+ 	<p>Posted by: Hege Refsnes</p>
+  	<p><time pubdate datetime="2012-03-01"></time></p>
+</footer>
+```
+
+### 12.8 HTML5\<figure>和\<figcaption>元素
+\<figure>标签规定独立的流内容，如图像、图表和代码等。\<figcaption>标签定义\<figure>元素的标题。
+##### 代码:
+```html
+<figure>
+	<img src="https://avatars1.githubusercontent.com/u/13462500?s=460&v=4" width="304px" height="228px">
+	<figcaption>thinking_fioa的头像</figcaption>
+</figure>
+```
+
+## 13 HTML5 Web存储
+HTML5web存储，一个比cookie更好的本地存储方式，可以在本次存储用户的浏览数据。客户端存储数据的两个对象为:
+
+- 1.localStorage:没有时间限制的数据存储
+- 2.sessionStorage:针对一个session的数据存储
+
+## 14 HTML5 Web Workers
+当HTML页面执行脚本时，页面的状态是不可相应，直到脚本完成。web worker是运行在后台JavaScript，独立于其他脚本，不影响页面的性能。
+### 14.1 案例代码(实现计数器): - 未跑通
+```html
+<body>
+	<div>
+		<span>计数:</span>
+		<output id="rusult">0</output>
+	</div>
+	<button id="startButton" onclick="startWorker()">开始工作</button>
+	<button id="endButton" onclick="endWorker()">停止工作</button>
+
+	<script>
+		var w;
+		function startWorker() {
+			if(typeof(Worker) !== "undefined") {
+				if(typeof(w) == "undefined"){
+					w = new Worker("demo_workers.js"); // 执行一段Js脚本
+				}
+				w.onmessage = function(event) {
+					document.getElementById("result").innerHTML=event.data;
+				}
+			} else {
+				document.getElementById("result").innerHTML = "抱歉，你的浏览器不支持 Web Workers...";
+			}
+			
+		}
+		function endWorker() {
+			w.terminate();
+			w = undefined;
+		}
+	</script>
+</body>
+```
+
+### 14.2 Web Workers和DOM
+由于web worker位于外部文件中，因此无法访问下列JavaScript对象:
+
+- 1.window对象
+- 2.document对象
+- 3.parent对象
 
 
 

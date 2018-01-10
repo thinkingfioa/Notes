@@ -558,7 +558,7 @@ HTML5提供了新的语义元素来明确一个Web页面的不同部分:
 - 7.\<figure>
 - 8.\<footer>
 
-具体如图所示:![页面布局](https://github.com/thinkingfioa/Notes/blob/master/uploadPics/web-layout.png)
+具体如图所示:![页面布局](http://img.blog.csdn.net/20180110152700551?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdGhpbmtpbmdfZmlvYQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 ### 12.2 HTML5 \<section>元素
 \<section>标签定义文档中的节，包含一组内容及其标题

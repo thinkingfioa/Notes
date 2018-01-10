@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5</title>
+</head>
+<body>
+	<div>
+		<h2 id="demo">使用AJAX修改该文本内容</h2>
+	</div>
+	<button id="myButton" onclick="loadXMLDoc()">修改内容</button>
+
+	<script>
+		function loadXMLDoc() {
+			var xmlhttp;
+			if(window.XMLHttpRequest) {
+				//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				// IE6, IE5 浏览器执行代码
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange=function() {
+				if(xmlhttp.readyState=-4 && xmlhttp.status == 200) {
+					document.getElementById("demo").innerHTML=xmlhttp.responseText;
+				}
+			}
+			xmlhttp.open("GET", "some_url.php", true);
+			xmlhttp.send();
+		}
+	</script>
+</body>
+</html>

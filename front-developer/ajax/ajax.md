@@ -77,7 +77,7 @@ send(string)将请求发送到服务器。其中如果请求类型为post时，s
 ### 5.3 GET请求
 ```html
 xmlhttp.open("GET", "some_get.php?name="+userName, true);
-xmlhttp.send();``
+xmlhttp.send();
 ```
 
 ### 5.4 POST请求

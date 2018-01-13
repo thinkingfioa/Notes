@@ -14,14 +14,17 @@ gitHub地址：https://github.com/thinkingfioa/Notes/blob/master/TechFiles/STL_U
 7. Algorithm[find, copy, swap, count, replace, fill, reverse, merge, min, max]
 ```
 
-### vector
+## 1. vector
 
-##### push_back
+### 1.1 push_back()函数
+##### 代码:
 ```cpp
 vector<int> myVector;
 myVector.push_back(100);
 ```
-##### pop_back
+
+### 1.2 pop_back()函数
+##### 代码:
 ```
 从后往前pop
 ```
@@ -34,7 +37,9 @@ myVector.push_back(300);
 myVector.pop_back();
 //执行后: 100, 200
 ```
-##### insert
+
+### 1.3 insert()函数
+##### 代码:
 ```cpp
 #include <iostream>
 #include <vector>
@@ -68,7 +73,9 @@ int main ()
   return 0;
 }
 ```
-##### erase
+
+### 1.4 erase()函数
+##### 代码:
 ```cpp
 vector<int> myVector;
 for(int i =0; i<10;i++) {
@@ -83,7 +90,10 @@ myVector.erase(myVector.begin() +5); // 移除下标为5的数,也就是myVector
 myVector.erase(myVector.begin(), myVector.begin() + 3);
 //执行后: 4, 5, 7, 8, 9
 ```
-##### swap
+
+
+### 1.5 swap()函数
+##### 代码:
 ```cpp
   std::vector<int> foo (3,100);   // three ints with a value of 100
   std::vector<int> bar (5,200);   // five ints with a value of 200
@@ -93,19 +103,22 @@ myVector.erase(myVector.begin(), myVector.begin() + 3);
   //执行后: foo: [200, 200, 200, 200, 200]
   //       bar: [100, 100, 100]
 ```
-##### 遍历
-###### 迭代器遍历
+
+### 1.6 遍历
+##### 迭代器遍历:
 ```cpp
 for (it=myvector.begin(); it<myvector.end(); it++){
 	std::cout << ' ' << *it;
 }
 ```
 
-### set
+## 2. set
 ```
 C++中的Set是一个有序-去重集合
 ```
-##### insert
+
+### 2.1 insert()函数
+##### 代码:
 ```cpp
   std::set<int> myset;
   std::set<int>::iterator it;
@@ -131,7 +144,9 @@ C++中的Set是一个有序-去重集合
   myset.insert (myints,myints+3);
   //执行后: 5, 10, 15, 20, 24, 25, 26, 30, 40, 50
 ```
-##### erase
+
+### 2.2 erase()函数
+##### 代码:
 ```cpp
   std::set<int> myset;
   std::set<int>::iterator it;
@@ -155,7 +170,8 @@ C++中的Set是一个有序-去重集合
   //执行后: 10, 30, 50;
 ```
 
-##### swap
+### 2.3 swap()函数
+##### 代码:
 ```cpp
   int myints[]={12,75,10,32,20,25};
   std::set<int> first (myints,myints+3);     // 10,12,75
@@ -167,7 +183,8 @@ C++中的Set是一个有序-去重集合
   //       second [10, 12, 75] 
 ```
 
-##### find
+### 2.4 find()函数
+##### 代码:
 ```cpp
   std::set<int> myset;
   std::set<int>::iterator it;
@@ -181,7 +198,8 @@ C++中的Set是一个有序-去重集合
   // 执行后: 10, 30, 40, 50
 ```
 
-##### count
+### 2.5 count()函数
+##### 代码:
 ```
 由于set集合不重复，所以count(val)返回的结果只有0或者1.
 ```
@@ -196,7 +214,8 @@ C++中的Set是一个有序-去重集合
   //返回结果是: 0
   myset.count(5);
 ```
-##### 遍历
+
+### 2.6 遍历
 ```cpp
   int myints[] = {75,23,65,42,13};
   std::set<int> myset (myints,myints+5); //13, 23, 42, 65, 75
@@ -206,9 +225,10 @@ C++中的Set是一个有序-去重集合
   }
 ```
 
-### stack
+## 3. stack
 
-##### top
+### 3.1 top()函数
+##### 代码:
 ```cpp
   std::stack<int> mystack;
   mystack.push(10);
@@ -217,19 +237,21 @@ C++中的Set是一个有序-去重集合
   mystack.top() -= 5; //mystack.top() 的值为20
 ```
 
-##### push
+### 3.2 push()函数
+##### 代码:
 ```cpp
   std::stack<int> mystack;
 
   for (int i=0; i<5; ++i) mystack.push(i);
 ```
 
-##### pop
+### 3.3 pop()函数
 ```cpp
 弹出栈的最上面
 ```
 
-##### swap
+### 3.4 swap()函数
+##### 代码:
 ```cpp
   std::stack<int> foo,bar;
   foo.push (10); foo.push(20); foo.push(30);
@@ -242,7 +264,7 @@ C++中的Set是一个有序-去重集合
 
 ```
 
-##### 遍历
+### 3.5 遍历
 ```cpp
   std::cout << "Popping out elements...";
   while (!mystack.empty())
@@ -253,12 +275,13 @@ C++中的Set是一个有序-去重集合
   std::cout << '\n';
 ```
 
-### map
+## 4. map
 ```
 c++ 中的map是默认按照key的排序。所以每次插入都会做调整。
 ```
 
-##### insert
+### 4.1 insert()函数
+##### 代码:
 ```cpp
   std::map<char,int> mymap;
 
@@ -266,7 +289,8 @@ c++ 中的map是默认按照key的排序。所以每次插入都会做调整。
   mymap.insert ( std::pair<char,int>('a',100) );
 ```
 
-##### erase
+### 4.2 erase()函数
+##### 代码:
 ```cpp
   std::map<char,int> mymap;
   std::map<char,int>::iterator it;
@@ -294,7 +318,8 @@ c++ 中的map是默认按照key的排序。所以每次插入都会做调整。
   //执行后: a->10, d->40
 ```
 
-##### swap
+### 4.3 swap()函数
+##### 代码:
 ```cpp
   std::map<char,int> foo,bar;
 
@@ -311,27 +336,30 @@ c++ 中的map是默认按照key的排序。所以每次插入都会做调整。
   //        bar [x->100, y->200]
 ```
 
-##### 遍历
+### 4.4 遍历
+##### 代码:
 ```cpp
 for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
     std::cout << it->first << " => " << it->second << '\n';
 }
 ```
 
-### queue
+## 5. queue
 
-##### push
+### 5.1 push()函数
+##### 代码:
 ```cpp
   std::queue<int> myqueue;
   myqueue.push (myint);
 ```
 
-##### pop
+### 5.2 pop()函数
 ```
 弹出最后一个数。
 ```
 
-##### swap
+### 5.3 swap()函数
+##### 代码:
 ```cpp
   std::queue<int> foo,bar;
   foo.push (10); foo.push(20); foo.push(30);
@@ -343,7 +371,8 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   //        bar[10, 20, 30]
 ```
 
-##### back
+### 5.4 back()函数
+##### 代码:
 ```
 队列的最后一位
 ```
@@ -355,7 +384,8 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   //执行后: 12, 63
 ```
 
-##### front
+### 5.5 front()函数
+##### 代码:
 ```
 队列的队首
 ```
@@ -367,7 +397,8 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   //执行后: 61, 16
 ```
 
-##### 遍历
+### 5.6 遍历
+##### 代码:
 ```cpp
   std::cout << "myqueue contains: ";
   while (!myqueue.empty())
@@ -377,12 +408,13 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   }
 ```
 
-### deque
+## 6. deque
 ```
 双向队列
 ```
 
-##### front
+### 6.1 front()函数
+##### 代码:
 ```
 返回队首
 ```
@@ -396,7 +428,8 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   //执行后: 57, 20
 ```
 
-##### back
+### 6.2 back()函数
+##### 代码:
 ```
 双向队列的尾部
 ```
@@ -410,7 +443,8 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
 
 ```
 
-##### push_back
+### 6.3 push_back()函数
+##### 代码:
 ```cpp
   std::deque<int> mydeque;
   //执行前: []
@@ -422,7 +456,8 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   //执行后: [1,2]
 ```
 
-##### push_front
+### 6.4 push_front()函数
+##### 代码:
 ```cpp
   std::deque<int> mydeque (2,100);     // two ints with a value of 100
   //执行前: 100, 100
@@ -434,7 +469,8 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   //执行前: 300, 200, 100, 100
 ```
 
-##### pop_back
+### 6.5 pop_back()函数
+##### 代码:
 ```cpp
   //执行前: 
   mydeque.push_back (10);
@@ -447,7 +483,8 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   //执行后: 10, 20
 ```
 
-##### pop_front
+### 6.6 pop_front()函数
+##### 代码:
 ```cpp
   //执行前: 
   mydeque.push_back (100);
@@ -459,7 +496,9 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   mydeque.pop_front();
   //执行后: 200, 300
 ```
-##### insert
+
+### 6.7 insert()函数
+##### 代码:
 ```cpp
   std::deque<int> mydeque;
 
@@ -486,7 +525,9 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   mydeque.insert (it,myvector.begin(),myvector.end());
   //执行后: 1, 20, 30, 30, 20, 10, 2, 3, 4, 5
 ```
-##### erase
+
+### 6.8 erase()函数
+##### 代码:
 ```cpp
   // set some values (from 1 to 10)
   for (int i=1; i<=10; i++) mydeque.push_back(i);
@@ -500,9 +541,10 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   //执行前: 1, 2, 3, 4, 5, 7, 8, 9, 10
   mydeque.erase (mydeque.begin(),mydeque.begin()+3);
   //执行后: 4, 5, 7, 8, 9, 10
-
 ```
-##### swap
+
+### 6.9 swap()函数
+##### 代码:
 ```cpp
   unsigned int i;
   std::deque<int> foo (3,100);   // three ints with a value of 100
@@ -515,7 +557,8 @@ for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it) {
   //       bar [100, 100, 100]
 ```
 
-##### 遍历
+### 6.10 遍历
+##### 代码:
 ```cpp
 for (std::deque<int>::iterator it = mydeque.begin(); it!=mydeque.end(); ++it) {
   std::cout << ' ' << *it;
@@ -528,9 +571,10 @@ for (std::deque<int>::iterator it = mydeque.begin(); it!=mydeque.end(); ++it) {
   }
 ```
 
-### algorithm
+## 7. algorithm
 
-##### find
+### 7.1 find()函数
+##### 代码:
 ```cpp
   //数组中查询
   int myints[] = { 10, 20, 30, 40 };
@@ -553,7 +597,8 @@ for (std::deque<int>::iterator it = mydeque.begin(); it!=mydeque.end(); ++it) {
     std::cout << "Element not found in myvector\n";
 ```
 
-##### copy
+### 7.2 copy()函数
+##### 代码:
 ```cpp
   int myints[]={10,20,30,40,50,60,70};
   std::vector<int> myvector (7);
@@ -562,7 +607,8 @@ for (std::deque<int>::iterator it = mydeque.begin(); it!=mydeque.end(); ++it) {
   //执行前: myvector: 10, 20, 30, 40, 50, 60, 70
 ```
 
-##### swap
+### 7.3 swap()函数
+##### 代码:
 ```cpp
   int x=10, y=20;                              // x:10 y:20
   //执行前: x:10, y:20
@@ -578,7 +624,9 @@ for (std::deque<int>::iterator it = mydeque.begin(); it!=mydeque.end(); ++it) {
   //执行前: foo[20, 20, 20, 20]
   //       bar[10, 10, 10, 10]
 ```
-##### count
+
+### 7.4 count()函数
+##### 代码:
 ```cpp
   int myints[] = {10,20,30,30,20,10,10,20};   // 8 elements
   //记录数组myints中，10的个数
@@ -592,7 +640,8 @@ for (std::deque<int>::iterator it = mydeque.begin(); it!=mydeque.end(); ++it) {
 
 ```
 
-##### replace
+### 7.5 replace()函数
+##### 代码:
 ```cpp
 int myints[] = { 10, 20, 30, 30, 20, 10, 10, 20 };
 //执行前: myvector: []
@@ -603,7 +652,9 @@ std::vector<int> myvector (myints, myints+8);
 std::replace (myvector.begin(), myvector.end(), 20, 99); 
 //执行前: myvector: 10, 99, 30, 30, 99, 10, 10, 99
 ```
-##### fill
+
+### 7.6 fill()函数
+##### 代码:
 ```cpp
 //执行前 myvector: []
 std::vector<int> myvector (8);                      
@@ -616,7 +667,9 @@ std::fill (myvector.begin(),myvector.begin()+4,5);
   std::fill (myvector.begin()+3,myvector.end()-2,8); 
 //执行后 myvector: 5,5,5,8,8,8,0,0
 ```
-##### reverse
+
+### 7.7 reverse()函数
+##### 代码:
 ```cpp
 std::vector<int> myvector;
 for (int i=1; i<10; ++i) myvector.push_back(i);   // 1 2 3 4 5 6 7 8 9
@@ -625,7 +678,9 @@ for (int i=1; i<10; ++i) myvector.push_back(i);   // 1 2 3 4 5 6 7 8 9
 std::reverse(myvector.begin(),myvector.end());    // 9 8 7 6 5 4 3 2 1
 //执行后: 9,8,7,6,5,4,3,2,1
 ```
-##### sort
+
+### 7.8 sort()函数
+##### 代码:
 ```cpp
 //升序
 bool myfunction (int i,int j) { return (i<j); }
@@ -656,7 +711,9 @@ int main () {
   //执行后: 12,26,32,33,45,53,71,80
 }
 ```
-##### merge
+
+### 7.9 merge函数
+##### 代码:
 ```
 将两个有序的组合sort1[], sort2[]。归并成一个新的有序组合。
 ```
@@ -675,7 +732,9 @@ int main () {
   //       second: 10,20,30,40,50
   //       v:5,10,10,15,20,20,25,30,40,50
 ```
-##### min
+
+### 7.10 min()函数
+##### 代码:
 ```cpp
   //输出: 1
   std::cout << "min(1,2)==" << std::min(1,2) << '\n'  
@@ -686,7 +745,9 @@ int main () {
   //输出: 2.72
   std::cout << "min(3.14,2.72)==" << std::min(3.14,2.72) << '\n';
 ```
-##### max
+
+### 7.11 max()函数
+##### 代码:
 ```cpp
   //输出: 2
   std::cout << "max(1,2)==" << std::max(1,2) << '\n'  
@@ -697,7 +758,10 @@ int main () {
   //输出: 3.14
   std::cout << "max(3.14,2.72)==" << std::max(3.14,2.72) << '\n';
 ```
-##### 二分查找
+
+
+### 7.12 二分查找
+##### 代码:
 ```
 lower_bound(val), 返回容器中第一个值 >= val的元素的iterator位置
 ```
@@ -705,7 +769,7 @@ lower_bound(val), 返回容器中第一个值 >= val的元素的iterator位置
 upper_bound(val): 返回容器中第一个值 > val的元素的iterator位置。
 ```
 
-##### 堆排序
+### 7.11 堆排序
 ```
 std::make_heap将[start, end)范围进行堆排序，默认使用less<int>, 即最大元素放在第一个。
 
@@ -715,6 +779,8 @@ std::push_heap对刚插入的（尾部）元素做堆排序。
 
 std::sort_heap将一个堆做排序,最终成为一个有序的系列，可以看到sort_heap时，必须先是一个堆（两个特性：1、最大元素在第一个 2、添加或者删除元素以对数时间），因此必须先做一次make_heap.
 ```
+
+##### 代码:
 ```cpp
 //升序。左a右b，当a>b的时候，双方交换位置，
 bool inc_cmp(int a,int b){ return a > b; }
@@ -773,7 +839,7 @@ int main()
   //执行后: 1 2 3 3 4 4 5 5 6 6 7 7 15 
 ```
 
-##### 归并排序
+### 7.12 归并排序
 ```
 void mergeSort(vector<int> & nums, int left, int right) {
 	int mid = (left + right)/2;
@@ -813,7 +879,7 @@ void merge(vector<int> & nums, int left, int mid, int right) {
 }
 ```
 
-##### 快速排序
+### 7.13 快速排序
 ```
 void quickSort(vector<int> & nums, int left, int right) {
 	if(left > right){

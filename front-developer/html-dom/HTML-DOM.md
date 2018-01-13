@@ -317,11 +317,111 @@ HTML中删除某个元素
 点击文字，转换文字
 ##### 代码:
 ```html
-
+<body>
+	<h1 onclick="changeWords(this)" id="MyWords">点击文字</h1>
+	<script>
+		function changeWords(id) {
+			id.innerHTML="Hello World!";
+		}
+	</script>
+</body>
 ```
 
+### 9.2 使用HTML-DOM来分配事件
+使用javaScript向HTML元素分配事件,下列代码中，将函数displayDate()分配给id="MyButton"按钮
+##### 代码:
+```html
+<body>
+	<div>
+		<button id="MyButton">点我</button>
+	</div>
+	<p id="myP1"></p>
+	<script>
+		document.getElementById("MyButton").onclick=function() {
+			displayDate();
+		}
+		function displayDate() {
+			document.getElementById("myP1").innerHTML=Date();
+		}
+	</script>
+</body>
+```
 
+### 9.3 onload和onunload事件
+当用户进入或离开页面时，会触发onload和onunload事件。可以使用onload事件检查访客浏览器版本等。
+#####代码:
+```html
+<body onload="checkCookies()">
+	<script>
+		function checkCookies() {
+			if(navigator.cookieEnabled == true){
+				window.alert("Cookie 可用");
+			} else {
+				window.alert("Cookie 不可用");
+			}
+		}
+	</script>
+</body>
+```
 
+### 9.4 onchange事件
+onchange事件常用于输入字段的验证，如下列代码将小写转大些
+##### 代码:
+```html
+<body>
+	<div>
+		<span>小写字母变大写:</span>
+		<input type="text" id="myText" name="someKey" onchange="myChange(this)">
+	</div>
+	<script>
+		function myChange(txt) {
+			txt.value= txt.value.toUpperCase();
+		}
+	</script>
+</body>
+```
+
+### 9.5 onmouseover事件和onmouseout事件
+onmouseover和onmouseout事件用于鼠标移动到或离开元素时触发函数
+##### 代码:
+```html
+<body>
+	<div onmousemove="mOver(this)" onmouseout="mOut(this)" style="background-color: #D94A38;width:150px;height: 20px; padding: 50px">
+		<span>Mourse Over Me.</span>
+	</div>
+	<script>
+		function mOver(obj) {
+			obj.innerHTML="Thank You";
+		}
+		function mOut(obj) {
+			obj.innerHTML="Mourse Over Me.";
+		}
+	</script>
+</body>
+```
+
+### 9.6 onmousedown、onmouseup以及onclick事件
+onmousedown、onmouseup和onclick事件是鼠标点击的全部过程。当鼠标按住时，触发onmousedown事件，鼠标被松开后，触发onmouseup事件。最后点击完成，触发onclick事件
+##### 代码:
+```html
+<body>
+	<p>onmousedown、onmouseup事件:</p>
+	<div onmousedown="mDown(this)" onmouseup="mUp(this)" style="background-color: #D94A38;width:150px;height: 20px; padding: 50px">
+		<span>按住我</span>
+	</div>
+	<script>
+		function mDown(obj) {
+			obj.style.backgroundColor="#1ec5e5";
+			obj.innerHTML="请松开好嘛?"
+		}
+		function mUp(obj) {
+			obj.style.backgroundColor="#D94A38";
+			obj.innerHTML="按住我."
+		}
+	</script>
+</body>
+```
+## 10 HTML-DOM 导航
 
 
 

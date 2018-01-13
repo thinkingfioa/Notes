@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5-DOM</title>
+</head>
+<body onload="checkCookies()">
+	<h1 onclick="changeWords(this)" id="MyWords">点击文字</h1>
+	<script>
+		function changeWords(id) {
+			id.innerHTML="Hello World!";
+		}
+	</script>
+	<div>
+		<button id="MyButton">点我</button>
+	</div>
+	<p id="myP1"></p>
+	<script>
+		document.getElementById("MyButton").onclick=function() {
+			displayDate();
+		}
+		function displayDate() {
+			document.getElementById("myP1").innerHTML=Date();
+		}
+	</script>
+	<script>
+		function checkCookies() {
+			if(navigator.cookieEnabled == true){
+				window.alert("Cookie 可用");
+			} else {
+				window.alert("Cookie 不可用");
+			}
+		}
+	</script>
+	<div>
+		<span>小写字母变大写:</span>
+		<input type="text" id="myText" name="someKey" onchange="myChange(this)">
+	</div>
+	<script>
+		function myChange(txt) {
+			txt.value= txt.value.toUpperCase();
+		}
+	</script>
+
+	<p>onmousemove、onmouseout事件:</p>
+	<div onmousemove="mOver(this)" onmouseout="mOut(this)" style="background-color: #D94A38;width:150px;height: 20px; padding: 50px">
+		<span>Mourse Over Me.</span>
+	</div>
+	<script>
+		function mOver(obj) {
+			obj.innerHTML="Thank You";
+		}
+		function mOut(obj) {
+			obj.innerHTML="Mourse Over Me.";
+		}
+	</script>
+	
+	<p>onmousedown、onmouseup事件:</p>
+	<div onmousedown="mDown(this)" onmouseup="mUp(this)" style="background-color: #D94A38;width:150px;height: 20px; padding: 50px">
+		<span>按住我</span>
+	</div>
+	<script>
+		function mDown(obj) {
+			obj.style.backgroundColor="#1ec5e5";
+			obj.innerHTML="请松开好嘛?"
+		}
+		function mUp(obj) {
+			obj.style.backgroundColor="#D94A38";
+			obj.innerHTML="按住我."
+		}
+	</script>
+
+</body>
+</html>

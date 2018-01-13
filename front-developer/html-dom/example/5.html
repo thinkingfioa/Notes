@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5-DOM</title>
+</head>
+<body>
+	<div id="ppp">
+		<p id = "demo">Hello World!</p>
+		<p>Hello LWL</p>
+	</div>
+	<script>
+		var text = document.getElementById("demo").innerHTML;
+		document.write(text);
+
+		var x = document.getElementById("demo");
+		document.write(x.firstChild.nodeValue);
+
+		var xx = document.getElementById("ppp").getElementsByTagName("p");
+		document.write(xx[1].firstChild.nodeValue);
+	</script>
+</body>
+</html>

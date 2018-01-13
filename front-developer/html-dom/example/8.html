@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5-DOM</title>
+</head>
+<body>
+	<div id="myDiv">
+		<p id="p1">You</p>
+		<p id="p2">am</p>
+	</div>
+	<script>
+		var newElement = document.createElement("p");
+		newElement.appendChild(document.createTextNode("me"));
+		document.getElementById("myDiv").appendChild(newElement);
+	</script>
+
+	<div id="myDiv2">
+		<p id="p4">I</p>
+		<p id="p5">you too</p>
+	</div>
+	<script>
+		var newElement = document.createElement("p");
+		newElement.appendChild(document.createTextNode("am"));
+		document.getElementById("myDiv2").insertBefore(newElement, document.getElementById("p5"));
+	</script>
+
+	<div id="myDiv3">
+		<p id="p6">someOne</p>
+		<p id="p7">like</p>
+		<p id="p8">you</p>
+	</div>
+	<script>
+		var parent = document.getElementById("myDiv3");
+		var node = document.createElement("p");
+		node.appendChild(document.createTextNode("I"));
+		var oldElement = document.getElementById("p6");
+		parent.replaceChild(node, oldElement);
+	</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5-DOM</title>
+</head>
+<body>
+	<div id="myDiv">
+		<p id="p1"> Hello LWL</p>
+		<p id="p2"> Hello PPP</p>
+	</div>
+	
+	<script>
+		document.getElementById("p2").style.color="green";
+		document.getElementById("p2").style.fontFamily="Arial";
+		document.getElementById("p2").style.fontSize="larger";
+
+		var txtNode = document.createElement("p");
+		txtNode.appendChild(document.createTextNode("Hello Thinking"));
+		document.getElementById("myDiv").appendChild(txtNode);
+	</script>
+</body>
+</html>

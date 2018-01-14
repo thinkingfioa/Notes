@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5-DOM</title>
+</head>
+<body>
+	<div id="myDiv">
+		<p id="p1">Hello World_1</p>
+		<p>Hello World_2</p>
+		<p>Hello World_3</p>
+	</div>
+	
+	<script>
+		var x=document.getElementsByTagName("p");
+		for(var i =0;i<x.length;i++){
+			document.write(x[i].innerHTML);
+			document.write("<br/>");
+		}
+	</script>
+	
+	<p>使用childNodes和nodeValue来获取元素内容：</p>
+	<script>
+		var txt = document.getElementById("p1").childNodes[0].nodeValue;
+		console.log(txt);
+		document.write(txt);
+	</script>
+
+	<script>
+		window.alert(document.body.innerHTML);
+	</script>
+
+</body>
+</html>

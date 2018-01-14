@@ -421,11 +421,93 @@ onmousedown、onmouseup和onclick事件是鼠标点击的全部过程。当鼠�
 	</script>
 </body>
 ```
+
 ## 10 HTML-DOM 导航
+通过HTML-DOM可以使用节点关系在节点树中导航
 
+### 10.1 HTML-DOM 节点列表长度
+获取到的节点具有属性length，表示节点的长度
+##### 代码:
+```html
+<body>
+	<p>Hello World_1</p>
+	<p>Hello World_2</p>
+	<p>Hello World_3</p>
 
+	<script>
+		var x=document.getElementsByTagName("p");
+		for(var i =0;i<x.length;i++){
+			document.write(x[i].innerHTML);
+			document.write("<br/>");
+		}
+	</script>
+</body>
+```
 
+### 10.2 导航节点的关系
+使用三个节点属性：parentNode、firstChild以及lastChild，在文档结构中进行导航
+##### 代码:
+```html
+<body>
+    <div id="ppp">
+        <p id = "demo">Hello World!</p>
+        <p>Hello LWL</p>
+    </div>
+    <script>
+        var xx = document.getElementById("ppp").getElementsByTagName("p");
+        document.write(xx[1].firstChild.nodeValue);
+    </script>
+</body>
+```
 
+### 10.3 DOM 根节点
+这里有两个特殊的属性，可以访问全部文档:
+
+- 1.document.documentElement - 全部文档
+- 2.document.body - 文档的主体
+
+##### 代码:
+```html
+<body>
+	<p>Hello World_1</p>
+	<p>Hello World_2</p>
+	<p>Hello World_3</p>
+
+	<script>
+		var x=document.getElementsByTagName("p");
+		for(var i =0;i<x.length;i++){
+			document.write(x[i].innerHTML);
+			document.write("<br/>");
+		}
+	</script>
+	<script>
+		window.alert(document.body.innerHTML);
+	</script>
+</body>
+```
+
+### 10.4 childNodes和nodeValue
+除了innerHTML属性，也可以使用childNodes和nodeValue属性来获取元素的内容
+##### 代码:
+```html
+
+<body>
+	<div id="myDiv">
+		<p id="p1">Hello World_1</p>
+		<p>Hello World_2</p>
+		<p>Hello World_3</p>
+	</div>
+	
+	<p>使用childNodes和nodeValue来获取元素内容：</p>
+	<script>
+		var txt = document.getElementById("p1").childNodes[0].nodeValue;
+		document.write(txt);
+	</script>
+</body>
+```
+
+## 11 HTML-DOM 实例
+提供非常多的关于HTML-DOM的实例，具体[地址](http://www.runoob.com/htmldom/htmldom-examples.html)
 
 
 

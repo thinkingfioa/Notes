@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <h2>这是一个标题</h2>
+    <div>
+        <span>这是一个段落</span><br/>
+        <span class="span1">这是另一个段落</span><br/>
+    </div>
+    <ul>
+        <li>Coffee</li>
+        <li>Tea</li>
+        <li>Coca Cola</li>
+    </ul>
+    <button>点我</button><br/>
+    <button id="mybut1">点我隐藏一个</button>
+    <button>隐藏列表第一个</button>
+    <script>
+        // $(document).ready(function () {
+        //     $("button").click(function () {
+        //        $("div").hide();
+        //     });
+        // });
+        $(document).ready(function () {
+            $("#mybut1").click(function () {
+                $(".span1").hide();
+            });
+        });
+        $(document).ready(function () {
+            $("button").click(function () {
+               $("ul li:first").hide();
+            });
+        });
+    </script>
+</body>
+</html>

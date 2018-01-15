@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <p>演示fadeIn()方法，渐入效果</p>
+    <button>点击淡入div元素</button><br/>
+    <div id="div1" style="width: 80px; height: 80px; background-color: #ff2c37; display: block;"></div><br>
+    <div id="div2" style="width: 80px; height: 80px; background-color: #a5ff7e; display: block;"></div><br>
+    <div id="div3" style="width: 80px; height: 80px; background-color: #396aff; display: block;"></div><br>
+    <script>
+        $(document).ready(function(){
+           $("button").click(function(){
+              $("#div1").fadeTo("slow", 0.15);
+              $("#div2").fadeTo("slow", 0.5);
+              $("#div3").fadeTo(3000, 0.75);
+           });
+        });
+    </script>
+</body>
+</html>

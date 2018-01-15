@@ -6,6 +6,42 @@
     <script src="./js/jquery-3.2.1.min.js"></script>
 </head>
 <body>
+    <p>我要消失</p>
+    <button id="MyButton">请消失</button>
+    <script>
+        $(document).ready(function () {
+           $("#MyButton").dblclick(function () {
+               $("p").hide();
+           });
+        });
+    </script>
 
+    <p class="myP" style="width: 400px">这是一个段落</p>
+    <script>
+        $(document).ready(function(){
+            $("p.myP").hover(
+                function(){
+                    window.alert("进入p1(这是一个段落)");
+                },
+                function () {
+                    window.alert("离开p1(这是一个段落)");
+                }
+            );
+        });
+    </script>
+    <span>First Name:</span>
+    <input type="text" name="firstName"><br/>
+    <span>Last Name:</span>
+    <input type="text" name="lastName"><br/>
+    <script>
+        $(document).ready(function () {
+            $("input").focus(function () {
+                $(this).css("background-color", "#cccccc");
+            });
+            $("input").blur(function () {
+                $(this).css("background-color", "#ffffff");
+            });
+        });
+    </script>
 </body>
 </html>

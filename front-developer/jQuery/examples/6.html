@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        div.hide{
+            background-color: #cc2e5c;
+            padding:7px;
+            border:solid 1px #cc7775;
+        }
+    </style>
+</head>
+<body>
+    <p>点击"隐藏"则隐藏，点击"显示"就显示</p>
+    <button id="button1">隐藏</button>
+    <button id="button2">显示</button>
+    <button id="button3">一个按钮控制</button>
+    <script>
+        $(document).ready(function(){
+           $("#button1").click(function () {
+               $("p").hide(1000);
+           });
+           $("#button2").click(function(){
+              $("p").show();
+           });
+           $("#button3").click(function () {
+               $("p").toggle(1000);
+           });
+        });
+    </script>
+
+    <h3>Google</h3>
+    <div class="hide">
+        <button class="myButton">点我隐藏</button>
+        <p>站点名:Google</p>
+        <p>站点URL: http://wwww.google.com</p>
+    </div>
+    <h3>thinkingfioa个人主页</h3>
+    <div class="hide">
+        <button class="myButton">点我隐藏</button>
+        <p>站点名: thinkingfioa主页</p>
+        <p>站点URL: https://github.com/thinkingfioa</p>
+    </div>
+    <script>
+        $(document).ready(function () {
+           $(".myButton").click(function(){
+              $(this).parents(".hide").hide("slow");
+           });
+        });
+    </script>
+</body>
+</html>

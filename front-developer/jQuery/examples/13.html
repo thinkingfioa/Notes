@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <div id="mydiv1">
+        <span>这是段落中的<b>粗体</b></span>
+    </div>
+    <div>
+        <span>姓名:</span>
+        <input type="text" class="myname" name="name">
+    </div>
+    <a href="https://github.com/thinkingfioa">thinkingfioa主页</a>
+    <button id="mybtn1">显示文本内容</button>
+    <button id="mybtn2">显示HTML内容</button>
+    <button id="mybtn3">显示字段值</button>
+    <button id="mybtn4">显示属性</button>
+    <script>
+        $(document).ready(function () {
+           $("#mybtn1").click(function () {
+               window.alert("显示:"+$("#mydiv1").text());
+           });
+           $("#mybtn2").click(function () {
+               window.alert("显示:"+$("#mydiv1").html());
+           });
+           $("#mybtn3").click(function () {
+               window.alert("显示:"+$(".myname").val());
+           });
+           $("#mybtn4").click(function () {
+               window.alert("显示:"+$("a").attr("href"));
+           });
+        });
+    </script>
+</body>
+</html>

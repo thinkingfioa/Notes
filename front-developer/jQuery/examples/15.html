@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <p>这是一个段落</p>
+    <p>这是另一个段落</p>
+    <ul id="myUl">
+        <li>List item 1</li>
+        <li>List item 2</li>
+        <li>List item 3</li>
+    </ul>
+    <button id="myBtn1">添加文本</button>
+    <button id="myBtn2">添加列表项</button>
+    <script>
+        $(document).ready(function () {
+            $("#myBtn1").click(function () {
+                $("p").prepend(" <b>追加文本</b>"); // append(...)
+            });
+            $("#myBtn2").click(function () {
+                $("ul").prepend("<li>List item 4</li>"); // append(...)
+            });
+        });
+    </script>
+</body>
+</html>

@@ -691,17 +691,237 @@ jQuery提供动作/方法链接在一起，Chaining允许我们在一条语法�
 </body>
 ```
 
+# 三、 jQuery HTML
 
+## 13. jQuery 捕获(获取内容和属性)
+jQuery 拥有可操作HTML元素和属性的强大方法
 
+### 13.1 获得内容 - text()、html()和val()
+三个简单实用的用于DOM操作的jQuery方法:
 
+- 1.text() - 设置或返回所选元素的文本内容
+- 2.html() - 设置或返回所选元素的内容(包括HTML标记)，完成的HTML内容
+- 3.val() - 设置或返回表单字段的值，也就是对应的value
 
+##### 代码:
+```html
+<body>
+    <div id="mydiv1">
+        <span>这是段落中的<b>粗体</b></span>
+    </div>
+    <div>
+        <span>姓名:</span>
+        <input type="text" class="myname" name="name">
+    </div>
+    <button id="mybtn1">显示文本内容</button>
+    <button id="mybtn2">显示HTML内容</button>
+    <button id="mybtn3">显示字段值</button>
+    <script>
+        $(document).ready(function () {
+           $("#mybtn1").click(function () {
+               window.alert("显示:"+$("#mydiv1").text());
+           });
+           $("#mybtn2").click(function () {
+               window.alert("显示:"+$("#mydiv1").html());
+           });
+           $("#mybtn3").click(function () {
+               window.alert("显示:"+$(".myname").val());
+           });
+        });
+    </script>
+</body>
+```
 
+### 13.2 获取属性 - attr()
+attr()方法用于获取属性值。
+#### 代码:
+```html
+<body>
+    <a href="https://github.com/thinkingfioa">thinkingfioa主页</a>
+    <button id="mybtn">显示属性</button>
+    <script>
+        $(document).ready(function () {
+           $("#mybtn").click(function () {
+               window.alert("显示:"+$("a").attr("href"));
+           });
+        });
+    </script>
+</body>
+```
 
+## 14. jQuery 设置
+jQuery提供方法修改元素内容和属性等
 
+### 14.1 设置内容-text()、html()和val()
+和13章节使用的方法同样，三个简单实用的用于DOM操作的jQuery方法:
 
+- 1.text() - 设置或返回所选元素的文本内容
+- 2.html() - 设置或返回所选元素的内容(包括HTML标记)，完成的HTML内容
+- 3.val() - 设置或返回表单字段的值，也就是对应的value
 
+##### 代码:
+```html
+<body>
+    <p id="p1">这是一个段落</p>
+    <p id="p2">这是第二个段落</p>
+    <span>输入框:</span>
+    <input type="text" id="myName" name="name" value="lwl"><br/>
+    <button id="btn1">这是文本</button>
+    <button id="btn2">设置HTML</button>
+    <button id="btn3">设置value值</button>
+    <script>
+        $(document).ready(function () {
+            $("#btn1").click(function () {
+               $("#p1").text("hello")
+            });
+            $("#btn2").click(function () {
+                $("#p2").html("<p>thinkingfioa</p>");
+            });
+            $("#btn3").click(function () {
+                $("#myName").val("ppp");
+            });
+        });
+    </script>
+</body>
+```
 
+### 14.2 text()、html()和val()的回调函数
+上面三个函数:text()、html()和val()拥有回调函数。回调函数第二个参数，是原始(旧的)值
+##### 代码:
+```html
+$("#btn1").click(funcktion(){
+	$("#test1").text(function(i,origText){
+		return "旧文本: "+origText+", 新文本: panpingping");
+	});
+})
+```
 
+### 14.3 设置属性 - attr()
+attr()用于设置/改变属性值，下列代码演示元素标签\<a>的两个属性:href, title的设置
+##### 代码:
+```html
+<body>
+    <a id = "aaa" href="https://github.com/thinkingfioa">thinkingfioa主页</a>
+    <button id="btn">改变属性</button>
+    <script>
+        $(document).ready(function () {
+            $("#btn").click(function () {
+               $("#aaa").attr({"href" : "http://write.blog.csdn.net/postlist",
+                                "title": "thinking_fioa的CSDN地址",
+               });
+                // 通过修改的 title 值来修改链接名称
+               title =  $("#aaa").attr('title');
+               $("#aaa").html(title);
+            });
+        });
+    </script>
+</body>
+```
+
+## 15. jQuery 添加元素
+通过jQuery，可以很容易添加新元素/内容
+
+### 15.1 添加新的HTML内容
+用于添加新内容的四个jQuery方法:
+
+- 1. append() - 在被选元素的**结尾**插入内容
+- 2. prepend() - 在被选元素的开头插入内容
+- 3. after() - 在被选元素**之后**插入内容
+- 4. before() - 在被选元素之前插入内容 
+
+### 15.2 jQuery append()方法
+append()方法在元素的结尾插入内容。与after()方法完全不同，after()方法是在元素之后插入内容
+##### 代码:
+```html
+<body>
+    <p>这是一个段落</p>
+    <p>这是另一个段落</p>
+    <ul id="myUl">
+        <li>List item 1</li>
+        <li>List item 2</li>
+        <li>List item 3</li>
+    </ul>
+    <button id="myBtn1">添加文本</button>
+    <button id="myBtn2">添加列表项</button>
+    <script>
+        $(document).ready(function () {
+            $("#myBtn1").click(function () {
+                $("p").append(" <b>追加文本</b>");
+            });
+            $("#myBtn2").click(function () {
+                $("ul").append("<li>List item 4</li>");
+            });
+        });
+    </script>
+</body>
+```
+
+### 15.3 jQuery prepend()方法
+prepend()方法在被选元素开头插入内容
+##### 代码:
+```html
+<script>
+	$(document).ready(function () {
+		$("#myBtn1").click(function () {
+			$("p").prepend(" <b>追加文本</b>");
+		});
+		$("#myBtn2").click(function () {
+			$("ul").prepend("<li>List item 4</li>");
+		});
+	});
+</script>
+```
+
+### 15.4 jQuery - after()方法和before()方法
+- 1.after()方法在被选元素之后插入内容
+- 2.before()方法在被选元素之前插入内容
+##### 代码:
+```html
+$("img").after("在后面加上文本");
+$("img").before("在前面加上文本");
+``` 
+
+## 16. jQuery 删除元素
+jQuery可以非常容易删除已有的HTML元素
+
+### 16.1 删除元素/内容
+jQuery提供两种方法删除元素:
+
+- 1.remove() - 删除被选元素(及其子元素)
+- 2.empty() - 从被选元素中删除子元素
+
+### 16.2 jQuery remove()方法
+remove()方法删除被选元素及其子元素
+##### 代码:
+```html
+<body>
+    <div id="myDiv" style="background-color: #ff2c37; height:100px; width:300px;padding:70px; border: 1px solid black;">
+        <span>这是div中的文本</span><br/>
+        <p>这是div中的一个段落</p>
+        <p>这是div中的另一个段落</p>
+    </div>
+    <button>移除div元素</button>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $("#myDiv").remove();
+            });
+        });
+    </script>
+</body>
+```
+
+### 16.3 jQuery empty()方法
+empty()方法删除被选元素的子元素
+##### 代码:
+```html
+$("button").click(function(){
+	$("#myDiv").empty();
+});
+```
+
+### 16.4 过滤被删除的元素
+remove()方法可以传入一个参数，允许对被删除元素过滤，如:\$("p").remove(".italic")表示移除class="italic"
 
 
 

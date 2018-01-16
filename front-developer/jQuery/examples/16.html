@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <div id="myDiv" style="background-color: #ff2c37; height:100px; width:300px;padding:70px; border: 1px solid black;">
+        <span>这是div中的文本</span><br/>
+        <p>这是div中的一个段落</p>
+        <p>这是div中的另一个段落</p>
+    </div>
+    <button>移除div元素</button>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $("#myDiv").empty();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        #mydiv {
+            background-color: #a5ff7e;
+            height:100px;
+            width:100px;
+            position:absolute;
+        }
+    </style>
+</head>
+<body>
+    <button>开始动画</button>
+    <div id="mydiv">Hello</div>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $("#mydiv").animate({height:"+=200px", opacity: "0.5"}, "slow");
+                $("#mydiv").animate({width:"+=200px", opacity: "0.8"}, "slow");
+                //$("#mydiv").animate({width:"-=200px", opacity:"0.5"}, "slow");
+               // $("#mydiv").animate({height:"-=200px", opacity:"1"}, "slow");
+                $("#mydiv").animate({fontSize:"3em"}, "slow");
+
+            });
+        });
+    </script>
+</body>
+</html>

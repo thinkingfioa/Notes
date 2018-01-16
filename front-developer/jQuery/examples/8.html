@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        #flip,#panel{
+            padding: 5px;
+            text-align: center;
+            background-color: #a5ff7e;
+            border: solid 1px #c3c3c3;
+        }
+        #panel{
+            padding:50px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="flip">点我滑下面板</div>
+    <div id="panel">Hello World!</div>
+    <script>
+        $(document).ready(function () {
+           $("#flip").click(function () {
+               $("#panel").slideToggle("slow");
+           })
+        });
+    </script>
+</body>
+</html>

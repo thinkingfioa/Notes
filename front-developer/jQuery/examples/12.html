@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <div class="myDiv">
+        <span>我知道有人偷偷喜欢我!</span>
+    </div>
+    <button>请开始你的表演</button>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $(".myDiv").css("color","red").slideUp(2000).slideDown(2000);
+            });
+        });
+    </script>
+</body>
+</html>

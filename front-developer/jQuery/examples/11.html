@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <button>隐藏</button>
+    <div class="myDiv">
+        <span>点击隐藏按钮，我则消失</span>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+               $("div.myDiv").hide("slow", function () {
+                  window.alert("隐藏完毕");
+               });
+            });
+        });
+    </script>
+</body>
+</html>

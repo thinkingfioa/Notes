@@ -466,6 +466,239 @@ fadeTo()方法允许渐变为给定的不透明度(值介于0-1之间)
 - 2.slideUp() - 用于向上滑动元素
 - 3.slideToggle() - 可以在 slideDown() 与 slideUp() 方法之间进行切换
 
+### 8.2 slideDown()方法
+slideDown()方法用于向下滑动元素
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        #flip,#panel{
+            padding: 5px;
+            text-align: center;
+            background-color: #a5ff7e;
+            border: solid 1px #c3c3c3;
+        }
+        #panel{
+            padding:50px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="flip">点我滑下面板</div>
+    <div id="panel">Hello World!</div>
+    <script>
+        $(document).ready(function () {
+           $("#flip").click(function () {
+               $("#panel").slideDown("slow");
+           })
+        });
+    </script>
+</body>
+```
+
+### 8.3 slideUp()方法
+slideUp()方法用于向上滑动元素
+##### 代码:
+```html
+<script>
+	$(document).ready(function(){
+		$("#flip").click(function(){
+			$("#panel").slideUp("slow");
+		})
+	});
+<script>
+```
+
+### 8.4 slideToggle()方法
+slideToggle()方法可以在 slideDown() 与 slideUp() 方法之间进行切换
+##### 代码:
+```html
+<script>
+	$(document).ready(function(){
+		$("#flip").click(function(){
+			$("#panel").slideToggle("slow");
+		});
+	});
+</script>
+```
+
+## 9. jQuery 动画
+jQuery animate()方法允许创建自定义动画
+
+### 9.1 animate()方法
+- 1.animate()方法用于创建自定义动画，语法:$(selector).animate({params}, speed, callback);，其中params时必填属性，通常是CSS属性
+- 2.HTML元素默认是不可移动，如果需要改变，需要添加属性position，将其值设置为relative、fixed、或absolute
+
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        #mydiv {
+            background-color: #a5ff7e;
+            height:100px;
+            width:100px;
+            position:absolute;
+        }
+    </style>
+</head>
+<body>
+    <button>开始动画</button>
+    <div id="mydiv"></div>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+               $("#mydiv").animate({left:"250px"})
+            });
+        });
+    </script>
+</body>
+```
+
+### 9.2 animate() - 操作多个属性
+animate()方法可以传入多个参数
+##### 代码:
+```html
+<script>
+	$(document).ready(function () {
+		$("button").click(function () {
+			$("#mydiv").animate({
+				left:"250px",
+				width:"250px",
+				height:"250px",
+				opacity:'0.5',
+			})
+		});
+	});
+</script>
+```
+
+### 9.3 animate() - 使用相对值
+可以使用+=或-=来定义相对值(该值相对于元素的当前值)
+##### 代码:
+```html
+<script>
+	$(document).ready(function(){
+		$("button").click(function(){
+			$("#mydiv").animate({
+				left:"250px",
+				height:"+=150px",
+				width:"+=150px",
+			});
+		});
+	});
+</script>
+```
+
+### 9.4 animate() - 使用预定义的值
+可以把属性的动画值设置为"show"、"hide"或"toggle":
+##### 代码:
+```html
+$("button").click(function(){
+	$("#mydiv").animate({
+		height:"toggle",
+	});
+});
+```
+
+### 9.5 animate() - 使用队列功能
+jQuery提供针对animate()方法的队列，可以写多个animate()方法，会依次以队列模式调用
+##### 代码:
+```html
+<script>
+	$(document).ready(function () {
+		$("button").click(function () {
+			$("#mydiv").animate({height:"+=200px", opacity: "0.5"}, "slow");
+			$("#mydiv").animate({width:"+=200px", opacity: "0.8"}, "slow");
+			$("#mydiv").animate({width:"-=200px", opacity:"0.5"}, "slow");
+			$("#mydiv").animate({height:"-=200px", opacity:"1"}, "slow");
+		});
+	});
+</script>
+```
+
+### 9.6 animate() - 改变文字大小
+##### 代码:
+```html
+<script>
+	$(document).ready(function () {
+		$("button").click(function () {
+			$("#mydiv").animate({height:"+=200px", opacity: "0.5"}, "slow");
+			$("#mydiv").animate({width:"+=200px", opacity: "0.8"}, "slow");
+			$("#mydiv").animate({fontSize:"3em"}, "slow");
+		});
+	});
+</script>
+```
+
+## 10. jQuery 停止动画
+jQuery提供stop()方法用于在动画或效果完成前对它们进行停止
+
+### 10.1 stop()方法
+- 1.stop()方法适用于所有jQuery效果函数，包括滑动、淡入淡出和自定义动画。语法:$(selector).stop(stopAll,goToEnd);
+- 2.参数stopAll表示是否清除动画队列，默认是false;参数goToEnd规定是否立即完成当前动画，默认是false
+
+##### 代码:
+```html
+$("stopButton").click(function(){
+	$("#panel").stop();
+});
+```
+
+## 11. jQuery Callback方法
+Callback()方法在当前动画完成100%后执行
+
+### 11.1 jQuery 动画的问题
+ jQuery提供很多动画方法中，都提供callBack()方法入口，如hide()方法等。
+##### 代码:
+```html
+<script>
+	$(document).ready(function () {
+		$("button").click(function () {
+			$("div.myDiv").hide("slow", function () {
+				window.alert("隐藏完毕");
+			});
+		});
+	});
+</script>
+```
+
+## 12. jQuery - 链(Chaining)
+jQuery提供动作/方法链接在一起，Chaining允许我们在一条语法中运行多个jQuery方法
+
+### 12.1 jQuery 方法链接
+链接技术，允许我们在相同的元素上运行多条jQuery命令，一条接一条。如:\$("#p1").css("color","red").slideUp(2000).slideDown(2000);
+##### 代码:
+```html
+<body>
+    <div class="myDiv">
+        <span>我知道有人偷偷喜欢我!</span>
+    </div>
+    <button>请开始你的表演</button>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $(".myDiv").css("color","red").slideUp(2000).slideDown(2000);
+            });
+        });
+    </script>
+</body>
+```
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1235,24 +1235,54 @@ not()方法刚好和filter()方法相反，挑选出不符合定义规则的元�
 
 ## 五、jQuery Ajax
 
+## 24. AJAX简介
+AJAX(Asynchronous JavaScript and XML)是与服务器交换数据的技术，能够在不重载全部页面的情况下，实现对部分网页的更新。
 
+## 25. AJAX load()方法
+load()方法从服务器加载数据，并把返回的数据放入被选元素中
 
+### 25.1 load()方法语法
+- 1.语法:$(selector).load(URL, data, callback);
+- 2.URL是必须的参数，指定希望加载的URL
+- 3.可选的data参数规定与请求一同发送的查询字符串键/值对集合
+- 4.callback是回调函数
 
+##### 代码:
+```html
+$("#div1").load("/try/ajax/demo_test.txt",function(responseTxt,statusTxt,xhr){
+	if(statusTxt=="success"){
+		alert("外部内容加载成功!");
+	}
+	if(statusTxt=="error"){
+        alert("Error: "+xhr.status+": "+xhr.statusText);
+	}
+});
+```
 
+## 26. jQuery get()/post()方法
+get()和post()方法用于通过HTTP GET或POST请求从服务器请求数据
 
+### 26.1 \$get()方法
+get()方法的基本语法:\$.get(URL,callback)
+##### 代码:
+```html
+$("myButton1").click(function(){
+	$.get("some_url.php", function(data, status){
+		alert("返回数据: "+data+" \n状态: "+status);
+	});
+});
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### 26.2 \$post()方法
+使用post()方法从服务器上请求数据,基本语法:\$.post(URL, data, callback);
+##### 代码:
+```html
+$.post("som_url.php",
+	{
+		firstName:"thinking",
+		lastName:"fioa"
+	}, 
+	function(data, status){
+		alert("返回数据: "+data+"\n 状态:"+status);
+	}
+```

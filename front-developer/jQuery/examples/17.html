@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        .important{
+            font-weight: bold;
+            font-size: xx-large;
+        }
+        .blue{
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="myDiv">
+        <span>i am i</span>
+    </div>
+    <p> you are you</p>
+    <button id="myButton1">为元素添加class</button>
+    <button id="myButton2">为元素移除class</button>
+    <script>
+        $(document).ready(function () {
+            $("#myButton1").click(function () {
+                $(".myDiv,p").addClass("blue");
+                $(".myDiv").addClass("important");
+            });
+            $("#myButton2").click(function () {
+                $(".myDiv,p").removeClass("blue");
+                $(".myDiv").removeClass("important");
+            });
+        });
+    </script>
+</body>
+</html>

@@ -87,8 +87,8 @@ jQuery语法是通过选取HTML元素，并对选取的元素执行某些操作�
 - 2.$("p").hide()-隐藏所有\<p>元素
 - 3.$("p.test").hide()-隐藏所有class="test"的\<p>元素
 - 4.$("#test").hide()-隐藏所有id="test"的元素
-- 5.$("ul li-first").hide()-隐藏第一个\<ul>元素的第一个\<li>元素
-- 6.$("ul li-first-child").hide()-隐藏每个\<ul>元素的第一个\<li>元素
+- 5.$("ul li:first").hide()-隐藏第一个\<ul>元素的第一个\<li>元素
+- 6.$("ul li:first-child").hide()-隐藏每个\<ul>元素的第一个\<li>元素
 - 7.$("a[target='\_blank']")-选取所有target属性值等于"\_blank"的\<a>元素
 
 ### 3.2 文档就绪事件
@@ -922,6 +922,114 @@ $("button").click(function(){
 
 ### 16.4 过滤被删除的元素
 remove()方法可以传入一个参数，允许对被删除元素过滤，如:\$("p").remove(".italic")表示移除class="italic"
+
+## 17. jQuery CSS类
+通过jQuery可以非常容易的对CSS元素进行操作，有如下4种操作CSS方法:
+
+- 1.addClass() - 向被选元素添加一个或多个类
+- 2.removeClass() - 从被选元素删除一个或多个类
+- 3.toggleClass() - 对被选元素进行添加/删除类的切换操作
+- 4.css() - 设置或返回样式属性
+
+### 17.1 jQuery addClass()方法
+使用addClass()方法可以向不同的元素添加class属性
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        .important{
+            font-weight: bold;
+            font-size: xx-large;
+        }
+        .blue{
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="myDiv">
+        <span>i am i</span>
+    </div>
+    <p> you are you</p>
+    <button>为元素添加class</button>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $(".myDiv,p").addClass("blue");
+                $(".myDiv").addClass("important");
+            });
+        });
+    </script>
+</body>
+```
+
+### 17.2 jQuery removeClass()方法
+removeClass()方法可以在元素中删除指定的class属性
+##### 代码:
+```html
+$("#myButton2").click(function () {
+	$(".myDiv,p").removeClass("blue");
+	$(".myDiv").removeClass("important");
+});
+```
+
+### 17.3 jQuery toggleClass()方法
+toggleClass()方法综合了addClass()方法和removeClass()方法。对被选元素进行添加/删除类的切换操作。
+
+## 18. jQuery css()方法
+css()方法设置或返回被选元素的一个或多个样式属性
+
+### 18.1 设置多个CSS属性
+使用css()方法设置多个CSS属性，具体代码如下:
+##### 代码:
+```html
+$("p").css({"background-color":"red","font-size":"200%"});
+```
+
+## 19. jQuery 尺寸
+通过jQuery，很容易处理元素和浏览器窗口的尺寸,具体方法如下:
+
+- 1.width() - Element元素宽度
+- 2.height() - Element元素高度
+- 3.innerWidth() - 对应的width()+padding
+- 4.innerHeight() - 对应的height()+padding
+- 5.outerWidth() - 对应的innerWidth()+Border
+- 6.outerHeight() - 对应的innerHeight()+Border
+- 7.outerWidth(true) - 对应的outerWidth()+Margin
+- 8.outerHeight(true) - 对应的outerHeight()+Margin
+
+### 19.1 jQuery尺寸
+具体可以看下图，整个页面尺寸布局:
+![](http://www.runoob.com/images/img_jquerydim.gif)
+
+# 四、jQuery 遍历
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

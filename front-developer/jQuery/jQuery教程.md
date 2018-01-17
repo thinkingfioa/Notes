@@ -1006,33 +1006,234 @@ $("p").css({"background-color":"red","font-size":"200%"});
 ![](http://www.runoob.com/images/img_jquerydim.gif)
 
 # 四、jQuery 遍历
+jQuery遍历，意为"移动"。HTML元素起始对应于一个节点树，遍历则在节点树中查找。jQuery提供方法可以轻松遍历节点树
+
+## 20. jQuery遍历 - 祖先
+通过jQuery，能够向上遍历DOM树，以查找元素的祖先。向上遍历DOM树的方法:
+
+- 1.parent() - 返回被选元素的直接父元素
+- 2.parents() - 返回被选元素的所有祖先元素,一直到根元素(\<html>)
+- 3.parentsUntil() - 返回介于两个给定元素之间的所有祖先元素
 
 
+### 20.1 jQuery parent()方法
+parent()方法返回被选元素直接父元素。
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        .ancestors * {
+            display: block;
+            border:2px solid lightgrey;
+            color:lightgrey;
+            padding: 5px;
+            margin: 15px;
 
+        }
+    </style>
+</head>
+<body>
+    <div class="ancestors">
+        <div>div(曾祖父元素)
+            <ul>
+                ul(祖父元素)
+                <li>
+                    li(父元素)
+                    <span>span</span>
+                </li>
+            </ul>
+        </div>
+        <div>
+            div(祖父元素)
+            <ul>
+                p(父元素)
+                <li>
+                    <span>span</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("span").parent().css({"color":"red","border":"2px solid red"});
+        });
+    </script>
+</body>
+```
 
+### 20.2 parents()方法
+parents()方法返回被选元素的所有祖先
+##### 代码:
+```html
+$("span").parents().css({"color":"red","border":"2px solid red"});
+```
 
+### 20.3 parentsUntil()方法
+parentsUntil()方法返回介于两个给定元素之间的所有祖先元素
+##### 代码:
+```html
+$("span").parentsUntil("div").css({"color":"red","border":"2px solid red"});
+```
 
+## 21. jQuery 后代
+后代是子、孙、曾孙等等。提供两个方法遍历DOM树：
 
+- 1.children() - 返回被选元素的所有直接子元素
+- 2.find() - 返回被选元素的后代元素，一路向下直到最后一个后代。
 
+### 21.1 children()方法
+children()方法返回被选元素直接子元素，只会向下一级
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        .myChilds * {
+            display: block;
+            border: 2px solid lightgrey;
+            padding: 5px;
+            color: lightgrey;
+            margin:15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="myChilds" style="width:500px">
+        div(当前元素>
+        <ul>
+            p(儿子元素)
+            <li>
+                span(孙子元素)
+            </li>
+        </ul>
+        <ul>
+            p(儿子元素)
+            <li>
+                span(孙子元素)
+            </li>
+        </ul>
+    </div>
+    <script>
+        $(document).ready(function () {
+           $(".myChilds").children().css({"color":"red","border":"2px solid red"});
+        });
+    </script>
+</body>
+```
 
+### 21.2 find()方法
+ find()方法返回被选元素的后代元素，一路向下直到最后一代
+##### 代码:
+```html
+$(".myChilds").find("li").css({"color":"red","border":"2px solid red"});
+```
 
+## 22. jQuery遍历 - 同胞(siblings)
+同胞拥有相同的父元素。jQuery提供对DOM树进行水平遍历
 
+- 1.siblings() - 返回被选元素的所有同胞元素
+- 2.next() - 返回被选元素的下一个同胞元素
+- 3.nextAll() - 返回被选元素的所有跟随的同胞元素
+- 4.nextUntil() - 返回介于两个给定参数之间的所有跟随的同胞元素
+- 5.prev()
+- 6.prevAll()
+- 7.prevUntil()
 
+### 22.1 siblings()方法
+siblings()方法返回被选元素的所有同胞元素
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        .mySoblings * {
+            display:block;
+            border: 2px solid lightgrey;
+            color: lightgrey;
+            padding: 5px;
+            margin: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mySoblings" style = "width: 500px">
+        div(父元素)
+        <p>p</p>
+        <span>span</span>
+        <h2>h2</h2>
+        <h3>h3</h3>
+        <span>p</span>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("h2").siblings().css({"color":"red","border":"2px solid red"});
+        });
+    </script>
+</body>
+```
 
+### 22.2 next()方法
+next()方法返回被选元素的下一个同胞元素
+##### 代码:
+```html
+$("h2").next().css({"color":"red","border":"2px solid red"});
+```
 
+## 23. jQuery遍历 - 过滤
+jQuery提供多种方法来帮助过滤特定元素：
 
+- 1.first() - 返回被选元素的首个元素
+- 2.last() - 返回被选元素的最后一个元素
+- 3.eq() - 返回被选元素中带有指定索引号的元素
+- 4.filter() - 定义一个规则，符合规则的留下，不符合的删除
+- 5.not() - 返回不匹配标准的所有元素，与filter()方法相反
 
+### 23.1 first()方法
+first()方法返回被选元素的首个元素，如:\$("div p").first()。表示选取首个\<div>元素内部第一个\<p>元素
 
+### 23.2 last()方法
+last()方法返回被选元素的最后一个元素，如:\$("div p").last()。表示以后一个\<div>元素中最后一个\<p>元素
 
+### 23.3 eq()方法
+eq()方法返回被选元素的第几个元素。索引下标从0开始
+##### 代码:
+```html
+<body>
+    <h1>我是thinking_fioa</h1>
+    <p>Hello thinking</p>
+    <div>
+        <p>Hello sb</p>
+    </div>
+    <p>Hello fioa</p>
+    <p>Hello lwl</p>
+    <p>Hello ppp</p>
+    <p>Hello lxl</p>
+    <script>
+        $(document).ready(function () {
+            $("p").eq(1).css({"color":"red"});
+        });
+    </script>
+</body>
+```
 
+### 23.4 filter()方法
+filter()方法定义一个规则，匹配规则的保留，不匹配规则的删除
+##### 代码:
+```html
+$("p").filter(".p").css({"color":"red"});
+```
 
+### 23.5 not()方法
+not()方法刚好和filter()方法相反，挑选出不符合定义规则的元素
 
-
-
-
-
-
-
+## 五、jQuery Ajax
 
 
 

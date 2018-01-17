@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <h1>我是thinking_fioa</h1>
+    <p>Hello thinking</p>
+    <div>
+        <p>Hello sb</p>
+    </div>
+    <p class="p">Hello fioa</p>
+    <p>Hello lwl</p>
+    <p class="p">Hello ppp</p>
+    <p>Hello lxl</p>
+    <script>
+        $(document).ready(function () {
+            $("p").filter(".p").css({"color":"red"});
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        .ancestors * {
+            display: block;
+            border:2px solid lightgrey;
+            color:lightgrey;
+            padding: 5px;
+            margin: 15px;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="ancestors">
+        <div>div(曾祖父元素)
+            <ul>
+                ul(祖父元素)
+                <li>
+                    li(父元素)
+                    <span>span</span>
+                </li>
+            </ul>
+        </div>
+        <div>
+            div(祖父元素)
+            <ul>
+                p(父元素)
+                <li>
+                    <span>span</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("span").parent().css({"color":"red","border":"2px solid red"});
+        });
+    </script>
+</body>
+</html>

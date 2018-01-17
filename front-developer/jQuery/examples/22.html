@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        .mySoblings * {
+            display:block;
+            border: 2px solid lightgrey;
+            color: lightgrey;
+            padding: 5px;
+            margin: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mySoblings" style = "width: 500px">
+        div(父元素)
+        <p>p</p>
+        <span>span</span>
+        <h2>h2</h2>
+        <h3>h3</h3>
+        <span>p</span>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("span").nextUntil("h3").css({"color":"red","border":"2px solid red"});
+        });
+    </script>
+</body>
+</html>

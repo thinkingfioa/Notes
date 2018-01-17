@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery教程</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        .myChilds * {
+            display: block;
+            border: 2px solid lightgrey;
+            padding: 5px;
+            color: lightgrey;
+            margin:15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="myChilds" style="width:500px">
+        div(当前元素>
+        <ul>
+            p(儿子元素)
+            <li>
+                span(孙子元素)
+            </li>
+        </ul>
+        <ul class="myUl">
+            p(儿子元素)
+            <li>
+                span(孙子元素)
+            </li>
+        </ul>
+    </div>
+    <script>
+        $(document).ready(function () {
+           $(".myChilds").find("li").css({"color":"red","border":"2px solid red"});
+        });
+    </script>
+</body>
+</html>

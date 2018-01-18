@@ -303,6 +303,167 @@ a:hover {background-color:#FF704D;}
 a:active {background-color:#FF704D;}
 ```
 
+## 8. CSS 列表样式(ul)
+使用CSS可以进一步定义列表样式，CSS列表属性作用如下:
+
+- 1.设置不同的列表项标记为有序列表
+- 2.设置不同的列表项标记为无序列表
+- 3.设置列表项标记为图像
+
+### 8.1 不同的列表项标记(list-style-type)
+list-style-type属性指定列表项标记类型
+
+- 1.list-style-type:circle - 空心圆
+- 2.list-style-type:square - 实心圆
+- 3.list-style-type:upper-romam - 大写罗马字符(I、II等)
+- 4.list-style-type:lower-alpha - 小写字母(a、b等）
+
+### 8.2 图像作为列表项标记(list-style-image: url('some.jpg'))
+列表项可以使用图片进行标记，使用list-style-image属性指定。注意：有些浏览器对于list-style-image属性显示可能存在一点差别
+##### 代码:
+```html
+ul{
+	list-style-image: url("some_image.jpg");
+}
+```
+
+### 8.3 列表-简写属性
+通过list-style属性，将所有列表属性汇总，简写成一句话
+##### 代码:
+```html
+ul{
+	list-style: square url("some_image.jpg");
+}
+```
+
+## 9. CSS Table(表格)
+
+### 9.1 表格边框(border)
+使用属性来定义表格边框
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        table, th,td{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>FirstName</th>
+            <th>LastName</th>
+        </tr>
+        <tr>
+            <td>thinking</td>
+            <td>fioa</td>
+        </tr>
+        <tr>
+            <td>ppp</td>
+            <td>cuter</td>
+        </tr>
+    </table>
+</body>
+```
+
+### 9.2 折叠边框(border-collapse)
+使用border属性，可能每个元素都会有边框，会存在边框重叠。使用border-collapse折叠边框
+##### 代码:
+```html
+<style type="text/css">
+	table{
+		border-collapse: collapse;
+	}
+	table, th,td{
+		border: 1px solid black;
+	}
+</style>
+```
+
+### 9.3 表格高度(width)
+使用width属性,如: th{ width:100%;}
+
+### 9.4 表格文字对齐(text-align)
+使用text-align属性设置水平对齐,如: td{text-align:left;}
+
+### 9.5 表格填充(padding)
+在表的内容与控制空格之间边框的间隙。如: td{padding: 5px;}
+
+### 9.6 设置表格标题的位置(caption-side}
+##### 代码:
+```html
+caption{
+	caption-side: bottom;
+}
+```
+
+## 10. CSS盒子模型(Box Model)
+所有的HTML元素都可以看作盒子，在CSS中,"Box Model"用来设计和布局元素位置使用，主要包括:
+外边距、边框、内边距、内容。具体说明如下:
+
+- 1.Margin(外边距) - 清除边框外的区域，外边是透明的
+- 2.Border(边框) - 围绕在内边距的边框
+- 3.Padding(内边距) - 清除内容周围的区域，内边距是透明的
+- 4.Content(内容) - 盒子的具体内容，包括文本和图像等
+
+具体参见下图:
+
+![Mox Model](http://www.runoob.com/images/box-model.gif)
+
+### 10.1 元素的宽度和高度(width、height)
+特别提醒：当你指定一个CSS元素的宽度和高度时，你只是在设置内容区域(Content)的宽度和高度。然而整个元素的大小，还包括Margin、Border和Padding。如下代码，总长度是:300+25\*2+25\*2+25\*2 = 450
+
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        div{
+            display: block;
+            width:300px;
+            border:25px solid green;
+            background-color: lightgrey;
+            padding:25px;
+            margin:25px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        这里是内容区域
+    </div>
+</body>
+```
+
+## 11. CSS Border(边框)
+CSS边框属性允许你指定一个元素边框的样式和颜色
+
+### 11.1 边框样式(border-style)
+border-style属性用来定义边框的样式。如下:
+
+- 1.none:默认无边框
+- 2.dashed:定义一个虚线边框
+- 3.solid:定义实线边框
+- 4.double:定义两个边框
+
+### 11.2 边框宽度(border-width)
+通过border-width属性定义边框指定宽度，如: p{border-width:2px;}
+
+### 11.3 边框颜色(border-color)
+border-color属性定义边框的颜色，如: p { border-color:red;}
+
+### 11.4 边框-简写属性(border)
+使用border属性来简写边框，如：border{2px solid red;}
+
+## 12. CSS 轮廓(outline)属性
+轮廓(outline)位于border和margin之间的元素属性，可其中突出元素的作用。目前先暂且不补充，后续再更新
+
+## 13. CSS Margin(外边距)
+
 
 
 

@@ -463,8 +463,339 @@ border-color属性定义边框的颜色，如: p { border-color:red;}
 轮廓(outline)位于border和margin之间的元素属性，可其中突出元素的作用。目前先暂且不补充，后续再更新
 
 ## 13. CSS Margin(外边距)
+CSS Margin(外边距)属性定义元素周围的空间。margin没有背景颜色，是完全透明的
 
+### 13.1 Margin - 单边外边距属性
+在CSS中，可以指定不同的侧面不同的边距
 
+- 1.margin-top - 顶部
+- 2.margin-bottom - 底部
+- 3.margin-left - 左边
+- 4.margin-right - 右边
+
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        .margin{
+            margin-top:50px;
+            margin-left:50px;
+            margin-right:50px;
+            margin-bottom:50px;
+        }
+    </style>
+</head>
+<body>
+    <p class="margin">这是一个指定Margin属性的P元素</p>
+</body>
+```
+
+### 13.2 Margin - 简写属性
+为了缩短代码，可以使用margin来缩写属性，全写的话是逆时针
+
+- 1.margin:25px 50px 75px 100px - 上边距25px,右边距50px,下边距75px，左边距100px
+- 2.margin:25px 50px 75px - 上边距25px,左右边距50px,下边距75px
+- 3.margin:25px 50px - 上下边距25px,左右边距50px
+
+## 14. CSS Padding(填充)
+CSS Padding(填充)属性定义元素边框在元素内容之间的空间
+
+### 14.1 填充 - 单边内边距属性
+在CSS中，可以指定不同的侧面不同的填充:
+
+- 1.padding-top - 顶部
+- 2.padding-bottom - 底部
+- 3.padding-left - 左边
+- 4.padding-right - 右边
+
+### 14.2 填充简写
+为了缩短代码，可以使用padding来缩写属性。具体位置与margin一模一样。全写的话是逆时针
+
+- 1.padding:25px 50px 75px 100px - 上填充25px,右填充50px,下填充75px，左填充100px
+- 2.padding:25px 50px 75px - 上填充25px,左右填充50px,下填充75px
+- 3.padding:25px 50px - 上下填充25px,左右填充50px
+
+## 15. CSS 分组和嵌套选择器
+在CSS中可能会存在非常多的相同的样式，使用分组和嵌套来减少代码，方便维护
+
+### 15.1 分组
+将多个元素用逗号(,)分割，定义相同的样式
+##### 代码:
+```html
+h1,h2,p{
+	color:red;
+}
+```
+
+### 15.2 嵌套选择器
+当选择器内部样式需要定制化时，使用嵌套选择器。如下代码表示：className类下了嵌套元素p(子元素)
+##### 代码:
+```html
+.className p{
+	color:white;
+}
+```
+
+## 16. CSS 尺寸(Dimension)
+利用尺寸属性可以控制元素的高度和宽度。同样，也可以增加行间距
+
+|属性|描述|
+|:---|:---|
+|height|设置元素的高度|
+|line-height|设置行高|
+|max-height|设置元素的最大高度|
+|max-width|设置元素的最大宽度|
+|min-height|设置元素的最小高度|
+|min-width|设置元素的最小宽度|
+|width|设置元素的宽度|
+
+## 17. CSS Display(显示)与Visibility(可见性)
+display元素设置一个元素应如何显示，visibility属性指定一个元素应可见还是隐藏
+
+### 17.1 隐藏元素 - display:none或visibility:hidden
+- 1.display:none - 隐藏一个元素，且隐藏的元素不会占用任何空间
+- 2.visibility:hidden - 隐藏一个元素，但是隐藏的元素占用的空间仍然保留，会影响布局。
+
+### 17.2 Display - 块和内联元素
+- 1.display:block - 块元素显示。会在元素前后加上换行符
+- 2.display:inline - 内联元素显示。不换行
+
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        .inline *{
+            display: inline;
+        }
+        .block {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="inline">
+        <p>内联元素:</p>
+        <p>thinking_fioa</p>
+    </div>
+    <div class="block">
+        <p>块元素:</p>
+        <p>ppp</p>
+    </div>
+</body>
+```
+
+## 18. CSS Positioning(定位)
+position属性指定了元素的定位类型，position属性的四个值:
+
+- 1.static - HTML元素的默认值，即没有定位，元素出现在正常的流中
+- 2.relative - 相对定位元素的定位是相对其正常位置
+- 3.fixed - 元素的位置相对于浏览器窗口是固定位置
+- 4.absolute - 绝对定位的元素的位置相对于最近的已定位父元素
+
+### 18.1 static 定位
+HTML元素的默认值，即没有定位，元素出现在正常的流中。静态定位的元素不会受到top、bottom、left和right影响
+
+### 18.2 fixed 定位
+元素的位置相对于浏览器窗口时固定位置
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        .fixed_pos{
+            position: fixed;
+            top:50px;
+            right:10px;
+        }
+    </style>
+</head>
+<body>
+    <p class="fixed_pos">someone like you</p>
+</body>
+```
+
+### 18.3 relative定位
+相对定位元素的定位是相对其正常的位置。注意：移动相对定位元素的内容和元素，原本占的空间不会改变
+##### 代码:
+```html
+.relative_pos{
+	position: relative;
+	left:-20px;
+}
+```
+
+### 18.4 absolute 定位
+绝对定位的元素位置相对于最近的已定位父元素。如果没有已定位的父元素，则相对于\<html>元素
+##### 代码:
+```html
+h2{	
+	postion:absolute;
+	left:100px;
+	top:50px;
+}
+```
+
+### 18.5 重叠的元素(z-index)
+使用元素定位属性:position会导致元素重叠，可以使用属性:z-index，来规定谁置底
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        .fixed_pos{
+            position: fixed;
+            top:70px;
+            left:40px;
+        }
+        .pic{
+            position: fixed;
+            top:50px;
+            left:10px;
+            z-index:-1;
+        }
+    </style>
+</head>
+<body>
+    <p class="fixed_pos">someone like you</p>
+    <img class="pic" src="https://avatar.csdn.net/F/7/8/1_thinking_fioa.jpg">
+<\body>
+```
+
+## 19. CSS Float(浮动)
+Float(浮动)往往用于图像，会使元素向左或向右移动。
+
+### 19.1 元素怎样浮动
+- 1.元素的水平方向浮动，意味着元素只能左右移动而不能上下移动。
+- 2.一个浮动元素会尽量向左或向右移动，直到它的外边碰到包含边框或另一个边框
+
+### 19.2 彼此相邻的浮动元素
+将多个浮动元素放在一起，如果有空间的话，它们会彼此相邻
+##### 代码:
+```html
+.thumbnail{
+	float:left;
+	width:110px;
+	height:90px;
+	margin:5px;
+}
+```
+
+### 19.3 清除浮动 - 使用clear
+- 1.元素浮动之后，周围的元素会重新排列，为了避免这种情况，使用 clear 属性
+- 2.clear 属性指定元素两侧不能出现浮动元素
+- 3.clear可以用来截断元素浮动，因为浮动元素
+- 4.基本语法: p{clear:both;}
+
+##### 代码:
+```html
+<style>
+.thumbnail 
+{
+	float:left;
+	width:110px;
+	height:90px;
+	margin:5px;
+}
+.text_line
+{
+	clear:both;
+	margin-bottom:2px;
+}
+</style>
+</head>
+
+<body>
+<h3>图片库</h3>
+<p>试着调整窗口,看看当图片没有足够的空间会发生什么。.</p>
+<img class="thumbnail" src="/images/1.jpg" width="107" height="90">
+<img class="thumbnail" src="/images/2.jpg" width="107" height="80">
+<img class="thumbnail" src="/images/3.jpg" width="116" height="90">
+<img class="thumbnail" src="/images/4.jpg" width="120" height="90">
+<h3 class="text_line">第二行</h3>
+<img class="thumbnail" src="/images/1.jpg" width="107" height="90">
+<img class="thumbnail" src="/images/2.jpg" width="107" height="80">
+<img class="thumbnail" src="/images/3.jpg" width="116" height="90">
+<img class="thumbnail" src="/images/4.jpg" width="120" height="90">
+</body>
+```
+
+## 20. CSS 对齐
+水平 & 垂直居中对齐
+
+### 20.1 元素居中对齐(margin:auto)
+使用margin:auto来水平居中对齐一个元素，请必须指定width属性
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        div{
+            margin:auto;
+            border: 5px solid green;
+            width:50%;
+            padding:10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div>thinking_fioa</div>
+</body>
+```
+
+### 20.2 文本居中对齐
+文本居中对齐使用text-algin属性，如:text-align:center;
+
+### 20.3 图片居中对齐
+要让图片居中对齐，可以使用margin:auto，同时并使用块元素显示,display:block
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        .myPic{
+            margin: auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <img class="myPic" src="https://avatar.csdn.net/F/7/8/1_thinking_fioa.jpg">
+</body>
+```
+
+### 20.4 左右对齐-使用定位方式(position)
+使用position:absolute属性定义元素位置
+##### 代码:
+```html
+.right{
+	position:absolute;
+	right:0px;
+	width:300px;
+	padding:10px;
+	border: 3px solid green;
+}
+```
+
+### 20.5 左右对齐-使用float方式
+使用float属性来对齐元素
+##### 代码:
+```html
+.right{
+	float:right;
+	width:300px;
+	padding:10px;
+	border: 3px solid green;
+}
+```
 
 
 

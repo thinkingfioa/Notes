@@ -27,7 +27,7 @@ CSS注释以"/\*"开始，以"\*/"结束
 设置CSS样式，需要在元素中设置"id"和"class"选择器
 
 - 1."id"选择器命名方式: #id
-- 2."class"选择器命名方法: .className
+- 2."class"选择器命名方法: .className。如果定义多个class属性需要加空格，如: class="name1 name2"，name1和name2都可以作为元素的Class选择器
 
 ##### 代码
 ```html
@@ -247,7 +247,7 @@ h1{font-size:2.5em}
 ```
 
 ### 6.5 字体加粗(font-weight)
-font-weight属性用来设置自己粗细，如:
+font-weight属性用来设置字体粗细，如:
 
 - 1.font-weight:normal - 正常
 - 2.font-weight:lighter - 细体
@@ -317,6 +317,7 @@ list-style-type属性指定列表项标记类型
 - 2.list-style-type:square - 实心圆
 - 3.list-style-type:upper-romam - 大写罗马字符(I、II等)
 - 4.list-style-type:lower-alpha - 小写字母(a、b等）
+- 5.list-style-type:none - 无
 
 ### 8.2 图像作为列表项标记(list-style-image: url('some.jpg'))
 列表项可以使用图片进行标记，使用list-style-image属性指定。注意：有些浏览器对于list-style-image属性显示可能存在一点差别
@@ -493,7 +494,7 @@ CSS Margin(外边距)属性定义元素周围的空间。margin没有背景颜�
 ```
 
 ### 13.2 Margin - 简写属性
-为了缩短代码，可以使用margin来缩写属性，全写的话是逆时针
+为了缩短代码，可以使用margin来缩写属性，全写的话是顺时针
 
 - 1.margin:25px 50px 75px 100px - 上边距25px,右边距50px,下边距75px，左边距100px
 - 2.margin:25px 50px 75px - 上边距25px,左右边距50px,下边距75px
@@ -511,7 +512,7 @@ CSS Padding(填充)属性定义元素边框在元素内容之间的空间
 - 4.padding-right - 右边
 
 ### 14.2 填充简写
-为了缩短代码，可以使用padding来缩写属性。具体位置与margin一模一样。全写的话是逆时针
+为了缩短代码，可以使用padding来缩写属性。具体位置与margin一模一样。全写的话是顺时针
 
 - 1.padding:25px 50px 75px 100px - 上填充25px,右填充50px,下填充75px，左填充100px
 - 2.padding:25px 50px 75px - 上填充25px,左右填充50px,下填充75px
@@ -551,6 +552,16 @@ h1,h2,p{
 |min-width|设置元素的最小宽度|
 |width|设置元素的宽度|
 
+### 16.1 设置行高(line-height)
+如果希望元素在对应的区域内居中，需要使用行高
+##### 代码:
+```html
+p{
+	text-align:center;
+	line-height:100px;
+}
+```
+
 ## 17. CSS Display(显示)与Visibility(可见性)
 display元素设置一个元素应如何显示，visibility属性指定一个元素应可见还是隐藏
 
@@ -561,6 +572,7 @@ display元素设置一个元素应如何显示，visibility属性指定一个元
 ### 17.2 Display - 块和内联元素
 - 1.display:block - 块元素显示。会在元素前后加上换行符
 - 2.display:inline - 内联元素显示。不换行
+- 3.display:inline-block - 显示内联块元素，表现为同行显示并可修改宽高内外边距等属性。通常将\<ul>加上display:inline-block
 
 ##### 代码:
 ```html
@@ -786,7 +798,7 @@ Float(浮动)往往用于图像，会使元素向左或向右移动。
 ```
 
 ### 20.5 左右对齐-使用float方式
-使用float属性来对齐元素
+使用float属性来对齐元素。float属性通常用于图片的对齐
 ##### 代码:
 ```html
 .right{
@@ -796,6 +808,378 @@ Float(浮动)往往用于图像，会使元素向左或向右移动。
 	border: 3px solid green;
 }
 ```
+
+### 20.6 垂直居中对齐 - 使用padding
+CSS中有多种方式实现垂直居中对齐。一种简单的方式就是头部和底部使用padding
+##### 代码:
+```html
+.center{
+	padding: 40px 0;
+	border: 3px solid lightgrey;
+}
+```
+
+### 20.7 垂直居中 - 使用line-height
+line-height设置行高，可用来设置垂直居中
+##### 代码:
+```html
+.center {
+    line-height: 200px;
+    height: 200px;
+}
+```
+
+### 20.8 垂直居中 - 使用position和transform
+可以使用transform属性来设置垂直居中 
+##### 代码:
+```html
+<style>
+	.center { 
+   		height: 200px;
+   		position: relative;
+    	border: 3px solid green; 
+	}
+	.center p {
+    	margin: 0;
+    	position: absolute;
+    	top: 50%;
+    	left: 50%;
+    	-ms-transform: translate(-50%, -50%);
+    	transform: translate(-50%, -50%);
+	}
+</style>
+```
+
+## 21. CSS 组合选择符
+组合选择器说明两个选择器具有直接的关系，CSS3中包含了四种组合方式：
+
+- 1.后代选择器(以空格分隔)
+- 2.子元素选择器(以大于号分隔)
+- 3.相邻兄弟选择器(以加号分隔)
+- 4.普通兄弟选择器(以破折号分隔)
+
+### 21.1 后代选取器(div p)
+后代选取器匹配指定元素的子元素，如下代码，表示指定元素\<div>的所有子元素\<p>
+##### 代码:
+```html
+div p{
+	background-color:yellow;
+}
+```
+
+### 21.2 子元素选择器(div>p)
+子元素选择器，只能选择指定元素的直接子元素，跨级不行
+##### 代码:
+```html
+div>p{
+	background-color: yellow;
+}
+```
+
+### 21.3 相邻兄弟选择器(div+p)
+如:div+p，表示的是：和\<div>元素是兄弟元素，且和该\<div>元素同一级别的随后第一个\<p>类型元素
+##### 代码:
+```html
+div+p{
+	background-color: yellow;
+}
+```
+
+### 21.4 后续兄弟选择器(div~p)
+如:div～p，表示的是：和\<div>元素是兄弟元素，且和该\<div>元素同一级别的随后所有\<p>类型元素
+##### 代码:
+```html
+div~p{
+	background-color: yellow;
+}
+```
+
+## 22. CSS 伪类
+CSS伪类用来添加一些选择器的特殊效果。如a:link、a:visited等。
+
+### 22.1  :first-child伪类
+可以使用:first-child伪类来选择元素的第一个子元素
+##### 代码:
+```html
+div>p:first-child{
+	color:blue;
+}
+```
+
+## 23. 伪元素
+CSS伪元素是用来添加一些选择器的特殊效果，后续更新
+
+## 24. 导航栏
+熟练使用导航栏，对于所有网站都非常重要
+
+### 24.1 垂直导航条实例
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        ul{
+            margin:0;
+            padding:0;
+            width:150px;
+            background-color:lightgrey;
+            list-style-type: none;
+        }
+        li a{
+            display:block;
+            padding-left:16px;
+            font-size:18px;
+            text-decoration: none;
+            color:black;
+        }
+        .active{
+            background-color: #46cb72;
+            color:white;
+        }
+        a:hover{
+            color:white;
+            background-color: #151827;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <span>垂直导航条</span>
+    </div>
+    <ul class="nav">
+        <li><a class="active" href="javascript:void(0);">主页</a></li>
+        <li><a href="javascript:void(0);">新闻</a></li>
+        <li><a href="javascript:void(0);">联系</a></li>
+        <li><a href="javascript:void(0);">关于</a></li>
+    </ul>
+</body>
+```
+
+### 24.2 全屏高度的固定导航条
+下列代码实现的是: 左边是全屏高度的固定导航条，右边是可滚动的内容
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        body{
+            margin: 0;
+        }
+        ul{
+            margin:0;
+            padding:0;
+            list-style-type: none;
+            position: fixed;
+            width: 20%;
+            height: 100%;
+            background-color: lightgrey;
+            overflow: auto;
+        }
+        li a{
+            display: block;
+            font-size:18px;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: black;
+        }
+        li a.active{
+            background: #46cb72;
+            color: white;
+        }
+        li a:hover{
+            background-color: #121520;
+            color: white;
+        }
+        .content {
+            margin-left:20%;
+            padding: 1px 10px;
+            position:absolute;
+            width:80%;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+    <ul class = "nav" >
+        <li><a class="active" href="javascript:void(0);">主页</a></li>
+        <li><a href="javascript:void(0);">新闻</a></li>
+        <li><a href="javascript:void(0);">联系</a></li>
+        <li><a href="javascript:void(0);">关于</a></li>
+    </ul>
+    <div class="content">
+        <h2>Fixed Full-height Side Nav</h2>
+        <h3>Try to scroll this area, and see how the sidenav sticks to the page</h3>
+        <p>someone like me</p>
+        <p>i am i</p>
+        <p>who are you</p>
+        <p>you are you</p>
+    </div>
+</body>
+```
+
+### 24.3 水平导航条实例
+使用float:left来实现水平导航条
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        body{
+            margin:0;
+            padding:0;
+        }
+        ul{
+            background-color: lightgrey;
+            margin-left: 15px;
+            margin-top: 15px;
+            position: fixed;
+            padding: 0;
+            width:100%;
+            list-style-type: none;
+        }
+        li a{
+            display: block;
+            float:left;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: black;
+        }
+        .active{
+            background-color: #46cb72;
+            color: white;
+        }
+        a:hover{
+            background-color: #151827;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <ul class="nav">
+        <li><a class="active" href="javascript:void(0);">主页</a></li>
+        <li><a href="javascript:void(0);">新闻</a></li>
+        <li><a href="javascript:void(0);">联系</a></li>
+        <li><a href="javascript:void(0);">关于</a></li>
+    </ul>
+</body>
+```
+
+## 25. CSS 下拉菜单
+使用CSS创建一个鼠标移动上去后显示下拉菜单的效果
+
+### 25.1 基本下拉菜单
+基本下拉菜单实现功能: 鼠标放到对应的文字上，显示菜单。主要利用代码: .myDiv:hover .invisibility{display: blcok}
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .myDiv {
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        .invisibility{
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 12px 16px;
+        }
+        .myDiv:hover .invisibility {
+            display:block;
+        }
+    </style>
+</head>
+<body>
+    <div class="myDiv">
+        <span>Hello 隐形者</span>
+        <div class="invisibility">
+            <p>Who are you?</p>
+            <p>Who am i?</p>
+        </div>
+    </div>
+</body>
+```
+
+### 25.2 下拉菜单
+创建下拉菜单，并允许用户选取列表中的某一项。主要代码：.menu:hover .invisibility{display: block;}
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .menu {
+            margin-top: 15px;
+            margin-left: 20px;
+            width: 150px;
+        }
+        .menu .button{
+            background-color: #4CAF50;
+            padding: 16px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .menu .invisibility {
+            display: none;
+            background-color: #f9f9f9;
+            position: fixed;
+            width: 150px;
+        }
+
+        .menu:hover .invisibility{
+            display: block;
+        }
+        a {
+            display: block;
+            text-decoration: none;
+            color: black;
+            font-size: 15px;
+            padding: 8px 16px;
+        }
+        a:hover{
+            background-color: #414141;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <button class="button">下拉菜单</button>
+        <div class="invisibility">
+            <a href="javascript:void(0);">教程1</a>
+            <a href="javascript:void(0);">教程2</a>
+            <a href="javascript:void(0);">教程3</a>
+        </div>
+    </div>
+</body>
+```
+
+## 26. CSS 提示工具
+CSS可以实现鼠标放上去，显示提示文本，等待后续更新，目前没有用到
+
+### 27. 图片廊
+
+
+
+
+
+
+
 
 
 

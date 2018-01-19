@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        body{
+            margin:0;
+            padding:0;
+        }
+        ul{
+            background-color: lightgrey;
+            margin-left: 15px;
+            margin-top: 15px;
+            position: fixed;
+            padding: 0;
+            width:100%;
+            list-style-type: none;
+        }
+        li a{
+            display: block;
+            float:left;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: black;
+        }
+        .active{
+            background-color: #46cb72;
+            color: white;
+        }
+        a:hover{
+            background-color: #151827;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <ul class="nav">
+        <li><a class="active" href="javascript:void(0);">主页</a></li>
+        <li><a href="javascript:void(0);">新闻</a></li>
+        <li><a href="javascript:void(0);">联系</a></li>
+        <li><a href="javascript:void(0);">关于</a></li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .menu {
+            margin-top: 15px;
+            margin-left: 20px;
+            width: 150px;
+        }
+        .menu .button{
+            background-color: #4CAF50;
+            padding: 16px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .menu .invisibility {
+            display: none;
+            background-color: #f9f9f9;
+            position: fixed;
+            width: 150px;
+        }
+
+        .menu:hover .invisibility{
+            display: block;
+        }
+        a {
+            display: block;
+            text-decoration: none;
+            color: black;
+            font-size: 15px;
+            padding: 8px 16px;
+        }
+        a:hover{
+            background-color: #414141;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <button class="button">下拉菜单</button>
+        <div class="invisibility">
+            <a href="javascript:void(0);">教程1</a>
+            <a href="javascript:void(0);">教程2</a>
+            <a href="javascript:void(0);">教程3</a>
+        </div>
+    </div>
+</body>
+</html>

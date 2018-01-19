@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        body{
+            margin: 0;
+        }
+        ul{
+            margin:0;
+            padding:0;
+            list-style-type: none;
+            position: fixed;
+            width: 20%;
+            height: 100%;
+            background-color: lightgrey;
+            overflow: auto;
+        }
+        li a{
+            display: block;
+            font-size:18px;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: black;
+        }
+        li a.active{
+            background: #46cb72;
+            color: white;
+        }
+        li a:hover{
+            background-color: #121520;
+            color: white;
+        }
+        .content {
+            margin-left:20%;
+            padding: 1px 10px;
+            position:absolute;
+            width:80%;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+    <ul class = "nav" >
+        <li><a class="active" href="javascript:void(0);">主页</a></li>
+        <li><a href="javascript:void(0);">新闻</a></li>
+        <li><a href="javascript:void(0);">联系</a></li>
+        <li><a href="javascript:void(0);">关于</a></li>
+    </ul>
+    <div class="content">
+        <h2>Fixed Full-height Side Nav</h2>
+        <h3>Try to scroll this area, and see how the sidenav sticks to the page</h3>
+        <p>someone like me</p>
+        <p>i am i</p>
+        <p>who are you</p>
+        <p>you are you</p>
+    </div>
+</body>
+</html>

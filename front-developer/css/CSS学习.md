@@ -910,7 +910,7 @@ div>p:first-child{
 CSS伪元素是用来添加一些选择器的特殊效果，后续更新
 
 ## 24. 导航栏
-熟练使用导航栏，对于所有网站都非常重要
+熟练使用导航栏，对于所有网站都非常重要。[效果](http://htmlpreview.github.io/?https://github.com/thinkingfioa/Notes/blob/master/front-developer/css/examples/24.html)
 
 ### 24.1 垂直导航条实例
 ```html
@@ -957,7 +957,7 @@ CSS伪元素是用来添加一些选择器的特殊效果，后续更新
 ```
 
 ### 24.2 全屏高度的固定导航条
-下列代码实现的是: 左边是全屏高度的固定导航条，右边是可滚动的内容
+下列代码实现的是: 左边是全屏高度的固定导航条，右边是可滚动的内容。[效果](http://htmlpreview.github.io/?https://github.com/thinkingfioa/Notes/blob/master/front-developer/css/examples/24_2.html)
 ##### 代码:
 ```html
 <head>
@@ -1020,7 +1020,7 @@ CSS伪元素是用来添加一些选择器的特殊效果，后续更新
 ```
 
 ### 24.3 水平导航条实例
-使用float:left来实现水平导航条
+使用float:left来实现水平导航条。[效果](http://htmlpreview.github.io/?https://github.com/thinkingfioa/Notes/blob/master/front-developer/css/examples/24_3.html)
 ##### 代码:
 ```html
 <head>
@@ -1071,7 +1071,7 @@ CSS伪元素是用来添加一些选择器的特殊效果，后续更新
 使用CSS创建一个鼠标移动上去后显示下拉菜单的效果
 
 ### 25.1 基本下拉菜单
-基本下拉菜单实现功能: 鼠标放到对应的文字上，显示菜单。主要利用代码: .myDiv:hover .invisibility{display: blcok}
+基本下拉菜单实现功能: 鼠标放到对应的文字上，显示菜单。主要利用代码: .myDiv:hover .invisibility{display: blcok}。[效果](http://htmlpreview.github.io/?https://github.com/thinkingfioa/Notes/blob/master/front-developer/css/examples/25.html)
 ##### 代码:
 ```html
 <head>
@@ -1111,7 +1111,7 @@ CSS伪元素是用来添加一些选择器的特殊效果，后续更新
 ```
 
 ### 25.2 下拉菜单
-创建下拉菜单，并允许用户选取列表中的某一项。主要代码：.menu:hover .invisibility{display: block;}
+创建下拉菜单，并允许用户选取列表中的某一项。主要代码：.menu:hover .invisibility{display: block;}。 [效果](http://htmlpreview.github.io/?https://github.com/thinkingfioa/Notes/blob/master/front-developer/css/examples/25_2.html)
 ##### 代码:
 ```html
 <head>
@@ -1172,9 +1172,120 @@ CSS伪元素是用来添加一些选择器的特殊效果，后续更新
 ## 26. CSS 提示工具
 CSS可以实现鼠标放上去，显示提示文本，等待后续更新，目前没有用到
 
-### 27. 图片廊
+## 27. 图片廊
+使用CSS创建图片廊。[效果](http://htmlpreview.github.io/?https://github.com/thinkingfioa/Notes/blob/master/front-developer/css/examples/27.html)
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .imageGallery{
+            margin-top: 30px;
+            margin-left: 30px;
+            width: 100%;
+        }
+        .img {
+            display:block;
+            border: 1px solid lightgrey;
+            float: left;
+            margin: 5px;
+        }
+        .img:hover{
+            border: 1px solid #afafaf;
+            cursor: pointer;
+        }
+        .desc{
+            padding:15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="imageGallery">
+        <div class="img">
+            <a href="http://static.runoob.com/images/demo/demo1.jpg" target="_blank">
+                <img src="./images/27_1.jpg" alt="图片无法加载" width="200" height="150">
+            </a>
+            <div class="desc">添加图片描述文本</div>
+        </div>
+        <div class="img">
+            <a href="http://static.runoob.com/images/demo/demo2.jpg" target="_blank">
+                <img src="./images/27_2.jpg" alt="图片无法加载" width="200" height="150">
+            </a>
+            <div class="desc">添加图片描述文本</div>
+        </div>
+        <div class="img">
+            <a href="http://static.runoob.com/images/demo/demo3.jpg" target="_blank">
+                <img src="./images/27_3.jpg" alt="图片无法加载" width="200" height="150">
+            </a>
+            <div class="desc">添加图片描述文本</div>
+        </div>
+        <div class="img">
+            <a href="http://static.runoob.com/images/demo/demo4.jpg" target="_blank">
+                <img src="./images/27_4.jpg" alt="图片无法加载" width="200" height="150">
+            </a>
+            <div class="desc">添加图片描述文本</div>
+        </div>
+    </div>
+</body>
+```
 
+## 28. CSS图像透明/不透明
+使用CSS非常容易创建透明的图像，使用属性opacity: 0.4来实现。主要代码是:img:hover{opacity:1}，[效果](http://htmlpreview.github.io/?https://github.com/thinkingfioa/Notes/blob/master/front-developer/css/examples/28.html)
 
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .pics{
+            margin-top: 15px;
+            margin-left:15px;
+            width: 100%;
+        }
+        .img img{
+            opacity: 0.5;
+            float: left;
+            border: 1px solid lightgrey;
+            margin: 5px;
+        }
+        img:hover{
+            border: 1px solid red;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="pics">
+        <div class="img">
+            <a href="http://static.runoob.com/images/demo/demo1.jpg" target="_blank">
+                <img src="images/27_1.jpg" width="200" height="150">
+            </a>
+        </div>
+        <div class="img">
+            <a href="http://static.runoob.com/images/demo/demo2jpg" target="_blank">
+                <img src="images/27_2.jpg" width="200" height="150">
+            </a>
+        </div>
+    </div>
+</body>
+```
+
+## 29. CSS 图像拼合技术
+当网页显示时，加载过多的图像，可能会拖慢网页显示速度。利用图像拼合技术，通俗的说就是，将多个图片放在一个大图片里面，再利用图像拼合技术，局部显示图片。等待后续更新
+
+## 30. CSS实例
+[CSS实例参考](http://www.runoob.com/css/css-examples.html)
 
 
 

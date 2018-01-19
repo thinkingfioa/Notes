@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS教程</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .imageGallery{
+            margin-top: 30px;
+            margin-left: 30px;
+            width: 100%;
+        }
+        .img {
+            display:block;
+            border: 1px solid lightgrey;
+            float: left;
+            margin: 5px;
+        }
+        .img:hover{
+            border: 1px solid #afafaf;
+            cursor: pointer;
+        }
+        .desc{
+            padding:15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="imageGallery">
+        <div class="img">
+            <a href="http://static.runoob.com/images/demo/demo1.jpg" target="_blank">
+                <img src="./images/27_1.jpg" alt="图片无法加载" width="200" height="150">
+            </a>
+            <div class="desc">添加图片描述文本</div>
+        </div>
+        <div class="img">
+            <a href="http://static.runoob.com/images/demo/demo2.jpg" target="_blank">
+                <img src="./images/27_2.jpg" alt="图片无法加载" width="200" height="150">
+            </a>
+            <div class="desc">添加图片描述文本</div>
+        </div>
+        <div class="img">
+            <a href="http://static.runoob.com/images/demo/demo3.jpg" target="_blank">
+                <img src="./images/27_3.jpg" alt="图片无法加载" width="200" height="150">
+            </a>
+            <div class="desc">添加图片描述文本</div>
+        </div>
+        <div class="img">
+            <a href="http://static.runoob.com/images/demo/demo4.jpg" target="_blank">
+                <img src="./images/27_4.jpg" alt="图片无法加载" width="200" height="150">
+            </a>
+            <div class="desc">添加图片描述文本</div>
+        </div>
+    </div>
+</body>
+</html>

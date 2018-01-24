@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3教程</title>
+    <style type="text/css">
+        .textShadow {
+            text-shadow: 5px 5px 5px #ff0000;
+            font-size: 30px;
+        }
+        .boxShadow {
+            width: 300px;
+            height: 100px;
+            background-color: red;
+            box-shadow: 10px 10px 10px #7d7d7d;
+            text-align: center;
+            padding: 4px;
+        }
+        .after::after{
+            display: block;
+            content: '';
+            position: absolute;
+            z-index: -1;
+            box-shadow: 10px 10px 10px #6ba9ce;
+            width: 70%;
+            /*left: 15%;*/
+            height: 400px;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="textShadow">
+        <span>thinking_fioa</span>
+    </div>
+    <div class="boxShadow">
+        <h1>lwl</h1>
+    </div>
+    <br>
+    <div class="after">
+        <img src="https://avatars1.githubusercontent.com/u/13462500?s=460&v=4" width="300px" height="300px">
+    </div>
+</body>
+</html>

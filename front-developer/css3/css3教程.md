@@ -274,7 +274,69 @@ box-shadow属性用来定义盒子属性的阴影，关键代码: box-shadow: 10
 ### 6.4 CSS3 Text Overflow属性
 使用text-overflow属性显示溢出内容
 
+- 1.text-overflow: ellipsis - 隐藏溢出的文本
+- 2.text-overflow: clip - 剪辑
 
+##### 代码:
+```html
+.textOverflow {
+	border: 1px solid #000000;
+	width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+```
+
+### 6.5 CSS3的换行(word-wrap)
+使用属性word-wrap来控制文本的换行，意味着自动换行允许强制文本换行
+##### 代码:
+```html
+.textWordWrap {
+	border: 1px solid #000000;
+	width: 100px;
+	word-wrap: break-word;
+}
+```
+
+### 6.6 CSS3 单词拆分换行(word-break)
+单词拆分换行指定换行规则
+
+- 1.word-break: keep-all - 单词不换行，如果行末尾放不下，放于下段首位置
+- 2.word-break: break-all - 单词直接换行，有的时候出现一个单词位于两段中
+
+## 7. CSS3 字体
+CSS3提供字体自动下载，意味着可以使用任何字体，无需限定为用户计算机已经安装的字体
+
+### 7.1 CSS3 定义字体(@font-face)
+使用@font-face定义一个字体，然后再在文本中引用，基本语法格式，参考下列的代码：
+##### 代码:
+```html
+<style type="text/css">
+@font-face
+{
+    font-family: myFirstFont;
+    src: url(sansation_light.woff);
+}
+ 
+div
+{
+    font-family:myFirstFont;
+}
+</style>
+```
+
+## 8. CSS3 2D转换
+CSS3 转换可以对元素进行移动、缩放、转动、拉长或拉伸。通俗的说，就是改变某个元素的形状、大小和位置
+
+### 8.1 2D转换
+2D变换方法:
+
+- 1.translate()
+- 2.rotate()
+- 3.scale()
+- 4.skew()
+- 5.matrix()
 
 
 

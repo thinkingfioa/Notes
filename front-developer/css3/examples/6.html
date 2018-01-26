@@ -27,6 +27,14 @@
             height: 400px;
             bottom: 0;
         }
+        .textOverflow {
+            border: 1px solid #000000;
+            width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /*white-space: nowrap;*/
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
@@ -39,6 +47,9 @@
     <br>
     <div class="after">
         <img src="https://avatars1.githubusercontent.com/u/13462500?s=460&v=4" width="300px" height="300px">
+    </div>
+    <div class="textOverflow">
+        <span>i am youuuuuuuuuuuuu</span>
     </div>
 </body>
 </html>

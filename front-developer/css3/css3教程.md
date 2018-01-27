@@ -332,11 +332,68 @@ CSS3 转换可以对元素进行移动、缩放、转动、拉长或拉伸。通
 ### 8.1 2D转换
 2D变换方法:
 
-- 1.translate()
-- 2.rotate()
-- 3.scale()
-- 4.skew()
-- 5.matrix()
+- 1.translate() - 从当前元素位置移动
+- 2.rotate() - 元素顺时针旋转
+- 3.scale() - 元素增加或减少的大小
+- 4.skew() - 元素的倾斜
+- 5.matrix() - 将2D变换方法合并成一个
+- 6.transform-Origin - 允许更改转换元素的位置
+
+### 8.2 translate() 方法
+translate()方法，根据元素原来的位置，左(X轴)和顶部(Y轴)位置给定的参数进行移动
+#####  代码:
+```html
+div {
+	border: 2px solid black;
+	background-color: red;
+	width:200px;
+	height: 100px;
+	margin-left: 100px;
+	margin-top: 100px;
+}
+#div2 {
+	transform: translate(50px, 100px);
+}
+``` 
+
+### 8.3 rotate() 方法
+rotate()方法，给一个度数顺时针旋转元素
+##### 代码：
+```html
+#div2 {
+	transform: translate(50px, 100px);
+	transform: rotate(90deg);
+}
+```
+
+### 8.4 scale() 方法
+scale()方法用于放大元素的大小。如:transform: scale(2,4)转变宽度为原来的2倍，高度为3倍
+
+### 8.5 skew() 方法
+skew() 方法用于倾斜元素，语法：transform: skew(angle1, angle2)。第一个参数angle1表示X轴倾斜，第二个参数angle2表示Y轴的倾斜.
+##### 代码:
+```html
+transform: skew(30deg, 20deg);
+```
+
+### 8.6 matrix() 方法
+matrix()方法用于汇总上面多个属性，共有6个参数，包含旋转、缩放、平移、倾斜。6个参数的意义不知道，较复杂，待更新
+
+### 8.7 transform-origin 定义起点
+transform-origin设置旋转元素的基点位置，允许更改转化元素位置，比如旋转，可以自定义旋转的中心。比如案例为：transform-origin: 20% 20%;
+
+## 9. CSS3 3D转换
+
+### 9.1 rotateX() 方法
+rotateX()方法，围绕其在一个给定度数X轴旋转的元素，如：transform: rotateX(120deg);
+
+### 9.2 rotateY() 方法
+rotateY()方法，围绕其在一个给定度数Y轴旋转的元素，如：transform: rotateY(120deg);
+
+
+
+
+
 
 
 

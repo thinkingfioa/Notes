@@ -390,6 +390,199 @@ rotateX()方法，围绕其在一个给定度数X轴旋转的元素，如：tran
 ### 9.2 rotateY() 方法
 rotateY()方法，围绕其在一个给定度数Y轴旋转的元素，如：transform: rotateY(120deg);
 
+## 10. CSS3 过渡
+CSS3过渡是：元素从一种样式逐渐改变为另一种的效果。必须规定两项内容:
+
+- 1.指定要添加效果的CSS属性
+- 2.指定效果的持续时间，如果没有指定期限，则默认为0，效果不显示
+- 3.典型的CSS属性变化是用户鼠标放在一个元素上触发，所以需要使用到鼠标指针悬浮(:hover)
+
+### 10.1 多项改变
+添加多个样式的变换效果，添加的属性由逗号分隔
+##### 代码:
+```html
+div {
+	width: 100px;
+	height: 100px;
+	border: 2px solid black;
+	background-color: red;
+	transition: width 2s, height 2s, transform 2s;
+}
+div:hover {
+	width: 200px;
+	height: 200px;
+	transform: rotate(180deg);
+}
+```
+
+## 11. CSS3 动画
+创建动画，可以取代许多网页动画图像。
+
+### 11.1 CSS3 @keyframes规则
+@keyframes规则是创建动画。@keyframes规则指定一个CSS样式和动画将逐步从目前的样式更改为新的样式
+
+### 11.2 CSS3 动画
+使用@keyframes创建动画，需要把它绑定到一个选择器上，否则动画不会有任何效果，需要使用属性关键字(animation)指定动画的名称、动画的时长
+##### 代码:
+```html
+div{
+	width: 200px;
+	height: 200px;
+	background-color: red;
+	border: 1px solid black;
+	animation: divMyfirst 2s;
+}
+@keyframes divMyfirst {
+	from {
+		background-color: red;
+	}
+	to {
+		background-color: yellow;
+	}
+}
+```
+
+### 11.3 CSS3 多属性动画
+使用@keyframes创建的动画，可以具有多种效果，比如：颜色改变、位置改变
+##### 代码:
+```html
+div {
+	width:200px;
+	height: 100px;
+	background-color: red;
+	position: absolute;
+	animation: myfirst 5s;
+}
+@keyframes myfirst
+{
+	0%   {background:red; left:0px; top:0px;}
+	25%  {background:yellow; left:200px; top:0px;}
+	50%  {background:blue; left:200px; top:200px;}
+	75%  {background:green; left:0px; top:200px;}
+	100% {background:red; left:0px; top:0px;}
+}
+```
+
+### 11.4 CSS3 动画持续运行
+使用属性: infinite alternate来让动画实现周期性运行
+##### 代码:
+```html
+div {
+	width:200px;
+	height: 100px;
+	background-color: red;
+	position: absolute;
+	animation: myfirst 5s linear 2s infinite alternate;
+}
+@keyframes myfirst
+{
+	0%   {background:red; left:0px; top:0px;}
+	25%  {background:yellow; left:200px; top:0px;}
+	50%  {background:blue; left:200px; top:200px;}
+	75%  {background:green; left:0px; top:200px;}
+	100% {background:red; left:0px; top:0px;}
+}
+```
+
+## 12. CSS3 多列
+CSS3 将文本内容设计成像报纸一样的布局，可以设置成多列。CSS3提供下列几种多列属性:
+
+- 1.column-count - 指定需要分割的列数
+- 2.column-gap - 指定列与列间的间隙
+- 3.column-rule-style - 指定列与列间的边框属性
+- 4.column-rule-width - 指定两列的边框厚度
+- 5.column-rule-color - 指定两列的边框颜色
+- 6.column-rule -  column-rule-*所有属性的简写
+- 7.column-span - 指定\<h2>元素跨越所有列
+- 8.column-width - 指定列的宽度
+
+### 12.1 创建多列(column-count)
+column-count属性指定需要分割的列数，如: column-count: 6;
+
+### 12.2 多列中列与列间的间隙(column-gap)
+column-gap属性指定了列与列间的间隙，如：column-gap: 40px;，定义了列与列间的间隙为40像素
+
+### 12.3 列边框(column-rule-style)
+column-rule-style属性指定列边框的样式，如：column-rule-style: solid;
+
+### 12.4 列边框宽度(column-rule-width)
+column-rule-width属性指定列边框的宽度，如：column-rule-width: 2px;
+
+### 12.4 列边框颜色(column-rule-color)
+column-rule-color属性指定两列的边框颜色，如：column-rule-color: red;
+
+### 12.5 column-rule
+column-rule将属性:column-rule-style、column-rule-width、column-rule-color三个属性融合，简写而成。如: column-rule: 1px solid red;
+
+### 12.6 指定元素跨列(column-span)
+column-span:all用于指定\<h2>元素跨越所有列。下面的碑文也写的非常好
+##### 代码:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3教程</title>
+    <style type="text/css">
+        div {
+            column-count: 3;
+        }
+        h2 {
+            column-span: all;
+        }
+    </style>
+</head>
+<body>
+    <div class="newspaper">
+        <h2>英国维斯米斯特教堂碑文</h2>
+        “当我年轻的时候，我梦想改变这个世界；当我成熟以后，我发现我不能够改变这个世界，我将目光缩短了些，决定只改变我的国家；当我进入暮年以后，我发现我不能够改变我们的国家，我的最后愿望仅仅是改变一下我的家庭，但是，这也不可能。当我现在躺在床上，行将就木时，我突然意识到：如果一开始我仅仅去改变我自己，然后，我可能改变我的家庭；在家人的帮助和鼓励下，我可能为国家做一些事情；然后，谁知道呢?我甚至可能改变这个世界。”
+    </div>
+</body>
+</html>
+```
+
+### 12.7 指定列的宽度(column-width)
+column-width属性指定列的宽度，如: column-width:100px;
+
+## 13. CSS3 用户界面
+CSS3中，添加一些新的用户界面特性来调整元素尺寸、框尺寸和外边框，如下用户界面属性:
+
+- 1.resize - 指定一个元素是否应该由用户去调整大小
+- 2.box-sizing - 允许以确切的方式定义适应某个区域的具体内容
+- 3.outline-offset - 对轮廓进行偏移，并在超出边框边缘的位置绘制轮廓
+
+### 13.1 CSS3 调整尺寸(Resize)
+属性resize指定一个元素是否应该由用户去调整大小
+##### 代码:
+```html
+div
+{
+    resize:both;
+    overflow:auto;
+}
+```
+
+### 13.2 CSS3 方框大小调整(box-sizing)
+box-sizing属性允许以确切的方式定义一个适应某个区域的具体内容。如:box-sizing:border-box
+
+### 13.3 CSS3外形修饰(outline-offset)
+outline-offset属性对轮廓进行偏移，并在超出边框边缘的位置绘制轮廓，轮廓使用outline属性来定义，轮廓与边框有两个不同点:
+
+- 1.轮廓不占用空间
+- 2.轮廓可以非矩形
+
+##### 代码:
+```html
+div
+{
+    border:2px solid black;
+    outline:2px solid red;
+    outline-offset:15px;
+}
+```
+
+## 14. CSS 图片
+
 
 
 

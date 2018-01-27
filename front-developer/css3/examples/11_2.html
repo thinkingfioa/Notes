@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3教程</title>
+    <style type="text/css">
+        div {
+            width:200px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            animation: myfirst 5s linear 2s infinite alternate;
+        }
+        @keyframes myfirst
+        {
+            0%   {background:red; left:0px; top:0px;}
+            25%  {background:yellow; left:200px; top:0px;}
+            50%  {background:blue; left:200px; top:200px;}
+            75%  {background:green; left:0px; top:200px;}
+            100% {background:red; left:0px; top:0px;}
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <span>thinking_fioa</span>
+    </div>
+</body>
+</html>

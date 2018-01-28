@@ -563,7 +563,7 @@ div
 ```
 
 ### 13.2 CSS3 方框大小调整(box-sizing)
-box-sizing属性允许以确切的方式定义一个适应某个区域的具体内容。如:box-sizing:border-box
+box-sizing属性允许以确切的方式定义一个适应某个区域的具体内容。如:box-sizing:border-box。其实box-sizing属性的定义将会去除padding的效果。具体可见17章节
 
 ### 13.3 CSS3外形修饰(outline-offset)
 outline-offset属性对轮廓进行偏移，并在超出边框边缘的位置绘制轮廓，轮廓使用outline属性来定义，轮廓与边框有两个不同点:
@@ -689,10 +689,186 @@ CSS3 提供滤镜功能，改变图片模糊或饱和度等，具体参考[地�
 
 ## 15. CSS 按钮
 
+### 15.1 按钮实例
+给出按钮基本样式的代码，包括：按钮颜色、按钮大小、圆角按钮、边框颜色
+##### 代码:
+```html
+<head>
+    <style type="text/css">
+        .button {
+            background-color: #007400;
+            border-radius: 8px;
+            border: 2px solid orangered;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button>默认按钮</button>
+    <a href="#" class="button">链接按钮</a>
+    <button class="button">按钮</button>
+    <input type="button" class="button" value="输入框按钮">
+</body>
+```
+
+### 15.2 按钮悬停
+使用hover属性，定义悬停效果
+##### 代码:
+```html
+.button:hover {
+	background-color: white;
+	color: #000000;
+}
+```
+
+### 15.3 按钮阴影
+使用box-shadow属性来为按钮添加阴影，如：box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+##### 代码:
+```html
+.button:hover {
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+```
+
+### 15.4 禁用按钮
+使用cursor: not-allowed实现禁用按钮
+##### 代码:
+```html
+.button {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+```
+
+### 15.4 按钮宽度
+使用width属性来定义按钮长度，如: width: 50%;
+
+### 16. CSS3 分页
+
+### 16.1 CSS3 分页实例
+提供一个基本分页实例
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3教程</title>
+    <style type="text/css">
+        .page {
+            display: inline-block;
+        }
+        .page li {
+            list-style-type: none;
+            float: left;
+            padding:8px 16px;
+        }
+        .page li a{
+            text-decoration: none;
+            color: black;
+            text-align: center;
+        }
+        #active {
+            background-color: #00b300;
+            color: white;
+        }
+        ul li:hover {
+            background-color: lightgrey;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <ul class="page">
+        <li><a href="#"><<</a></li>
+        <li id="active" ><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">6</a></li>
+        <li><a href="#">7</a></li>
+        <li><a href="#">>></a></li>
+    </ul>
+</body>
+```
+
+### 16.2 圆角样式(border-radius)
+使用border-radius属性定义圆角样式，如:border-radius:5px;
 
 
+## 17. CSS3 框大小
+CSS3中box-sizing属性可以设置width和height属性中包含padding(内边距)和border(边框)。17.1和17.2之间就差一句代码:box-sizing: border-box;。导致呈现大小效果完全不同。
 
+### 17.1 不使用box-sizing代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3教程</title>
+    <style type="text/css">
+        .div1 {
+            width: 300px;
+            height: 100px;
+            border: 1px solid blue;
+        }
+        .div2 {
+            width: 300px;
+            height: 100px;
+            padding: 50px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div class="div1">
+        ppp
+    </div>
+    <br>
+    <div class="div2">
+        thinking_fioa
+    </div>
+</body>
+```
 
+### 17.2 使用box-sizing代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3教程</title>
+    <style type="text/css">
+        .div1 {
+            width: 300px;
+            height: 100px;
+            border: 1px solid blue;
+        }
+        .div2 {
+            width: 300px;
+            height: 100px;
+            padding: 50px;
+            border: 1px solid red;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="div1">
+        ppp
+    </div>
+    <br>
+    <div class="div2">
+        thinking_fioa
+    </div>
+</body>
+```
+
+## 18. CSS3 弹性盒子
+如有必要，再续
+
+## 19. CSS3 多媒体查询
+[多媒体实例](http://www.runoob.com/css3/css3-mediaqueries-ex.html)，如有必要，再续前缘
 
 
 

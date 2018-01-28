@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3教程</title>
+    <style type="text/css">
+        .page {
+            display: inline-block;
+        }
+        .page li {
+            list-style-type: none;
+            float: left;
+            padding:8px 16px;
+        }
+        .page li a{
+            text-decoration: none;
+            color: black;
+            text-align: center;
+        }
+        #active {
+            background-color: #00b300;
+            color: white;
+        }
+        ul li:hover {
+            background-color: lightgrey;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <ul class="page">
+        <li><a href="#"><<</a></li>
+        <li id="active" ><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">6</a></li>
+        <li><a href="#">7</a></li>
+        <li><a href="#">>></a></li>
+    </ul>
+</body>
+</html>

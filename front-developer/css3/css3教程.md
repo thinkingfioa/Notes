@@ -582,8 +582,112 @@ div
 ```
 
 ## 14. CSS 图片
+本节主要介绍如何使用CSS来布局图片
 
+### 14.1 圆角图片(border-radius)
+可以使用border-radius属性来将图片改为圆角或椭圆形。如，圆角：border-radius:8px; 椭圆：border-radius:50%;
 
+### 14.2 缩略图(border)
+使用border属性定义缩略图，所谓缩略图就是在图片外加上边框。代码display:inline-block可以将整个缩略图变成一个整体
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3教程</title>
+    <style type="text/css">
+        a {
+            display: inline-block;
+            border: 1px solid lightgrey;
+            border-radius: 8px;
+            padding: 5px;
+        }
+        a:hover {
+            box-shadow: 0 0 2px 1px lightblue;
+        }
+    </style>
+</head>
+<body>
+    <a href="http://www.runoob.com/try/demo_source/paris.jpg" target="_blank">
+        <img src="http://www.runoob.com/try/demo_source/paris.jpg" alt="Paris" width="400px" height="300">
+    </a>
+</body>
+```
+
+### 14.3 响应式图片
+响应式图片会自动适配各种尺寸的屏幕，使用属性width和height公共来控制
+##### 代码:
+```html
+img {
+	width: 100%;
+	height: auto;
+}
+```
+
+### 14.4 图片文本
+下列代码给出实例：在图片中添加文本。代码position:relative是将元素关联起来，变成一个整体，必须需要。
+##### 代码:
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3教程</title>
+    <style type="text/css">
+        .myDiv {
+            position: relative;
+        }
+        .myCenter {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="myDiv">
+        <div class="myCenter">居中</div>
+        <img src="http://www.runoob.com/wp-content/uploads/2016/04/trolltunga.jpg" alt="NorWay" width="1000px" height="300px">
+    </div>
+</body>
+```
+
+### 14.5 卡片式图片
+代码给出如何将图片装进框中
+##### 代码：
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3教程</title>
+    <style type="text/css">
+        .mydiv {
+            display: block;
+            border: 2px solid lightgrey;
+            box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+        .myDoc {
+            text-align: center;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mydiv">
+        <img src="http://www.runoob.com/try/demo_source/lights600x400.jpg" alt="Norway" width="100%" height="400px">
+        <div class="myDoc">
+            <p>thinking_fioa</p>
+        </div>
+    </div>
+</body>
+```
+
+### 14.6 图片滤镜
+CSS3 提供滤镜功能，改变图片模糊或饱和度等，具体参考[地址](http://www.runoob.com/cssref/css3-pr-filter.html)
+
+## 15. CSS 按钮
 
 
 

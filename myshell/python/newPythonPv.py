@@ -54,7 +54,7 @@ def getHtml(url, headers, proxies):
     opener = urllib2.build_opener(proxy_support)
     urllib2.install_opener(opener)
 
-    html = urllib2.urlopen(url)
+    html = urllib2.urlopen(url, timeout=10) # unit: s
     return html
 
 user_agents = [
@@ -95,18 +95,18 @@ for j in range(count):
         #     time.sleep(1)
         except urllib2.HTTPError as e2:
             print 'urllib2.HTTPError'
-            time.sleep(2)
+            time.sleep(1)
         except urllib2.URLError as e1:
             print 'urllib2.URLError'
             if hasattr(e1, 'code'):
                 print 'Error code:', e1.code
             elif hasattr(e1, 'reason'):
                 print 'Reason:', e1.reason
-            time.sleep(2)
+            time.sleep(1)
         except Exception, e:
             print "happen Exception"
             print e
-            time.sleep(2)
+            time.sleep(1)
         time.sleep(0.2)
 else:
     print("%s 共执行%d 次" % (tempUrl, count));

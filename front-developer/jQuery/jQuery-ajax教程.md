@@ -16,7 +16,7 @@ ajax不是语言，而是一门能不需要重新加载页面，能够部分更�
 - 2.ajax()返回其创建的XMLHttpRequest对象，大多数我们无需直接操作该对象
 - 3.如果指定了dataType选项，请确保服务器返回正确的MIME信息(如xml返回的"text/xml")
 - 4.ajax()只有一个参数，参数key/value对象，包含各配置及回调函数信息
-- 5.jQuery 1.2种，可以跨域加载JSON数据，需要将dataType选项设置为JSONP。
+- 5.jQuery1.2版本可以跨域加载JSON数据，需要将dataType选项设置为JSONP。
 
 ## 3. jQuery的\$ajax的参数列表
 ### 3.1 url(String)
@@ -101,8 +101,43 @@ success: function(data, textStatus){
 ```
 
 ### 3.15 具体案例
+```html
 
+$.ajax({
+    type : 'POST',
+    url : base_url + '/joblog/logKill',
+    data : {
+        "executorAddress":executorAddress,
+        "triggerTime":triggerTime,
+        "logId":logId,
+        "fromLineNum":fromLineNum
+    },
+    dataType : "json",
+    success : function(data){
+        if (data.code == 200) {
+            layer.open({
+                title: I18n.system_tips,
+                btn: [ I18n.system_ok ],
+                content: I18n.system_opt_suc ,
+                icon: '1',
+                end: function(layero, index){
+                    logTable.fnDraw();
+                }
+            });
+        } else {
+            layer.open({
+                title: I18n.system_tips,
+                btn: [ I18n.system_ok ],
+                content: (data.msg || I18n.system_opt_fail ),
+                icon: '2'
+            });
+        }
+    },
+});
+```
 
+##### 解释:
+- 1.layer.open({...});是显示出一个弹出层layer，类似于windows的对话框
 
 
 

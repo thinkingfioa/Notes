@@ -10,7 +10,7 @@ gitHub地址: https://github.com/thinkingfioa/Notes/tree/master/front-developer/
 
 
 ## 1. Bootstrap简介
-Bootstrap是一个快速开发Web应用程序和网站的前端框架。Bootstrap是基于Html、Css、Javascript的
+Bootstrap是一个快速开发Web应用程序和网站的前端框架。Bootstrap的学习需要先初步了解Html、Css、Javascript基础知识。
 
 ### 1.1 Bootstrap 包含的内容
 - 1.基本结构：Bootstrap提供了一个带有网格系统、链接样式、背景的基本结构
@@ -49,13 +49,46 @@ Bootstrap安装有两种方法:
 
 # 二、 Bootstrap CSS
 
-# 三、 Bootstrap 布局组件
+## 3. Bootstrap CSS概览
+本章将学习Bootstrap底层结构的关键部分和一些最佳实践
 
-# 四、 Bootstrap 插件
+### 3.1 HTML5文档类型(Doctype)
+Bootstrap中使用了HTML5元素和CSS属性，所以必须使用HTML5文档类型(Doctype)，通常的Bootstrap项目请用以下代码开头
+##### 代码:
+```html
+<!DOCTYPE html>
+<html>
+.....
+</html>
+```
 
-# 五、 Bootstrap 其他
+### 3.2 移动设备优先
+- 1.Bootstrap3的设计目标是移动设备优先，然后才是桌面设备
+- 2.Bootstrap3开发的网站兼容移动设备，确保适当的绘制和触屏缩放
+- 3.width=device-width属性控制设备宽度，即使不同的设备带有不同的屏幕分辨率，也能保证完美的呈现
+- 4.initial-scale=1.0确保页面加载时，以1:1的比例呈现，不会有任何缩放
+- 5.user-scalable=no禁用其缩放功能
+- 6.maximum-scale=1.0与user-scalable=no同时使用时，用户可以滑动屏幕
 
+##### 代码:
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+```
 
+## 4. Bootstrap 网格系统
+Bootstrap提供一套响应式、移动设备优先的流式网格系统，随着不同设备屏幕或视口(viewport)尺寸的增加，系统会自动分为最多12列，以自动适配屏幕变化
+
+[](https://github.com/thinkingfioa/Notes/blob/master/uploadPics/Bootstrap3-4.png)
+
+### 4.1 Bootstrap网格系统(Grid System)工作原理
+网格系统通过一系列包含内容的行和列来创建页面布局。下面列出了Bootstrap网格系统如果工作的:
+
+- 1.行必须放置在.container class内，以便获得适当的对齐(alignment)和内边距(padding)
+- 2.使用行来创建列的水平组
+- 3.内容应该放置在列内，且唯有列可以是行的直接子元素
+- 4.预定义的网格类，比如.row和.col-xs-4，可用于快速创建网格布局。LESS混合类可用于更多的语义布局
+- 5.列通过内边距(padding)来创建内容间的间隙
+- 6.网格系统是通过指定想要横跨的十二个可用的列来创建的。例如：要创建三个相等的列，则使用三个.col-xs-4
 
 
 

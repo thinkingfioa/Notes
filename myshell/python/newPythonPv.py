@@ -40,7 +40,7 @@ def getProxyIp():
 def getHtml(url, headers, proxies):
     random_userAgent= random.choice(headers)
     random_proxy = random.choice(proxies)
-    print "random_UserAgent", random_userAgent
+    # print "random_UserAgent", random_userAgent
     print "random_proxy", random_proxy
     print "url", url
 
@@ -75,24 +75,20 @@ user_agents = [
     ]
 
 # proxy = getProxyIp()
-proxy = ['115.239.52.207:3128', '118.212.137.135:31288', '59.67.152.230:3128', '60.205.125.201:8888']
+proxy = ['101.132.121.157:9000', '113.200.88.237:61202', '120.78.78.141:8888', '116.19.96.131:9797', '218.20.54.114:9797', '122.114.31.177:808']
 #urlList = ["http://blog.csdn.net/thinking_fioa/article/details/78265745", "http://blog.csdn.net/thinking_fioa/article/details/78270793", "http://blog.csdn.net/thinking_fioa/article/details/78306670"]
 urlList = ["http://blog.csdn.net/thinking_fioa/article/details/79192474","http://blog.csdn.net/thinking_fioa/article/details/79110447"
-           ,"http://blog.csdn.net/thinking_fioa/article/details/79087627","http://blog.csdn.net/thinking_fioa/article/details/79056339"
-           ,"http://blog.csdn.net/thinking_fioa/article/details/79024261","http://blog.csdn.net/thinking_fioa/article/details/78991039"]
-count = random.randint(1000, 2000);
-print("共执行%d 次" % (count));
+           ,"http://blog.csdn.net/thinking_fioa/article/details/78972847","http://blog.csdn.net/thinking_fioa/article/details/79024261"
+           ,"http://blog.csdn.net/thinking_fioa/article/details/78344645","http://blog.csdn.net/thinking_fioa/article/details/79087627"]
+count = random.randint(1000, 2000)
+print("共执行%d 次" % (count))
+success_count = 0
 for j in range(count):
     for tempUrl in urlList:
         try:
             html = getHtml(tempUrl, user_agents, proxy)
-            print("%s ---- %d" % (tempUrl, j))
-        # except urllib2.error.HTTPError:
-        #     print('urllib2.error.HTTPError')
-        #     time.sleep(1)
-        # except urllib2.error.URLError:
-        #     print('urllib2.error.URLError')
-        #     time.sleep(1)
+            print("%s ---- %d, [successCount]%d" % (tempUrl, j, success_count))
+            success_count = success_count + 1
         except urllib2.HTTPError as e2:
             print 'urllib2.HTTPError'
             time.sleep(1)

@@ -701,14 +701,14 @@ Bootstrap提供所有原生的HTML5的input类型的支持，包括:text、passw
 ```
 
 ## 9. Bootstrap 按钮
-任何带有class .btn的元素都会继承圆角灰色按钮。下列样式同样适用于\<a\>、\<button\>和\<input\>
+任何带有class .btn的元素都会继承圆角灰色按钮。下列样式同样适用于\<a\>、\<button\>和\<input\>，但是不推荐使用
 
 - 1.btn：为按钮添加基本样式
 - 2.btn-default：默认／标准按钮
 - 3.btn-success(primary/info/warning/danger)：表示成功等的动作
 - 4.btn-link：让按钮看起来像链接(仍然保留按钮行为)
 - 5.btn-lg(btn-sm/xs)：制作一个大按钮等
-- 6.btn-block会计按钮
+- 6.btn-block：块级按钮
 - 7.active：按钮被点击
 - 8.disabled：禁用按钮
 
@@ -717,12 +717,115 @@ Bootstrap提供所有原生的HTML5的input类型的支持，包括:text、passw
 <button type="button" class="btn btn-info">警告按钮</button>
 ```
 
-### 9.1
+### 9.1 按钮状态
+Bootstrap提供了激活、禁用等按钮状态的class
 
+- 1.激活状态(active)：激活状态呈现被压的外观(深色的背景、深色的边框、阴影)
+- 2.禁用状态(disabled)：禁用一个按钮时，它的颜色会变淡50%，并失去渐变
 
+##### 代码:
+```html
+<p>
+    <button type="button" class="btn btn-default">默认按钮</button>
+</p>
+<p>
+    <button type="button" class="btn btn-default active">激活按钮</button>
+</p>
+<p>
+    <button type="button" class="btn btn-default disabled">禁用按钮</button>
+</p>
+```
 
+## 10. Bootstrap 图片
+Bootstrap提供了三个对图片应用的简单样式的class：
 
+- 1.img-rounded：将图片变成圆角，通过添加border-radius:6px来实现
+- 2.img-circle：将图片变成圆形，通过添加border-radius：50%来实现
+- 3.img-thumbnail：添加内边框效果，通过内边距(padding)和一个灰色的边框来实现
+- 4.img-responsive：让图片支持响应式设计。图片可以很好的扩展到父元素。使用max-width:100%和height:auto来实现
 
+## 11. Bootstrap 辅助类
+Bootstrap定义了诸多辅助类
+
+### 11.1 文本
+不同的类展示不同的文本颜色。包括链接标签\<a\>文本也起同样的效果
+
+- 1.text-muted：文字变弱的样式
+- 2.text-primary
+- 3.text-success
+- 4.text-info
+- 5.text-warning
+- 6.text-danger
+
+##### 代码：
+```html
+<div class="container">
+    <p class="text-danger">使用text-danger样式文本</p>
+    <a class="text-danger" href="http://write.blog.csdn.net/postlist">链接文本使用text-danger</a>
+</div>
+```
+
+### 11.2 背景
+不同的类展示不同的背景颜色。如果是链接，鼠标移上去文本会变暗
+
+- 1.bg-primary
+- 2.bg-success
+- 3.bg-info
+- 4.bg-warning
+- 5.bg-danger
+
+##### 代码:
+```html
+<div class="container">
+    <p class="bg-danger">使用bg-danger样式文本</p>
+    <a class="bg-danger" href="http://write.blog.csdn.net/postlist">链接文本使用bg-danger</a>
+</div>
+```
+
+### 11.3 其他
+
+- 1.pull-left：元素浮动在左边
+- 2.pull-right：元素浮动在右边
+- 3.center-block：设置元素为display:block并居中显示
+- 4.clearfix：清除浮动
+- 5.show：强制元素显示
+- 6.hidden：强制元素隐藏
+- 7.sr-only：除了屏幕阅读器外，其他设备上隐藏元素
+- 8.sr-only-focusable：与 .sr-only 类结合使用，在元素获取焦点时显示(如：键盘操作的用户)
+- 9.text-hide：将页面元素所包含的文本内容替换为背景图
+- 10.close：显示关闭按钮	
+- 11.caret：显示下拉式功能
+
+### 11.4 关闭标签
+使用class close得到关闭标签。
+
+##### 代码:
+```html
+<button type="button" class="close" aria-hidden="true">&times;</button>
+```
+
+# 二、Bootstrap 布局组件
+
+## 12. Bootstrap 字体图标(Glyphicons)
+字体图标是在Web项目中使用的图标字体。可以在fonts文件夹内找到字体图标。字体图标列表：[字体图标](http://www.runoob.com/try/demo_source/bootstrap3-glyph-icons.htm)
+
+### 12.1 用法
+如需要使用图标，只需使用下列代码即可。
+
+##### 代码:
+```html
+<span class="glyphicon glyphicon-user"></span>
+```
+
+### 12.2 带有字体图标的导航栏
+
+### 12.3 定制字体图标和尺寸
+##### 代码:
+```html
+<button type="button" class="btn btn-primary btn-lg">
+    <span class="glyphicon glyphicon-user"></span>User
+</button>
+```
 
 
 

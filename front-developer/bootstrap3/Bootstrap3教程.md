@@ -42,8 +42,8 @@ Bootstrap安装有两种方法:
     <meta charset="UTF-8">
     <title>Bootstrap模版</title>
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script src="./bootstrap/js/bootstrap.min.js"></script>
     <script src="./jquery/jquery-3.2.1.min.js"></script>
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
 </head>
 ```
 
@@ -103,8 +103,8 @@ Bootstrap定义了所有的HTML标题(h1到h6)的样式。提醒：使用Bootstr
     <meta charset="UTF-8">
     <title>Bootstrap</title>
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script src="./bootstrap/js/bootstrap.min.js"></script>
     <script src="./jquery/jquery-3.2.1.min.js"></script>
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
     <h1>我是标题1 h1</h1>
@@ -701,7 +701,7 @@ Bootstrap提供所有原生的HTML5的input类型的支持，包括:text、passw
 ```
 
 ## 9. Bootstrap 按钮
-任何带有class .btn的元素都会继承圆角灰色按钮。下列样式同样适用于\<a\>、\<button\>和\<input\>，但是不推荐使用
+任何带有class .btn的元素都会继承圆角灰色按钮。下列样式同样适用于\<a\>、\<button\>和\<input\>
 
 - 1.btn：为按钮添加基本样式
 - 2.btn-default：默认／标准按钮
@@ -818,6 +818,29 @@ Bootstrap定义了诸多辅助类
 ```
 
 ### 12.2 带有字体图标的导航栏
+##### 代码:
+```html
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+                <li><a href="#shop"><span class="glyphicon glyphicon-shopping-cart"></span>Shop</a></li>
+                <li><a href="#support"><span class="glyphicon glyphicon-headphones"></span>Support</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+```
 
 ### 12.3 定制字体图标和尺寸
 ##### 代码:
@@ -827,9 +850,135 @@ Bootstrap定义了诸多辅助类
 </button>
 ```
 
+## 13. Bootstrap 下拉菜单(Dropdowns)
+Bootstrap下拉菜单是可切换的，是以列表格式显示链接的上下文菜单
 
+##### 代码:
+```html
+<div class="dropdown">
+    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+        主题
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">Java</a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">数据挖掘</a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">编译原理</a>
+        </li>
+        <li role="presentation" class="divider"></li>
+        <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">计算机操作系统</a>
+        </li>
+    </ul>
+</div>
+```
 
+### 13.1 选项
 
+- 1.pull-right(对齐)：通过向dropdown-menu中添加class .pull-right来向右对齐下拉菜单
+- 2.dropdown-header(标题)：使用dropdown-header向下拉菜单的标签区域添加标题
+- 3.dropup：指定向上弹出的下拉菜单
+- 4.disabled：下拉菜单中的禁用项
+- 5.divider：下拉菜单中的分割线
+
+## 14. Bootstrap 按钮组
+按钮组允许多个按钮被折叠在同一行
+
+- 1.btn-group：用于形成基本的按钮组，在btn-group中放置一系列带有class .btn按钮
+- 2.btn-tooler：用于将几组\<div class="btn-group"\>结合在一起
+- 3.btn-group-lg(btn-group-sm,btn-group-xs)：整个按钮组的大小控制
+- 4.btn-group-vertical：让一组按钮垂直堆叠显示
+
+### 14.1 基本按钮组(btn-group)
+btn-group用于形成按钮组，位于同一行中。
+
+##### 代码：
+```html
+<div class="btn-group">
+    <button type="button" class="btn btn-default">按钮1</button>
+    <button type="button" class="btn btn-danger">按钮2</button>
+    <button type="button" class="btn btn-info">按钮3</button>
+</div>
+```
+
+### 14.2 按钮工具栏(btn-toolbar)
+btn-toolbar用于将几个按钮组合并在一起
+
+##### 代码:
+```html
+<div class="btn-toolbar" role="toolbar">
+	<div class="btn-group">
+		<button type="button" class="btn btn-default">按钮1</button>
+		<button type="button" class="btn btn-default">按钮2</button>
+	</div>
+	<div class="btn-group">
+		<button type="button" class="btn btn-default">按钮3</button>
+		<button type="button" class="btn btn-default">按钮4</button>
+	</div>
+</div>
+```
+
+### 14.3 按钮的大小(btn-gruop-sm)
+btn-group-sm用于控制按钮大小，如：\<div class="btn-group btn-group-sm"\>
+
+### 14.4 嵌套
+可以在一个按钮组内嵌套另一个按钮组，如果下拉菜单和一系列的按钮组使用时，则用到
+
+##### 代码:
+```html
+<div class="btn-group">
+    <button type="button" class="btn btn-default">按钮1</button>
+    <button type="button" class="btn btn-default">按钮2</button>
+    <div class="btn-group">
+        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+            <span>下拉</span>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="#">下拉链接 1</a></li>
+            <li><a href="#">下拉链接 2</a></li>
+        </ul>
+    </div>
+</div>
+```
+
+### 14.5 垂直的按钮组
+使用btn-gruop-vertical来让按钮垂直显示
+
+## 15. Bootstrap 按钮下拉菜单
+Bootstrap支持向按钮添加下拉菜单，具体代码可参考14.4中的
+
+### 15.1 分割的按钮下拉菜单
+使用class .divider来实现分割下拉。代码: \<li class="divider"\>\</li\>
+
+### 15.2 按钮下拉菜单的大小
+使用class .btn-lg、btn-sm和btn-xs来指定按钮大小
+
+##### 代码：
+```html
+<div class="btn-group">
+    <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
+        <span>默认下拉菜单</span>
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li><a href="#">功能1</a></li>
+        <li><a href="#">功能2</a></li>
+        <li class="divider"></li>
+        <li><a href="#">分割线后的功能1</a></li>
+    </ul>
+</div>
+```
+
+### 15.3 按钮上拉菜单
+菜单也可以往上拉，只需要在class .btn-group中添加class .dropup
+
+## 16. 
 
 
 

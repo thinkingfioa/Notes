@@ -947,16 +947,16 @@ btn-group-sm用于控制按钮大小，如：\<div class="btn-group btn-group-sm
 </div>
 ```
 
-### 14.5 垂直的按钮组
-使用btn-gruop-vertical来让按钮垂直显示
+### 14.5 垂直的按钮组(btn-group-vertical)
+使用btn-group-vertical来让按钮垂直显示
 
 ## 15. Bootstrap 按钮下拉菜单
 Bootstrap支持向按钮添加下拉菜单，具体代码可参考14.4中的
 
-### 15.1 分割的按钮下拉菜单
+### 15.1 分割的按钮下拉菜单(divider)
 使用class .divider来实现分割下拉。代码: \<li class="divider"\>\</li\>
 
-### 15.2 按钮下拉菜单的大小
+### 15.2 按钮下拉菜单的大小(btn-lg)
 使用class .btn-lg、btn-sm和btn-xs来指定按钮大小
 
 ##### 代码：
@@ -975,13 +975,124 @@ Bootstrap支持向按钮添加下拉菜单，具体代码可参考14.4中的
 </div>
 ```
 
-### 15.3 按钮上拉菜单
+### 15.3 按钮上拉菜单(dropup)
 菜单也可以往上拉，只需要在class .btn-group中添加class .dropup
 
-## 16. 
+## 16. Bootstrap 输入框组(form-control)
+使用输入框组，可以很容易向基于文本的输入框添加作为前缀和后缀的文本或按钮。向form-control添加前缀或后缀元素的基本步骤如下:
 
+- 1.把前缀或后缀元素放在一个带有class .input-group中的\<div\>中
+- 2.添加class .input-group-addon的\<span\>中添加前缀内容
+- 3.补充input元素输入框
 
+##### 代码：
+```html
+<div class="input-group">
+	<span class="input-group-addon">前缀内容</span>
+	<input type="text" class="form-control" placeholder="缺省提示内容">
+</div>
+```
 
+### 16.1 输入框组的大小
+添加表单大小(input-group-lg、input-group-sm)来改变输入框组的大小
+
+##### 代码：
+```html
+ <div style="padding: 100px 100px 10px;" >
+        <form class="bs-example bs-example-form" role="form">
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">@</span>
+                <input type="text" class="form-control" placeholder="请输入邮箱">
+            </div>
+        </form>
+    </div>
+```
+
+### 16.2 复选框和单选框插件
+可以将复选框和单选框作为输入框的前缀或后缀元素
+
+##### 代码:
+```html
+<div style="padding: 100px 100px 10px;">
+    <form class="bs-example bs-example-form" role="form">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><input type="checkbox"></span>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><input type="radio"></span>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+```
+
+### 16.3 按钮插件
+可以将按钮作为输入框组的前缀或后缀元素。此时，不需要使用class .input-group-addon，而使用class .input-group-btn来包裹按钮
+
+##### 代码:
+```html
+<div style="padding: 100px 100px 10px;">
+    <form class="bs-example bs-example-from" role="form">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default">Go!</button>
+                    </span>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-info">Stop!</button>
+                    </span>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+```
+
+## 17. Bootstrap 导航元素
+Bootstrap提供用于定义导航元素的一些选项。使用相同的标记和基类.nav
+
+### 17.1 表格导航或标签
+创建一个标签式的导航菜单：
+
+- 1.以一个带有class .nav的无序列表开始
+- 2.添加class .nav-tabs
+
+##### 代码:
+```html
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">iMac</a></li>
+    <li><a href="#">iPhone</a></li>
+    <li><a href="#">Mac</a></li>
+</ul>
+```
+
+### 17.2 胶囊式的导航菜单
+如果需要将标签改成胶囊式，只需要将class .nav-pills替换class .nav-tabs即可
+
+##### 代码:
+```html
+<ul class="nav nav-pills">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">iMac</a></li>
+    <li><a href="#">iPhone></a></li>
+    <li><a href="#">Mac</a></li>
+</ul>
+```
 
 
 

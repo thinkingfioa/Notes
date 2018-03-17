@@ -1065,7 +1065,7 @@ Bootstrap支持向按钮添加下拉菜单，具体代码可参考14.4中的
 ## 17. Bootstrap 导航元素
 Bootstrap提供用于定义导航元素的一些选项。使用相同的标记和基类.nav
 
-### 17.1 表格导航或标签
+### 17.1 表格导航或标签(nav-tabs)
 创建一个标签式的导航菜单：
 
 - 1.以一个带有class .nav的无序列表开始
@@ -1081,7 +1081,7 @@ Bootstrap提供用于定义导航元素的一些选项。使用相同的标记�
 </ul>
 ```
 
-### 17.2 胶囊式的导航菜单
+### 17.2 胶囊式的导航菜单(nav-pills)
 如果需要将标签改成胶囊式，只需要将class .nav-pills替换class .nav-tabs即可
 
 ##### 代码:
@@ -1093,6 +1093,290 @@ Bootstrap提供用于定义导航元素的一些选项。使用相同的标记�
     <li><a href="#">Mac</a></li>
 </ul>
 ```
+
+### 17.3 垂直的胶囊式导航菜单(nav-stacked)
+在使用calss .nav和class .nav-pills的同时使用class .nav-stacked，让胶囊垂直堆叠
+
+##### 代码:
+```html
+<ul class="nav nav-pills nav-stacked">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">iPad</a></li>
+    <li><a href="#">iMac</a></li>
+    <li><a href="#">iPhone</a></li>
+</ul>
+```
+
+### 17.4 两端对齐的导航(nav-justified)
+当屏幕宽度大于768px时，在使用表格式导航(nav nav-tabs)和胶囊式导航(nav nav-pills)时，请同时使用class .nav-justified。以让导航的长度和父元素等宽。
+
+### 17.5 禁用链接(disabled)
+对每个class .nav添加class .disabled，则会创建一个灰色的链接
+
+##### 代码:
+```html
+<ul class="nav nav-tabs nav-justified">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">iPad</a></li>
+    <li><a href="#">iPhone</a></li>
+    <li class="disabled"><a href="#">iMac(禁用链接)</a></li>
+    <li><a href="#">iWatch</a></li>
+</ul>
+```
+
+### 17.6 带有下拉菜单的标签
+向一个标签添加下拉菜单的步骤如下:
+
+- 1.以一个带有class .nav的无序列表开始
+- 2.添加class nav-tabs
+- 3.添加带有.dropdown-menu的无序列表
+
+##### 代码：
+```html
+<ul class="nav nav-tabs nav-justified">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">iMac</a></li>
+    <li><a href="#">iPad</a></li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <span>iPhone</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="#">iPhone-5</a></li>
+            <li><a href="#">iPhone-6</a></li>
+            <li><a href="#">iPhone-6s</a></li>
+            <li class="divider"></li>
+            <li><a href="#">iPhone-X</a></li>
+        </ul>
+    </li>
+    <li><a href="#">iWatch</a></li>
+</ul>
+```
+
+### 17.7 动态标签
+与tab-pane和data-toggle="tab"(或data-toggle="pill")一同使用，设置标签页对应的内容随标签切换而更改
+
+##### 代码：
+```html
+<ul class="nav nav-tabs nav-justified">
+    <li class="active"><a data-toggle="tab" href="#home" >Home</a></li>
+    <li><a data-toggle="tab" href="#iMac">iMac</a></li>
+    <li><a data-toggle="tab" href="#iPhone">iPhone</a></li>
+    <li><a data-toggle="tab" href="#iWatch">iWatch</a></li>
+</ul>
+<div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+        <span>首页，欢迎你</span>
+    </div>
+    <div id="iMac" class="tab-pane fade">
+        <span>iMac页面</span>
+    </div>
+    <div id="iPhone" class="tab-pane fade">
+        <span>iPhone页面</span>
+    </div>
+    <div id="iWatch" class="tab-pane fade">
+        <span>iWatch页面</span>
+    </div>
+</div>
+```
+
+## 18. Bootstrap 导航栏
+Bootstrap导航栏包含了站点名称和基本导航定义样式
+
+### 18.1 默认的导航栏
+创建一个默认导航栏的基本步骤:
+
+- 1.向\<nav\>标签添加class .navbar和class .navbar-default
+- 2.向上面的元素添加role="navigation"，有助于增加可访问性
+- 3.向\<div\>元素添加一个标题class .navbar-header，内部包含了带有class .navbar-brand的元素\<a\>
+- 4.向导航栏添加链接，添加class .nav和class .navbar-nav的无序列表
+
+##### 代码:
+```html
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Apple公司</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">iMac</a></li>
+            <li><a href="#">iPad</a></li>
+            <li class="dropdown">
+                <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                    <span>iPhone</span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">iPhone-5s</a></li>
+                    <li><a href="#">iPhone-6s</a></li>
+                    <li><a href="#">iPhone-7</a></li>
+                    <li><a href="#">iPhone-X</a></li>
+                </ul>
+            </li>
+            <li><a href="#">iWatch</a></li>
+        </ul>
+    </div>
+</nav>
+```
+
+### 18.2 响应式的导航栏
+响应式的导航栏是指点击某按钮后，展开菜单。
+
+##### 代码:
+```html
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#example-navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand">Apple公司</a>
+        </div>
+        <div class="collapse navbar-collapse" id="example-navbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">iMac</a></li>
+                <li><a href="#">iPad</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span>iPhone</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">iPhone-5</a></li>
+                        <li><a href="#">iPhone-6s</a></li>
+                        <li><a href="#">iPhone-7</a></li>
+                        <li><a href="#">iPhone-8</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">iPhone-X</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+```
+
+### 18.3 导航栏中的表单(navbar-form)
+导航栏中的表单使用class .navbar-form，其确保了表单适当的垂直对齐和在较窄的窗口中折叠行为。
+
+##### 代码:
+```html
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Apple公司</a>
+        </div>
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="输入手机型号">
+            </div>
+            <button type="submit" class="btn btn-default">提交</button>
+        </form>
+    </div>
+</nav>
+```
+
+### 18.4 导航栏中的按钮(navbar-btn)
+可以使用class .navbar-btn向不在\<form\>元素中添加\<button\>按钮
+
+##### 代码:
+```html
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Apple公司</a>
+        </div>
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="输入手机型号">
+            </div>
+            <button type="submit" class="btn btn-default">提交</button>
+        </form>
+        <button type="button" class="btn btn-default navbar-btn">表单外的Button</button>
+    </div>
+</nav>
+```
+
+### 18.5 导航栏中的文本(navbar-text)
+使用class .navbar-text向导航栏中添加文本字符串。通常与\<p\>标签一起使用，确保适当的前导和颜色
+
+##### 代码:
+```html
+<nav role="navigation" class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Apple公司</a>
+        </div>
+        <div class="navbar-text">
+            <p>我是thinking_fioa.</p>
+        </div>
+    </div>
+</nav>
+```
+
+### 18.6 结合图标的导航链接
+在常规的导航栏中使用常用的图标，更多图标请参见[图标地址](http://www.runoob.com/bootstrap/bootstrap-glyphicons.html)
+
+##### 代码：
+```html
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand">Apple 公司</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
+        </ul>
+    </div>
+</nav>
+```
+
+### 18.7 组件对齐方式
+
+- 1.navbar-left：向左对齐导航栏中的元素
+- 2.navbar-right：向右对齐导航栏中的元素
+
+### 18.8 固定到顶部(navbar-fixed-top)
+Bootstrap导航栏可以动态定位。导航栏固定在顶部，让它成为随着页面一起滚动的静态导航栏。使用class .navbar-fixed-top。如：\<nav class="navbar navbar-default navbar-fixed-top" role="navigation"\>
+
+### 18.9 固定到底部(navbar-fixed-bottom)
+使用class .navbar-fixed-bottom来让导航栏固定在页面底部
+
+### 18.10 静态的顶部(navbar-static-top)
+使用class .navbar-static-top，创建随着页面一起滚动的导航栏
+
+### 18.11 反色的导航栏(navbar-inverse)
+使用class .navbar-inverse创建一个带有黑色背景白色文本的反色导航栏
+
+## 19. Bootstrap 面包屑导航(Breadcrumbs)
+Bootstrap面包屑导航是一个简单的带有.breadcrumb class无序列表
+
+##### 代码:
+```html
+<ul class="breadcrumb">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">2018</a></li>
+    <li><a href="#">03</a></li>
+    <li><a href="#">17</a></li>
+</ul>
+```
+
+## 20. Bootstrap 分页
+
+
+
+
+
+
+
+
+
 
 
 

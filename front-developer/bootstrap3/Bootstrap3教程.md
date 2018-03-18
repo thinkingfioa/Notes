@@ -1368,9 +1368,89 @@ Bootstrap面包屑导航是一个简单的带有.breadcrumb class无序列表
 ```
 
 ## 20. Bootstrap 分页
+Bootstrap提供多个处理分页的class
 
+- 1.pagination: 添加该class来在页面上显示分页
+- 2.disabled: 定义当前链接不可点
+- 3.active: 定义当前链接激活
+- 4.pagination-lg(pagination-sm): 获取不同的大小项
 
+### 20.1 默认的分页(pagination)
+使用pagination来实现分页
 
+##### 代码:
+```html
+<ul class="pagination">
+    <li><a href="#">&laquo;</a></li>
+    <li class="active"><a href="#">1</a></li>
+    <li class="disabled"><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">&raquo;</a></li>
+</ul>
+```
+
+### 20.2 分页的状态(disabled、active)
+ disabled禁用当前链接，active激活当前链接。代码如上
+ 
+### 20.3 分页的大小(pagination-lg)
+使用pagination-lg将会放大当前链接。使用代码:\<ul class="pagination pagination-lg"\>
+
+### 20.4 翻页(pager)
+如果只想提供上一页／下一页，使用翻页就能满足。
+
+- 1.pager: 添加该class来获得翻页链接
+- 2.previous：把链接向左对齐
+- 3.next：把链接向右对齐
+- 4.disabled: 禁用当前链接
+
+##### 代码：
+```html
+<ul class="pager">
+    <li class="previous disabled"><a href="#">&larr; Older</a></li>
+    <li class="next"><a href="#">Newer &rarr;</a></li>
+</ul>
+```
+
+## 21. Bootstrap 标签(label)
+使用class .label来显示标签。标签可用于计数、提示和页面上其他的标记显示
+
+- 1.label label-default: 默认的灰色按钮
+- 2.label label-primary: 蓝色按钮
+- 3.label label-success: 绿色按钮
+
+##### 代码:
+```html
+<span class="label label-default">默认标签</span>
+<span class="label label-primary">主要标签</span>
+<span class="label label-success">成功标签</span>
+<span class="label label-info">信息标签</span>
+<span class="label label-warning">警告标签</span>
+<span class="label label-danger">危险标签</span>
+```
+
+## 22. Bootstrap 徽章(Badges)
+徽章和标签相似，主要区别是徽章的边角更加圆滑。徽章常被用于突出显示新的或未读的项
+
+##### 代码：
+```html
+<div class="container">
+    <h2>徽章</h2>
+    <p>
+        <a href="#">收件箱<span class="badge">3</span></a>
+    </p>
+</div>
+```
+
+### 22.1 激活导航状态
+可以将徽章放置在导航表中
+
+##### 代码：
+```html
+<ul class="nav nav-pills">
+    <li class="active"><a href="#">好友数目<span class="badge">3</span></a></li>
+    <li><a href="#">请求加您为好友<span class="badge">10</span></a></li>
+</ul>
+```
 
 
 

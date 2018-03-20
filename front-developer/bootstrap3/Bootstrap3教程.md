@@ -1,7 +1,7 @@
-# 一、Bootstrap3教程
+# 一、Bootstrap3基础教程
 ```
 @author 鲁伟林
-Bootstrap3是目前最受欢迎的前端框架，非常重要。
+Bootstrap3是目前最受欢迎的前端框架，非常重要。本教材不包括: Bootstrap插件，有关插件知识，请看另一篇博客
 参考网址是：http://www.runoob.com/bootstrap/bootstrap-tutorial.html
 gitHub地址: https://github.com/thinkingfioa/Notes/tree/master/front-developer/bootstrap3/
 ```
@@ -1570,15 +1570,298 @@ Bootstrap使用缩略图可为大多数站点中布局图像、视频、文本�
 ```
 
 ## 26. Bootstrap 警告(alerts)
+警告向用户提供了一种定义消息样式的方式。
 
+- 1.alert alert-success - 告警成功提示
+- 2.alert alert-info - 告警信息提示
+- 3.alert alert-warning - 警告提示
+- 4.alert alert-danger - 危险提示
 
+##### 代码:
+```html
+<div class="alert alert-success">成功！很好地完成了提交</div>
+<div class="alert alert-info">信息！请注意这个信息</div>
+<div class="alert alert-warning">警告！请不要提交</div>
+<div class="alert alert-danger">错误！请进行一些更改</div>
+```
 
+### 26.1 可取消的警告(alert-dismissable)
+创建一个可取消的警告步骤:
 
+- 1.创建一个\<div\>，并向其添加一个class .alert和class .alter-success
+- 2.向上面的\<div\>添加可选.alert-dismissable
+- 3.添加一个关闭按钮
 
+##### 代码:
+```html
+<div class="alert alert-success alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+        &times;
+    </button>
+    成功！很好地完成了提交
+</div>
+```
 
+### 26.2 警告(alert)中的链接
+在警告中创建链接的步骤：
 
+- 1.创建一个\<div\>，并向其添加class .alert和class .alert-success
+- 2.使用class .alert-link来提供带有匹配颜色的链接
 
+##### 代码:
+```html
+ <div class="alert alert-info">
+    <a href="#" class="alert-link">
+        信息！请注意这个信息
+    </a>
+</div>
+```
 
+## 27. Bootstrap 进度条
+使用Bootstrap创建加载、重定向或动作状态的进步条
+
+### 27.1 默认的进度条
+创建一个基本的进度条的步骤:
+
+- 1.添加一个带有class .progress的\<div\>
+- 2.添加一个带有class .progress-bar的空的\<div\>
+- 3.添加带有百分比的宽度的style属性，如style="width:60%"
+
+##### 代码:
+```html
+<div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="40"
+         aria-valuemin="0" aria-valuemax="100" style="width:40%">
+         <span class="sr-only">40%完成</span>
+    </div>
+</div>
+```
+
+### 27.2 交替进度条
+使用class .progress-bar-*属性来设置进度条的颜色
+
+- 1.progress-bar-success - 成功颜色
+- 2.progress-bar-info - 信息颜色
+- 3.progress-bar-warning - 警告颜色
+- 4.progress-bar-danger - 危险颜色
+
+##### 代码:
+```html
+<div class="progress">
+    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40"
+         aria-valuemin="0" aria-valuemax="100" style="width:40%">
+         <span class="sr-only">40%完成</span>
+    </div>
+</div>
+```
+
+### 27.3 条纹的进度条(progress-striped)
+使用属性class .progress-striped来创建进度条
+
+##### 代码:
+```html
+<div class="progress progress-striped">
+    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40"
+         aria-valuemin="0" aria-valuemax="100" style="width:40%">
+         <span class="sr-only">40%完成</span>
+    </div>
+</div>
+```
+
+### 27.4 动画的进度条(active)
+在一个带有class .progress和class .progress-striped的\<div\>中。同时添加class .active属性，如:\<div class="progress progress-striped active"\>
+
+### 27.5 堆叠进度条
+将多个进度条放在相同的.progress中即可实现堆叠
+
+##### 代码：
+```html
+<div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-info" role="progressbar"
+         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+         style="width:40%">
+        <span class="sr-only">40% 完成</span>
+    </div>
+    <div class="progress-bar progress-bar-success" role="progressbar"
+         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+         style="width:30%">
+        <span class="sr-only">40% 完成</span>
+    </div>
+    <div class="progress-bar progress-bar-danger" role="progressbar"
+         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+         style="width:20%">
+        <span class="sr-only">40% 完成</span>
+    </div>
+</div>
+```
+
+## 28. Bootstrap 多媒体对象(media)
+使用class .media来设计轻量级的媒体，有下列两个标签:
+
+- 1.media：该class允许多媒体(图像、视屏、音频)浮动到内容区块的左边(meida-left)或右边(media-right)
+
+##### 代码:
+```html
+<div class="media">
+    <a class="media-left" href="#">
+        <img class="media-object" src="http://avatar.csdn.net/F/7/8/3_thinking_fioa.jpg"
+             alt="媒体对象">
+    </a>
+    <div class="media-body">
+        <h4 class="media-heading">媒体标题</h4>
+        <span>
+            示例文本
+        </span>
+    </div>
+</div>
+```
+
+## 29. Bootstrap 列表组(list-group)
+列表组件用于以列表形式呈现复杂和自定义的内容。基本的列表组的步骤如下:
+
+- 1.向元素\<ul\>添加class .list-group
+- 2.向\<li\>添加class .list-group-item
+
+##### 代码:
+```html
+<ul class="list-group col-md-3">
+    <li class="list-group-item">thinking_fioa</li>
+    <li class="list-group-item">ppp</li>
+    <li class="list-group-item">luweilin</li>
+</ul>
+```
+
+### 29.1 向列表组添加徽章(badge)
+向\<li\>元素中添加\<span class="badge"\>即可添加徽章。会自动定位到右边
+
+##### 代码:
+```html
+<ul class="list-group col-md-3">
+    <li class="list-group-item">
+        <span class="badge">新</span>
+            thinking_fioa</li>
+    <li class="list-group-item">ppp</li>
+    <li class="list-group-item">luweilin</li>
+</ul>
+```
+
+### 29.2 向列表组添加链接
+使用\<a\>来添加链接
+
+##### 代码:
+```html
+<div class="col-sm-3">
+    <a href="#" class="list-group-item active">
+        thinking_fioa
+        <span class="badge">帅哥</span>
+    </a>
+    <a href="#" class="list-group-item">ppp</a>
+    <a href="#" class="list-group-item">luweilin</a>
+</div>
+```
+
+## 30. Bootstrap 面板(panel)
+面板控件用于把DOM组件插入到一个盒子中。需要使用class .panel和class .panel-default
+
+##### 代码:
+```html
+<div class="panel panel-default">
+    <div class="panel-body">
+        这是一个基本的面板
+    </div>
+</div>
+```
+
+### 30.1 面板标题(panel-title)
+可以使用两种方式来添加面板标题:
+
+- 1.panel-heading - 向面板添加标题容器
+- 2.使用.panel-title的\<h1\>和\<h6\>添加预定义样式的标题
+
+##### 代码:
+```html
+<div class="panel panel-default">
+    <div class="panel-heading">
+        不带title的面板标题
+    </div>
+    <div class="panel-body">
+        面板内容
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            带有title的面板标题
+        </h3>
+    </div>
+    <div class="panel-body">
+        面板内容
+    </div>
+</div>
+```
+
+### 30.2 面板脚注(panel-footer)
+使用属性class .panel-footer来添加面板脚注
+
+##### 代码:
+```html
+<div class="panel-footer">面板脚注</div>
+```
+
+### 30.3 带语境色彩的面板
+设置语境色彩的面板有: panel-primary、panel-success、panel-info、panel-warning和panel-danger
+
+### 30.4 带表格的面板
+在面板中使用class .table来创建一个无边框的表格
+
+##### 代码:
+```html
+<div class="panel panel-default col-md-6">
+    <div class="panel-heading">
+        <h3 class="panel-title">面板标题</h3>
+    </div>
+    <div class="panel-body">
+        这是一个基本面板
+    </div>
+    <table class="table">
+        <tr>
+            <th>姓名</th><th>年龄</th>
+        </tr>
+        <tr>
+            <td>luweilin</td><td>24</td>
+        </tr>
+        <tr>
+            <td>ppp</td><td>25</td>
+        </tr>
+    </table>
+</div>
+```
+
+### 30.5 带列表组的面板
+##### 代码:
+```html
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">面板标题</h3>
+    </div>
+    <div class="panel-body">
+        一个基本面板内容
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">thinking_fioa</li>
+        <li class="list-group-item">luweilin</li>
+        <li class="list-group-item">ppp</li>
+    </ul>
+</div>
+```
+
+## 31. Bootstrap Well
+Well会让背景色片灰白，看起来达到凹陷的效果。使用class .well属性即可
+
+### 31.1 尺寸大小(well-lg、well-sm)
+
+- 1.well-lg:尺寸大
+- 2.well-sm:尺寸小
 
 
 

@@ -7,7 +7,13 @@ gitHub地址: https://github.com/thinkingfioa/Notes/tree/master/front-developer/
 ```
 ---
 
+## 特别说明
+Bootstrap3中一个标签往往同时有col-xs、col-sm、col-md、col-lg。如何理解，看下解释:
 
+- 1.col-xs- 超小屏幕 手机(<768px)
+- 2.col-sm- 小屏幕 平板(>=768px)
+- 3.col-md- 中等屏幕 桌面显示器(>=992px)
+- 4.col-lg- 大屏幕 大桌面显示器(>=1200px)
 
 ## 1. Bootstrap简介
 Bootstrap是一个快速开发Web应用程序和网站的前端框架。Bootstrap的学习需要先初步了解Html、Css、Javascript基础知识。
@@ -89,6 +95,14 @@ Bootstrap提供一套响应式、移动设备优先的流式网格系统，随�
 - 4.预定义的网格类，比如.row和.col-xs-4，可用于快速创建网格布局。LESS混合类可用于更多的语义布局
 - 5.列通过内边距(padding)来创建内容间的间隙
 - 6.网格系统是通过指定想要横跨的十二个可用的列来创建的。例如：要创建三个相等的列，则使用三个.col-xs-4
+
+##### 特别说明:
+Bootstrap3中一个标签往往同时有col-xs、col-sm、col-md、col-lg。如何理解，看下解释:
+
+- 1.col-xs- 超小屏幕 手机(<768px)
+- 2.col-sm- 小屏幕 平板(>=768px)
+- 3.col-md- 中等屏幕 桌面显示器(>=992px)
+- 4.col-lg- 大屏幕 大桌面显示器(>=1200px)
 
 ## 5. Bootstrap 排版
 使用Bootstrap的排版特性，可以创建标题、段落、列表及其他内联元素
@@ -1452,6 +1466,110 @@ Bootstrap提供多个处理分页的class
 </ul>
 ```
 
+## 23. Bootstrap 超大屏幕(jumbotron)
+超大屏幕可以增加标题的大小，并为登陆页面内容添加更多的外边距。使用步骤如下:
+
+- 1.创建一个带有class .jumbotron的容器\<div\>
+- 2.除了更大的\<h1\>，字体粗细font-weight被减为200
+
+##### 代码:
+```html
+<div class="container">
+    <div class="jumbotron">
+        <h1>欢迎登陆页面</h1>
+        <p>这是一个超大屏幕(jumbotron)的实例</p>
+        <p><a class="btn btn-info btn-lg" role="button">学习更多</a></p>
+    </div>
+</div>
+```
+
+### 23.1 非圆角页面
+为了占用全部宽度且不带圆角的超大屏幕，请在class .container外使用class .jumbotron
+
+##### 代码:
+```html
+<div class="jumbotron">
+    <div class="container">
+        <h1>欢迎登陆页面</h1>
+        <p>这是一个超大屏幕(jumbotron)的实例</p>
+        <p><a class="btn btn-info btn-lg" role="button">学习更多</a></p>
+    </div>
+</div>
+```
+
+## 24. Bootstrap 页面标题(page-header)
+当一个网页中有多个标题且每个标题之间需要添加一定的间距时，页面标题这个功能就特别有用。
+
+##### 代码：
+```html
+<div class="page-header">
+    <h1>
+        页面标题实例
+        <small>子标题</small>
+    </h1>
+</div>
+<p>内容部分</p>
+```
+
+## 25. Bootstrap 缩略图(thumbnail)
+Bootstrap使用缩略图可为大多数站点中布局图像、视频、文本等。具体步骤如下:
+
+- 1.在图像周围添加带有class .thumbnail的\<a\>标签
+- 2.这会添加四个像素的内边距(padding)和一个灰色按钮
+- 3.当鼠标悬停在图像上，会动画的显示出图像的轮廓
+
+##### 代码:
+```html
+<div class="row">
+    <div class="col-sm-6 col-md-3">
+        <a href="#" class="thumbnail">
+            <img src="http://www.runoob.com/wp-content/uploads/2014/06/kittens.jpg" alt="占位符缩略图">
+        </a>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <a href="#" class="thumbnail">
+            <img src="http://www.runoob.com/wp-content/uploads/2014/06/kittens.jpg" alt="占位符缩略图">
+        </a>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <a href="#" class="thumbnail">
+            <img src="http://www.runoob.com/wp-content/uploads/2014/06/kittens.jpg" alt="占位符缩略图">
+        </a>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <a href="#" class="thumbnail">
+            <img src="http://www.runoob.com/wp-content/uploads/2014/06/kittens.jpg" alt="占位符缩略图">
+        </a>
+    </div>
+</div>
+```
+
+### 25.1 添加自定义内容
+可以向缩略图中添加各种HTML内容，比如标题、段落和按钮。具体步骤如下:
+
+- 1.添加class .thumbnail的\<div\>
+- 2.在\<div\>内，添加任何想要添加的东西
+
+##### 代码:
+```html
+<div class="row">
+    <div class="col-sm-6 col-md-3">
+        <div class="thumbnail">
+            <img src="http://www.runoob.com/wp-content/uploads/2014/06/kittens.jpg">
+            <div class="caption">
+                <h3>缩略图标签</h3>
+                <p>一些文本</p>
+                <p>
+                    <a href="#" class="btn btn-primary" role="button">按钮</a>
+                    <a href="#" class="btn btn-default" role="button">按钮</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+## 26. Bootstrap 警告(alerts)
 
 
 

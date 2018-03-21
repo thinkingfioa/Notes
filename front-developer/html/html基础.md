@@ -465,6 +465,19 @@ HTML中使用\<table>标签定义表格，数据单元可以包含文本、图�
 </body>
 ```
 
+### 13.3 HTML自定义列表
+自定义列表以\<dl\>为标签开始。每个自定义列表项以\<dt\>开始。每个自定义列表项的定义以\<dd\>开始
+
+##### 代码:
+```html
+<dl>
+	<dt>Coffee</dt>
+	<dd>black and drink</dd>
+	<dt>Milk</dt>
+	<dd>white cold drink</dd>
+</dl>
+```
+
 ## 14 HTML区块
 HTML可以通过\<div>和\<span>将元素组合起来
 

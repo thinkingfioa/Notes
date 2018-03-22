@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap插件学习</title>
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./jquery/jquery-3.2.1.min.js"></script>
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#home" data-toggle="tab">Apple公司</a>
+        </li>
+        <li>
+            <a href="#iPad" data-toggle="tab">iPad</a>
+        </li>
+        <li class="dropdown">
+            <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown">
+                iPhone
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+                <li><a href="#iPhone6" tabindex="-1" data-toggle="tab">iPhone6</a></li>
+                <li><a href="#iPhone6s" tabindex="-1" data-toggle="tab">iPhone6s</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="home">
+            <p>Apple公司</p>
+        </div>
+        <div class="tab-pane fade" id="iPad">
+            <p>iPad产品</p>
+        </div>
+        <div class="tab-pane fade" id="iPhone6">
+            <p>iPhone6手机</p>
+        </div>
+        <div class="tab-pane fade" id="iPhone6s">
+            <p>iPhone6s手机</p>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('#myTab li:eq(1) a').tab('show');
+        })
+    </script>
+</body>
+</html>

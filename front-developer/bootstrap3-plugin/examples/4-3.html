@@ -22,7 +22,7 @@
             </div>
             <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
                 <ul class="nav navbar-nav">
-                    <li><a href="#ios">iOS</a></li>
+                    <li class="active"><a href="#ios">iOS</a></li>
                     <li><a href="#svn">SVN</a></li>
                     <li class="dropdown">
                        <a href="#" id="navbarDrop1" class="dropdown-toggle" data-toggle="dropdown">
@@ -42,16 +42,42 @@
     </nav>
     <div data-spy="scroll" data-target="#navbar-example" data-offset="0"
          style="height:200px;overflow:auto;position: relative">
-        <h4 id="ios">iOS</h4>
-        <p>iOS是一个操作系统</p>
-        <h4 id="svn">SVN</h4>
-        <p>SVN是一个版本控制系统软件</p>
-        <h4 id="jmeter">jMeter</h4>
-        <p>jMeter测试软件</p>
-        <h4 id="ejb">EJB</h4>
-        <p>EJB部署应用程序服务器</p>
-        <h4 id="spring">Spring</h4>
-        <p>Spring开源Java框架</p>
+        <div class="section">
+            <h4 id="ios">iOS<small><a href="#" onclick="removeSection(this);">&times;删除该部分</a></small></h4>
+            <p>iOS是一个操作系统</p>
+        </div>
+        <div class="section">
+            <h4 id="svn">SVN</h4>
+            <p>SVN是一个版本控制系统软件</p>
+        </div>
+        <div class="section">
+            <h4 id="jmeter">jMeter<small><a href="#" onclick="removeSection(this);">&times;删除该部分</a></small></h4>
+            <p>jMeter测试软件</p>
+        </div>
+        <div class="section">
+            <h4 id="ejb">EJB</h4>
+            <p>EJB部署应用程序服务器</p>
+        </div>
+        <div class="section">
+            <h4 id="spring">Spring</h4>
+            <p>Spring开源Java框架</p>
+        </div>
     </div>
+    <span id="activeitem" style="color:red"></span>
+    <script>
+        $(function() {
+            removeSection = function(e){
+                $(e).parents(".section").remove();
+                $('[data-spy="scroll"]').each(function(){
+                   var $spy=$(this).scrollspy('refres')
+                });
+            }
+            $('#navbar-example').scrollspy();
+            $('#navbar-example').on('activate.bs.scrollspy', function(){
+                var currentItem=$(".nav li.active >a").text();
+                $('#activeitem').html('目前正在查看 - '+currentItem);
+            })
+        });
+    </script>
 </body>
 </html>

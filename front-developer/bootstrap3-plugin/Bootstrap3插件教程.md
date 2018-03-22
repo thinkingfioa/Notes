@@ -150,27 +150,369 @@ Bootstrap3基础教程中讲解了下拉菜单，但没有涉及交互。接下�
 
 - 1.通过data属性：向想要监听的元素(通常是body)添加data-spy="scroll"
 - 2.通过JavaScript：通过JavaScript调用滚动监听。先选取要监听的元素，然后调用.scrollspy()函数
+- 3.class .data-offset：计算滚动位置时，距离顶部的偏移像素
 
 ##### 代码:
 ```html
-
+<nav id="navbar-example" class="navbar navbar-default navbar-static" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse"
+                    data-target=".bs-js-navbar-scrollspy">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">教程名称</a>
+        </div>
+        <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
+            <ul class="nav navbar-nav">
+                <li><a href="#ios">iOS</a></li>
+                <li><a href="#svn">SVN</a></li>
+                <li class="dropdown">
+                   <a href="#" id="navbarDrop1" class="dropdown-toggle" data-toggle="dropdown">
+                       <span>Java</span>
+                       <b class="caret"></b>
+                   </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDrop1">
+                        <li><a href="#jmeter" tabindex="-1">jmeter</a> </li>
+                        <li><a href="#ejb" tabindex="-1">ejb</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#spring" tabindex="-1">spring</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div data-spy="scroll" data-target="#navbar-example" data-offset="0"
+     style="height:200px;overflow:auto;position: relative">
+    <h4 id="ios">iOS</h4>
+    <p>iOS是一个操作系统</p>
+    <h4 id="svn">SVN</h4>
+    <p>SVN是一个版本控制系统软件</p>
+    <h4 id="jmeter">jMeter</h4>
+    <p>jMeter测试软件</p>
+    <h4 id="ejb">EJB</h4>
+    <p>EJB部署应用程序服务器</p>
+    <h4 id="spring">Spring</h4>
+    <p>Spring开源Java框架</p>
+</div>
 ```
 
+### 4.2 方法(scrollspy('refresh')
+当DOM中元素发生变更时(添加或删除)，需要调用scrollspy来更新DOM。如:.scrollspy('refresh')
 
+##### 代码:
+```html
+<nav id="navbar-example" class="navbar navbar-default navbar-static" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse"
+                    data-target=".bs-js-navbar-scrollspy">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">教程名称</a>
+        </div>
+        <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#ios">iOS</a></li>
+                <li><a href="#svn">SVN</a></li>
+                <li class="dropdown">
+                   <a href="#" id="navbarDrop1" class="dropdown-toggle" data-toggle="dropdown">
+                       <span>Java</span>
+                       <b class="caret"></b>
+                   </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDrop1">
+                        <li><a href="#jmeter" tabindex="-1">jmeter</a> </li>
+                        <li><a href="#ejb" tabindex="-1">ejb</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#spring" tabindex="-1">spring</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div data-spy="scroll" data-target="#navbar-example" data-offset="0"
+     style="height:200px;overflow:auto;position: relative">
+    <div class="section">
+        <h4 id="ios">iOS<small><a href="#" onclick="removeSection(this);">&times;删除该部分</a></small></h4>
+        <p>iOS是一个操作系统</p>
+    </div>
+    <div class="section">
+        <h4 id="svn">SVN</h4>
+        <p>SVN是一个版本控制系统软件</p>
+    </div>
+    <div class="section">
+        <h4 id="jmeter"><small><a href="#" onclick="removeSection(this);">&times;删除该部分</a></small>jMeter</h4>
+        <p>jMeter测试软件</p>
+    </div>
+    <div class="section">
+        <h4 id="ejb">EJB</h4>
+        <p>EJB部署应用程序服务器</p>
+    </div>
+    <div class="section">
+        <h4 id="spring">Spring</h4>
+        <p>Spring开源Java框架</p>
+    </div>
+</div>
+<script>
+    $(function() {
+        removeSection = function(e){
+            $(e).parents(".section").remove();
+            $('[data-spy="scroll"]').each(function(){
+               var $spy=$(this).scrollspy('refres')
+            });
+        }
+        $('#navbar-example').scrollspy();
+    });
+</script>
+```
 
+### 4.3 事件
+列出滚动监听中要用到的事件。可以用作钩子使用。
 
+- 1.activate.bs.scrollspy - 当一个项目被滚动监听激活后，触发该事件
 
+##### 代码:
+```html
+<script>
+    $(function() {
+        removeSection = function(e){
+            $(e).parents(".section").remove();
+            $('[data-spy="scroll"]').each(function(){
+               var $spy=$(this).scrollspy('refres')
+            });
+        }
+        $('#navbar-example').scrollspy();
+        $('#navbar-example').on('activate.bs.scrollspy', function(){
+            var currentItem=$(".nav li.active >a").text();
+            $('#activeitem').html('目前正在查看 - '+currentItem);
+        })
+    });
+</script>
+```
 
+### 4.4 创建水平滚动监听
+##### 代码:
+```html
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">WebSiteName</a>
+        </div>
+        <div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="#section1">Section 1</a></li>
+                    <li><a href="#section2">Section 2</a></li>
+                    <li><a href="#section3">Section 3</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#section41">Section 4-1</a></li>
+                            <li><a href="#section42">Section 4-2</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
 
+<div id="section1" class="container-fluid">
+    <h1>Section 1</h1>
+    <p>Try to scroll this section</p>
+</div>
+<div id="section2" class="container-fluid">
+    <h1>Section 2</h1>
+    <p>Try to scroll this section</p>
+</div>
+<div id="section3" class="container-fluid">
+    <h1>Section 3</h1>
+    <p>Try to scroll this section</p>
+</div>
+<div id="section41" class="container-fluid">
+    <h1>Section 4 Submenu 1</h1>
+    <p>Try to scroll this section</p>
+</div>
+<div id="section42" class="container-fluid">
+    <h1>Section 4 Submenu 2</h1>
+    <p>Try to scroll this section</p>
+</div>
+```
 
+### 4.5 创建垂直滚动监听
+##### 代码:
+```html
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
 
+<div class="container">
+    <div class="row">
+        <nav class="col-sm-3" id="myScrollspy">
+            <div class="container-fluid">
+                <div class="container-fluid">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="#section1">Section 1</a></li>
+                        <li><a href="#section2">Section 2</a></li>
+                        <li><a href="#section3">Section 3</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#section41">Section 4-1</a></li>
+                                <li><a href="#section42">Section 4-2</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="col-sm-9">
+            <div id="section1">
+                <h1>Section 1</h1>
+                <p>Try to scroll this section</p>
+            </div>
+            <div id="section2">
+                <h1>Section 2</h1>
+                <p>Try to scroll this section</p>
+            </div>
+            <div id="section3">
+                <h1>Section 3</h1>
+                <p>Try to scroll this section/p>
+            </div>
+            <div id="section41">
+                <h1>Section 4-1</h1>
+                <p>Try to scroll this section</p>
+            </div>
+            <div id="section42">
+                <h1>Section 4-2</h1>
+                <p>Try to scroll this section/p>
+            </div>
+        </div>
+    </div>
+</div>
+```
 
+## 5. Bootstrap 标签页(Tab)插件
+使用插件可以把内容放置在标签页或者胶囊式标签页甚至是下拉菜单标签页中
 
+### 5.1 用法
+通过以下两个方式启动标签页:
 
+- 1.通过data属性：添加data-toggle="tab"或data-toggle="pill"到链接文本中
+- 2.通过JavaScript：如:\$(this).tab('show');
 
+### 5.2 淡入淡出效果(tab-pane fade)
+添加.fade到每个.tab-pane中。第一个必须添加.in类
 
+##### 代码:
+```html
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active">
+        <a href="#home" data-toggle="tab">Apple公司</a>
+    </li>
+    <li>
+        <a href="#iPad" data-toggle="tab">iPad</a>
+    </li>
+    <li class="dropdown">
+        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown">
+            iPhone
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+            <li><a href="#iPhone6" tabindex="-1" data-toggle="tab">iPhone6</a></li>
+            <li><a href="#iPhone6s" tabindex="-1" data-toggle="tab">iPhone6s</a></li>
+        </ul>
+    </li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade in active" id="home">
+        <p>Apple公司</p>
+    </div>
+    <div class="tab-pane fade" id="iPad">
+        <p>iPad产品</p>
+    </div>
+    <div class="tab-pane fade" id="iPhone6">
+        <p>iPhone6手机</p>
+    </div>
+    <div class="tab-pane fade" id="iPhone6s">
+        <p>iPhone6s手机</p>
+    </div>
+</div>
+```
 
+### 5.3 方法
+.\$().tab方法可以激活标签页元素和内容容器
 
+##### 代码:
+```html
+<script>
+    $(function () {
+        $('#myTab li:eq(1) a').tab('show');
+    })
+</script>
+```
+
+### 5.4 事件
+标签页提供多个事件，如下：
+
+- 1.show.bs.tab - 标签页被显示前触发。使用event.target和event.relatedTarget来定位到激活的标签页和前一页
+- 2.shown.bs.tab -  标签页显示后触发。。使用event.target和event.relatedTarget来定位到激活的标签页和前一页
+
+##### 代码:
+```html
+<script>
+    $(function(){
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            // 获取已激活的标签页的名称
+            var activeTab = $(e.target).text();
+            // 获取前一个激活的标签页的名称
+            var previousTab = $(e.relatedTarget).text();
+            $(".active-tab span").html(activeTab);
+            $(".previous-tab span").html(previousTab);
+        });
+    });
+</script>
+```
+
+## 6. Bootstrap提示工具(tooltip)插件
+提示工具用于提醒页面访问者
+
+### 6.1 用法
+默认情况下把提示工具(tooltip)放到触发元素后面。有以下两个方式添加提示工具:
+
+- 1.通过data属性：向锚标签添加data-toggle="tooltip"。锚的title即为提示工具的文本。默认设置在顶部
+- 2.通过JavaScript：如:\$('#identifier').tooltip(options)
+
+### 6.2 选项
+提供工具提供多个属性，帮助用户开发:
+
+- 1.data-placement：指定提示位置，如palcement="left"。如果是"auto left"，则尽可能显示在左边，如果左边不允许，才显示在右边
+- 2.title：提示工具的文本
+
+##### 代码:
+```html
+<div class="myTooltip">
+    <a href="#" data-toggle="tooltip" data-placement="auto top" title="是一个帅哥">thinking_fioa</a>
+    <br>
+    <a href="#" data-toggle="tooltip" data-placement="auto left" title="是一个美女">ppp</a>
+</div>
+
+<script>
+    $(function () {
+        $("[data-toggle='tooltip']").tooltip();
+    });
+</script>
+```
 
 
 

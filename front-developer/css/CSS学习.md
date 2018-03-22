@@ -608,18 +608,34 @@ display元素设置一个元素应如何显示，visibility属性指定一个元
 ```
 
 ## 18. CSS Positioning(定位)
-position属性指定了元素的定位类型，position属性的四个值:
+position属性指定了元素的定位类型。position属性的四个值。static和relative在文档流中，与fixed和absolute相反。
 
-- 1.static - HTML元素的默认值，即没有定位，元素出现在正常的流中
-- 2.relative - 相对定位元素的定位是相对其正常位置
-- 3.fixed - 元素的位置相对于浏览器窗口是固定位置
-- 4.absolute - 绝对定位的元素的位置相对于最近的已定位父元素
+- 1.static  
+- 2.relative
+- 3.fixed
+- 4.absolute
 
 ### 18.1 static 定位
-HTML元素的默认值，即没有定位，元素出现在正常的流中。静态定位的元素不会受到top、bottom、left和right影响
+- 1.static是position的缺省值，一般不设置position属性时，默认是static。
+- 2.静态定位元素(static)不会受到top，bottom，left，right影响
 
-### 18.2 fixed 定位
-元素的位置相对于浏览器窗口时固定位置
+### 18.2 relative
+- 1.相对本身位置的偏移(static定位下的元素位置为本身位置)。
+- 2.受到top、bottom、left、right影响
+- 3.且不会影响后面其他元素的位置。
+- 4.原本空间不会改变(static和relative在文档流中，与fixed和absolute相反)
+
+##### 代码:
+```html
+.relative_pos{
+	position: relative;
+	left:-20px;
+}
+```
+
+
+### 18.3 fixed 定位
+fixed是特殊的absolute，即fixed总是以浏览器的可视窗口(屏幕内网页窗口)进行定位。不占据空间
 ##### 代码:
 ```html
 <head>
@@ -638,18 +654,12 @@ HTML元素的默认值，即没有定位，元素出现在正常的流中。静�
 </body>
 ```
 
-### 18.3 relative定位
-相对定位元素的定位是相对其正常的位置。注意：移动相对定位元素的内容和元素，原本占的空间不会改变
-##### 代码:
-```html
-.relative_pos{
-	position: relative;
-	left:-20px;
-}
-```
-
 ### 18.4 absolute 定位
-绝对定位的元素位置相对于最近的已定位父元素。如果没有已定位的父元素，则相对于\<html>元素
+当一个元素A设置了position:absolute后，分为两种情况:
+
+- 1.当元素A的父对象设置了position属性，且position的属性值为absolute或relative或fixed，也就是说不是默认的，则元素A按照父对象来定位。如果父对象设置了margin、border、padding等属性，则元素A将会从padding开始的地方进行定位
+- 2.如果元素A没有一个position属性的父对象，则以body为定位对象
+
 ##### 代码:
 ```html
 h2{	

@@ -488,7 +488,7 @@ Bootstrap3基础教程中讲解了下拉菜单，但没有涉及交互。接下�
 提示工具用于提醒页面访问者
 
 ### 6.1 用法
-默认情况下把提示工具(tooltip)放到触发元素后面。有以下两个方式添加提示工具:
+默认情况下把提示工具(tooltip)放到触发元素后面。 使用前，必须激活提示工具，激活代码:\$(function () { \$('.tooltip-show').tooltip('show');});。有以下两个方式添加提示工具:
 
 - 1.通过data属性：向锚标签添加data-toggle="tooltip"。锚的title即为提示工具的文本。默认设置在顶部
 - 2.通过JavaScript：如:\$('#identifier').tooltip(options)
@@ -514,9 +514,41 @@ Bootstrap3基础教程中讲解了下拉菜单，但没有涉及交互。接下�
 </script>
 ```
 
+### 6.3 方法
+提示工具(Tooltip)插件中有用的方法:
 
+- 1.tooltip(options) - 向元素集合附加提示工具句柄
+- 2.tooltip('toggle') - 切换显示／隐藏元素的提示工具
+- 3.tooltip('show') - 显示元素的提示工具
+- 4.tooltip('hide') - 隐藏元素的提示工具
+- 5.tooltip('destroy') - 隐藏并销毁元素的提示工具
 
+##### 代码:
+```html
+$(function () { $('.tooltip-show').tooltip('show');});
+```
 
+### 6.4 事件
+提示工具插件要用到的事件，如下:
+
+- 1.show.bs.tooltip - 调用show实例方法，立即触发该事件
+- 2.shown.bs.tooltip - 显示完成后，触发该事件
+- 3.hide.bs.tooltip - 调用hide实例方法，理解触发该事件
+- 4.hidden.bs.tooltip - 隐藏完成后，触发该事件
+
+##### 代码:
+```html
+$(function () { 
+	$('.tooltip-show').tooltip('show');
+});
+$(function () { 
+	$('.tooltip-show').on('show.bs.tooltip', function () {
+		alert("Alert message on show");
+	})
+});
+```
+
+### 7. Bootstrap 弹出框
 
 
 

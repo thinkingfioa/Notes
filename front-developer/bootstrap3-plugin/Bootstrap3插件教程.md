@@ -533,7 +533,7 @@ $(function () { $('.tooltip-show').tooltip('show');});
 
 - 1.show.bs.tooltip - 调用show实例方法，立即触发该事件
 - 2.shown.bs.tooltip - 显示完成后，触发该事件
-- 3.hide.bs.tooltip - 调用hide实例方法，理解触发该事件
+- 3.hide.bs.tooltip - 调用hide实例方法，立即触发该事件
 - 4.hidden.bs.tooltip - 隐藏完成后，触发该事件
 
 ##### 代码:
@@ -548,7 +548,209 @@ $(function () {
 });
 ```
 
-### 7. Bootstrap 弹出框
+## 7. Bootstrap 弹出框(Popover)
+弹出框(Popover)与工具提示(Tooltip)类似，提供一个扩展的视图。鼠标悬停在元素上方，即可激活弹出框
+
+### 7.1 用法
+默认情况下把弹出框放到触发元素后面。使用时，需要jQuery代码激活，如:\$(function(){\$"[data-toggle='popover']").popover();});激活。
+
+- 1.通过data属性：向锚/按钮标签添加data-toggle="popover"。锚的title即为弹出框的文本。默认弹出框的位置是在顶部
+- 2.通过JavaScript：通过JavaScript启用弹出框，代码:\$('#identifier').popover(options)
+
+### 7.2 选项
+插件提供多个属性，帮助开发：
+
+- 1.data-placement - 规定定位弹出框，如data-placement="left"。如果是"auto left"，则尽可能显示在左边，如果左边不允许，才显示在右边
+- 2.title - 提示文的标题
+- 3.data-content - 提示文的内容
+
+##### 代码:
+```html
+<div class="container" style="padding: 100px 50px 10px;">
+    <button type="button" class="btn btn-default" title="左侧"
+            data-container="body" data-toggle="popover" data-placement="left"
+            data-content="左侧的Popover内容">
+        左侧的Popover
+    </button>
+</div>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+    })
+</script>
+```
+
+### 7.3 方法
+- 1.popover(options) - 向元素集合附加弹出框句柄
+- 2.popover('toggle') - 切换显示/隐藏元素的弹出框
+- 3.popover('show') - 显示元素弹出框
+- 4.popover('hide') - 隐藏元素的弹出框
+- 5.popover('destroy') - 隐藏并销毁元素的弹出框
+
+##### 代码:
+```html
+<div class="container" style="padding: 100px 50px 10px;">
+   <button type="button" class="btn btn-primary popover-show" title="顶部"
+            data-container="body" data-toggle="popover" data-placement="top"
+            data-content="顶部的popover内容">
+        顶部的Popover
+    </button>
+</div>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+    })
+    $(function () {
+        $('.popover-show').popover('show');
+    })
+</script>
+```
+
+### 7.4 事件
+弹出框(popover)插件中要用到的事件，如:
+
+- 1.show.bs.popover - 调用show实例方法，立即触发该事件
+- 2.shown.bs.popover - 显示完成后，触发该事件
+- 3.hide.bs.popover - 调用hide实例方法，立即触发该事件
+- 4.hidden.bs.popover - 隐藏完成后，触发该事件
+
+##### 代码:
+```html
+<script>
+$(function () { $('.popover-show').popover('show');});
+$(function () { $('.popover-show').on('shown.bs.popover', function () {
+    alert("当显示时警告消息");
+})
+});
+</script>
+```
+
+## 8. Bootstrap 警告框(Alert)
+警告框消息大多是用来向终端用户显示诸如警告或确认消息的信息，可以向警告框消息添加可取消(dismiss)功能
+
+### 8.1 用法
+以下两种方式启用警告框的可取消(dismiss)功能
+
+- 1.通过data属性：向关闭按钮添加data-dismiss="alert"，就会为警告框添加关闭功能呢
+- 2.通过JavaScript：通过JavaScript添加可取消功能，如：\$(".alert").alert()
+
+##### 代码:
+```html
+<div class="alert alert-warning">
+    <a href="#" data-dismiss="alert" class="close">
+        &times;
+    </a>
+    <strong>警告!</strong> 网络连接有问题。
+</div>
+```
+
+### 8.2 方法
+警告框插件中的有用方法:
+
+- 1.alert() - 让所有的警告框都带上关闭功能
+- 2.alert('close') - 关闭所有警告框
+
+##### 代码:
+```html
+<div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>成功!</strong>执行成功
+</div>
+<div class="alert alert-warning">
+    <a href="#" class="close" data-dismiss="alert">&times</a>
+    <strong>警告!</strong>网络连接有问题
+</div>
+<script>
+    $(function(){
+        $(".close").click(function(){
+            $(".alert").alert("close");
+        })
+    })
+</script>
+```
+
+### 8.3 事件
+下列是警告框(alert)用到的事件：
+
+- 1.close.bs.alert - 调用close实例方法时立即执行
+- 2.closed.bs.alert - 当警告框关闭时触发该事件(等待CSS过渡效果完成)
+
+##### 代码:
+```html
+<script>
+    $(function(){
+        $(".alert").bind("close.bs.alert",function(){
+           alert("警告框关闭成功");
+        });
+    });
+</script>
+```
+
+## 9. Bootstrap 按钮(button)
+
+### 9.1 加载状态
+如需向按钮添加加载状态，向button元素添加data-loading-text="Loading..."作为其属性，且'Loading'为其加载中显示值
+
+##### 代码:
+```html
+<button class="btn btn-primary" data-loading-text="Loading..." type="button">
+    加载状态
+</button>
+<script>
+    $(function () {
+        $(".btn").click(function () {
+            $(this).button('loading').delay(1000).queue(function () {
+                $(this).button('reset');
+                $(this).dequeue();
+            })
+        })
+    })
+</script>
+```
+
+### 9.2 单个切换(data-toggle="button")
+如需激活当个按钮的切换(即改变按钮的正常状态为按压状态)，只需向button元素添加data-toggle="button"作为其属性
+
+##### 代码:
+```html
+<button type="button" class="btn btn-primary" data-toggle="button">
+    单个切换
+</button>
+```
+
+### 9.3 复选框(checkbox) - 切换
+创建复选框组，使用属性data-toggle="buttons"来添加复选框组的切换
+
+##### 代码:
+```html
+<div class="btn-group" data-toggle="buttons">
+    <label class="btn btn-primary">
+        <input type="checkbox">选项1
+    </label>
+    <label class="btn btn-default">
+        <input type="checkbox">选项2
+    </label>
+    <label class="btn btn-info">
+        <input type="checkbox">选项3
+    </label>
+</div>
+```
+
+### 9.4 单选按钮(radio)
+类似的，可以创建单选按钮组，使用属性data-toggle="buttons"来完成切换
+
+### 9.5 用法
+通过JavaScript启用按钮，如:\$('.btn').button();
+
+### 9.6 方法
+一些按钮(Button)插件方法:
+
+- 1.button('toggle') - 切换按压状态。可以使用data-toggle属性代替 
+- 2.button('loading') - 当加载时，按钮时禁用的。可以使用data-loading-text属性代替
+- 3.button('reset') - 重置按钮状态，内容恢复到最初的内容
+- 4.button('string') - 使用该方法，重置按钮状态，并添加新的内容。
+
+
 
 
 

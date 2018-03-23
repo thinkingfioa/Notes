@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap插件学习</title>
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./jquery/jquery-3.2.1.min.js"></script>
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>成功!</strong>执行成功
+    </div>
+    <div class="alert alert-warning">
+        <a href="#" class="close" data-dismiss="alert">&times</a>
+        <strong>警告!</strong>网络连接有问题
+    </div>
+    <script>
+        $(function(){
+            $(".close").click(function(){
+                $(".alert").alert("close");
+            })
+        })
+    </script>
+</body>
+</html>

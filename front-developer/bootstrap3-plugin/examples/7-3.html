@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap插件学习</title>
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./jquery/jquery-3.2.1.min.js"></script>
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container" style="padding: 100px 50px 10px;">
+        <button type="button" class="btn btn-default" title="左侧"
+                data-container="body" data-toggle="popover" data-placement="left"
+                data-content="左侧的Popover内容">
+            左侧的Popover
+        </button>
+        <button type="button" class="btn btn-primary popover-show" title="顶部"
+                data-container="body" data-toggle="popover" data-placement="top"
+                data-content="顶部的popover内容">
+            顶部的Popover
+        </button>
+    </div>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+        })
+        $(function () {
+            $('.popover-show').popover('show');
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap插件学习</title>
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./jquery/jquery-3.2.1.min.js"></script>
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <button class="btn btn-primary" data-loading-text="Loading..." type="button">
+        加载状态
+    </button>
+    <script>
+        $(function () {
+            $(".btn").click(function () {
+                $(this).button('loading').delay(1000).queue(function () {
+                    $(this).button('reset');
+                    $(this).dequeue();
+                })
+            })
+        })
+    </script>
+</body>
+</html>

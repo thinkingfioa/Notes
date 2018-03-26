@@ -750,6 +750,126 @@ $(function () { $('.popover-show').on('shown.bs.popover', function () {
 - 3.button('reset') - 重置按钮状态，内容恢复到最初的内容
 - 4.button('string') - 使用该方法，重置按钮状态，并添加新的内容。
 
+## 10. Bootstrap 折叠(Collapse)插件
+折叠插件可以很容易让页面区域折叠起来。可以使用折叠插件:
+
+- 1.创建可折叠的分组或折叠面板(accordion)
+- 2.创建不带accordion标记的简单的可折叠组件(collapsible)
+
+### 10.1 创建可折叠的分组或折叠面板(accoridion)
+
+- 1.data-toggle="collapse"添加到向要展开或折叠的组件的连接上
+- 2.href或data-target属性添加到父组件，它的值是子组件的id
+- 3.data-parent属性把折叠面板(accoridion)的id添加到要展开或折叠的组件的链接上
+
+##### 代码:
+```html
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                    展开／折叠  --- 第一部分
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+            <div class="panel-body">
+                Hello，thinking_fioa欢迎你
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                    展开／折叠   --- 第二部分
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+            <div class="panel-body">
+                Hello，luweilin；
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+### 10.2 创建不带accordion标记的简单的可折叠组件(collapible)
+使用data-toggle="collapse"来控制折叠组件
+
+##### 代码:
+```html
+<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">
+        控制折叠按钮
+</button>
+<div id="demo" class="collapse in">
+    Hello, thinking_fioa；
+</div>
+```
+
+### 10.3 用法
+下列列出了折叠(collapse)插件的class:
+
+- 1.collapse - 隐藏内容
+- 2.collapse in - 显示内容
+- 3.collapsing - 当过渡效果开始时被添加，当过渡效果完成时被移除
+
+### 10.4 选项
+有些选项通过data属性或JavaScript来传递,如下选项:
+
+- 1.data-parent - 当可折叠项目显示时，指定父元素下所有可折叠元素将被关闭
+- 2.data-toggle - 切换调用可折叠元素
+
+### 10.5 方法
+折叠(Collapse)插件中有用的方法:
+
+- 1.collapse(options) - 激活内容为可折叠元素。接受一个可选的options对象
+- 2.collapse('toggle') - 切换显示/隐藏可折叠元素
+- 3.collapse('show') - 显示可折叠元素
+- 4.collapse('hide') - 隐藏可折叠元素
+
+##### 代码:
+```html
+<script>
+    $(function () {
+        $("#collapseOne").collapse({
+            toggle:false
+        });
+    });
+    $(function () {
+        $('#collapseTwo').collapse('toggle');
+    });
+    $(function() {
+        $('#collapseThree').collapse('show');
+    });
+    $(function() {
+        $('#collapseFour').collapse('hide');
+    });
+</script>
+```
+
+### 10.6 事件
+折叠插件中要用到的事件，如:
+
+- 1.show.bs.collapse - 调用show方法后触发该事件
+- 2.shown.bs.collapse - 当折叠元素对用户可见时触发该事件
+- 3.hide.bs.collapse - 当调用hide实例方法立即触发该事件
+- 4.hidden.bs.collapse - 当折叠元素对用户隐藏触发该事件
+
+##### 代码:
+```html
+$(function () { 
+	$('#collapseexample').on('show.bs.collapse', function () {
+		alert('嘿，当您展开时会提示本警告');})
+});
+```
+
+## 11. 轮播
+Bootstrap轮播(Carousel)插件
+
+### 11.1 基本案例
 
 
 

@@ -1,4 +1,4 @@
-# Bootstrap3插件教程
+# Bootstrap3插件使用教程
 ```
 @author 鲁伟林
 本博客主要讲述Bootstrap插件使用
@@ -870,6 +870,119 @@ $(function () {
 Bootstrap轮播(Carousel)插件
 
 ### 11.1 基本案例
+添加属性class .carousel实现轮播
+
+##### 代码:
+```html
+<div id="myCarousel" class="carousel slide">
+    <!-- 轮播指标 -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <!-- 轮播项目 -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <img src="http://www.runoob.com/wp-content/uploads/2014/07/slide1.png" alt="First slide">
+        </div>
+        <div class="item">
+            <img src="http://www.runoob.com/wp-content/uploads/2014/07/slide2.png" alt="Second slide">
+        </div>
+        <div class="item">
+            <img src="http://www.runoob.com/wp-content/uploads/2014/07/slide3.png" alt="Third slide">
+        </div>
+    </div>
+    <!-- 轮播导航 -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="ture"></span>
+    </a>
+</div>
+```
+
+### 11.2 可选的标题
+向class .item内的添加.carousel-caption元素，表示为幻灯片标题
+
+##### 代码:
+```html
+<!-- 轮播项目 -->
+<div class="carousel-inner">
+    <div class="item active">
+        <img src="http://www.runoob.com/wp-content/uploads/2014/07/slide1.png" width="100%" alt="First slide">
+        <div class="carousel-caption">标题一</div>
+    </div>
+    <div class="item">
+        <img src="http://www.runoob.com/wp-content/uploads/2014/07/slide2.png" width="100%" alt="Second slide">
+        <div class="carousel-caption">标题二</div>
+    </div>
+    <div class="item">
+        <img src="http://www.runoob.com/wp-content/uploads/2014/07/slide3.png" width="100%" alt="Third slide">
+        <div class="carousel-caption">标题三</div>
+    </div>
+</div>
+```
+
+### 11.3 用法
+
+- 1.通过data属性:使用data属性可以容易控制轮播
+	- 1.1属性data-slide接收关键字prev或next，来改变幻灯片当前位置
+	- 1.2使用data-slide-to定义幻灯片的位置下笔哦啊
+	- 1.3data-ride="carousel"属性用于标记轮播在页面加载时就开始的动画播放
+- 2.通过JavaScript：轮播可通过JavaScript手动调用。如:\$('.carousel').carousel()
+
+### 11.4 选项
+通过data属性或JavaScript来传递选项，如下:
+
+- 1.data-interval - 自动循环每个项目之间延迟的时间量。如果为false，轮播将不会自动循环
+- 2.data-pause - 鼠标进入时暂停轮播循环，鼠标离开时回复轮播循环
+- 3.data-wrap - 轮播是否连续循环
+
+### 11.5 方法
+轮播(Carousel)插件中有用的方法:
+
+- 1.carousel(options) - 初始化轮播为可选的options对象，并开始循环项目
+- 2.carousel('cycle') - 从左到右循环轮播项目
+- 3.carousel('pause') - 暂停轮播循环项目
+- 4.carousel(number) - 循环轮播到某个特定的帧(从0开始计数)
+- 5.carousel('prev') - 循环轮播到上一个项目
+- 6.carousel('next') - 循环轮播到下一个项目
+
+##### 代码:
+```html
+<script>
+	$('.slide-one').click(function(){
+		$('#myCarousel').carousel('next');
+	});
+</script>
+```
+
+### 11.6 事件
+轮播(Carousel)插件中用到的事件，如:
+
+- 1.slide.bs.carousel - 当调用slide示例方法时立即触发该事件
+- 2.slid.bs.carousel - 当轮播完成幻灯片过渡效果时触发该事件
+
+##### 代码:
+```html
+$(function(){
+    $('#myCarousel').on('slide.bs.carousel', function () {
+        alert("当调用 slide 实例方法时立即触发该事件。");
+    });
+});
+```
+
+## 12. Bootstrap 附加导航(Affix)插件
+附加导航插件允许某个\<div\>固定在页面的某个位置。详细讲解等待补充，参考地址[附加导航](http://www.runoob.com/bootstrap/bootstrap-affix-plugin.html)
+
+
+
+
+
+
+
 
 
 

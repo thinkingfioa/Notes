@@ -5,8 +5,9 @@
 @author 鲁伟林
 在读电子版<<SQL必知必会>> 第4版时，做了下笔记。供以后自己或者其他学习者参考。
 电子版<<SQL必知必会>>和书中使用的数据库和表的源代码，
-请参看地址：https://github.com/thinkingfioa/Notes/tree/master/Reading%20Books/SQL
+请参看地址：https://github.com/thinkingfioa/Notes/tree/master/sql/SQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A4
 ```
+
 ### 第2课 检索数据
 
 ##### 2.3 检索多个列

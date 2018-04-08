@@ -8,4 +8,6 @@ gitHub地址: https://github.com/thinkingfioa/Notes/tree/master/front-developer/
 ```
 ---
 
-## 1.
+## 1.AngularJS简介
+- 1.AngularJS是一个JavaScript框架。
+- 2.AngularJS通过指令扩展了HTML，且通过表达式绑定数据到HTML

@@ -131,9 +131,14 @@ $	git branch newbranchname
 $	git checkout newbranchname
 ```
 
-##### 创建+切换分支
+##### 创建+切换分支(但是从当前本地分支切出)
 ```
 $	git checkout -b newbranchname
+```
+
+##### 创建+切换分支(本地新建分支，从远程指定分支拉取)
+```
+$	git checkout -b newbranchname origin/远程分支名
 ```
 
 ##### 合并分支到当前分支

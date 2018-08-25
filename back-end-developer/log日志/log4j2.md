@@ -29,10 +29,10 @@ gitHub地址:https://github.com/thinkingfioa/netty-learning/tree/master/netty-pr
 <Configuration status="OFF">
     <properties>
         <!--  -->
-        <property name="log_pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %l - %msg%n</property>
+        <property name="log_pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %C{1}.%M(%F:%L) - %msg%n</property>
         <property name="log_home">~/logs/netty-learning</property>
         <property name="file_name">netty-private-protocol</property>
-        <property name="every_file_size">10M</property>
+        <property name="every_file_size">20M</property>
         <property name="output_log_level">debug</property>
         <property name="file_count">20</property>
         <property name="error_file_count">3</property>
@@ -49,7 +49,9 @@ gitHub地址:https://github.com/thinkingfioa/netty-learning/tree/master/netty-pr
             <SizeBasedTriggeringPolicy size="${every_file_size}"/>
             <DefaultRolloverStrategy max="${file_count}"/>
             <Filters>
-                <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>
         </RollingFile>
@@ -58,7 +60,8 @@ gitHub地址:https://github.com/thinkingfioa/netty-learning/tree/master/netty-pr
             <SizeBasedTriggeringPolicy size="${every_file_size}"/>
             <DefaultRolloverStrategy max="${error_file_count}"/>
             <Filters>
-                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>
             <PatternLayout pattern="${log_pattern}"/>
         </RollingFile>

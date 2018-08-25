@@ -28,8 +28,18 @@
 |git init|将当前目录初始化为本地仓库|
 |git checkout|丢弃本地修改|
 |git push origin --delete branch-name|删除远程分之|
+|git stash|保存当前分支所有未提交的修改，用于后续恢复当前工作目录|
+|git stash pop|恢复之前git stash保存的修改|
 
 ### git命令的使用
+
+##### 非常有用命令: git stash
+开发过程中，经常出现当前开发分支是工作分支(work_branch)，但是开发功能还未开发完成，或者未充分提测，不想提交到git远程仓库。这是，测试人员和你说需要在develop分支上紧急fix掉一个小问题。由于当前分支(work_branch)未提交修改，无法切分支。此时，git stash派上用场。如下步骤：
+
+1. git stash ------ 保存当前分支所有未提交的修改
+2. git checkout develop ----- 切到develop分支，fix掉bug
+3. git checkout work_branch ----- 切回原来的开发分支
+4. git stash pop ----- 恢复之前git stash保存的修改
 
 ##### 如果发现.gitignore中无效,使用下面的命令
 ```

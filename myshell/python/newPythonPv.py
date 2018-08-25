@@ -75,11 +75,13 @@ user_agents = [
     ]
 
 # proxy = getProxyIp()
-proxy = ['101.132.121.157:9000', '113.200.88.237:61202', '120.78.78.141:8888', '116.19.96.131:9797', '218.20.54.114:9797', '122.114.31.177:808']
-#urlList = ["http://blog.csdn.net/thinking_fioa/article/details/78265745", "http://blog.csdn.net/thinking_fioa/article/details/78270793", "http://blog.csdn.net/thinking_fioa/article/details/78306670"]
-urlList = ["http://blog.csdn.net/thinking_fioa/article/details/79192474","http://blog.csdn.net/thinking_fioa/article/details/79110447"
-           ,"http://blog.csdn.net/thinking_fioa/article/details/78972847","http://blog.csdn.net/thinking_fioa/article/details/79024261"
-           ,"http://blog.csdn.net/thinking_fioa/article/details/78344645","http://blog.csdn.net/thinking_fioa/article/details/79087627"]
+proxy = ['223.93.172.248:3128', '118.31.223.194:3128', '222.186.34.206:60443', '118.190.210.227:3128', '222.186.15.118:52311', '222.221.11.119:3128']
+# urlList = ["https://blog.csdn.net/thinking_fioa/article/details/80057572"]
+urlList = ["https://blog.csdn.net/thinking_fioa/article/details/80588138","https://blog.csdn.net/thinking_fioa/article/details/80795673"
+           ,"https://blog.csdn.net/thinking_fioa/article/details/81072788","https://blog.csdn.net/thinking_fioa/article/details/81952066"
+           ,"https://blog.csdn.net/thinking_fioa/article/details/80573483","https://blog.csdn.net/thinking_fioa/article/details/81840259"
+           ,"https://blog.csdn.net/thinking_fioa/article/details/80057572"
+           ]
 count = random.randint(1000, 2000)
 print("共执行%d 次" % (count))
 success_count = 0

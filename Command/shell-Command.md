@@ -29,6 +29,7 @@
 |vmstat|虚拟机运行情况|
 |lsof -i:6669|查看端口占用|
 |netstat -anp|查看所有端口占用情况|
+|cat /proc/cpuinfo| grep "processor"| wc -l|查看逻辑CPU的个数|
 
 ##### 软件安装
 |命令|作用|

@@ -1,6 +1,6 @@
 # Idea使用
 ```
-idea 使用手册
+idea Mac使用手册
 ```
 
 ### Idea使用快捷键
@@ -53,6 +53,9 @@ idea 使用手册
 |svn checkout url|切出分支|
 |svn update|更新代码|
 
+#### 配置关闭Tab快捷键 - 2018版
+1. 移除: Keymap -> Main menu -> Window -> ActiveTool Window -> Close Active Tab
+2. 添加: Keymap -> Main menu -> Window -> Editor Tabs -> Close
 
 
 
